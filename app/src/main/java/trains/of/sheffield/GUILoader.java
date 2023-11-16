@@ -26,4 +26,8 @@ public class GUILoader {
 		alertWindowGUI.setTitle("ALERT");
 		alertWindowGUI.getContentPane().setBackground(new Color(102,153,205));
 	}
+
+	public static void mainMenuWindow(Role role) {
+		MainMenu mainMenuGUI = new MainMenu(role);
+	}
 }
