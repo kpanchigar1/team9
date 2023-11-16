@@ -2,19 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 public class GUILoader {
     public static void loginWindow() {
-		Login gui = new Login(); // Creates a new instance of the GUI
-		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ends the program when the user closes the window
-		gui.pack(); // Packed to fit
-		gui.setVisible(true); // Window can be seen
-		gui.setTitle("Meal PLanner - Login"); // Title of window
-		gui.getContentPane().setBackground(new Color(102,153,205));
+		Login loginGUI = new Login(); // Creates a new instance of the GUI
+		loginGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ends the program when the user closes the window
+		loginGUI.pack(); // Packed to fit
+		loginGUI.setVisible(true); // Window can be seen
+		loginGUI.setTitle("Meal PLanner - Login"); // Title of window
+		loginGUI.getContentPane().setBackground(new Color(102,153,205));
 	}
     public static void signupWindow() {
-		SignUp signUpWindow = new SignUp();
-		signUpWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		signUpWindow.pack();
-		signUpWindow.setVisible(true);
-		signUpWindow.setTitle("Meal Planner - New Account");
+		SignUp signUpWindowGUI = new SignUp();
+		signUpWindowGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		signUpWindowGUI.pack();
+		signUpWindowGUI.setVisible(true);
+		signUpWindowGUI.setTitle("Meal Planner - New Account");
+		signUpWindowGUI.getContentPane().setBackground(new Color(102,153,205));
 	}
     public static void alertWindow(String message) {
 		Alert alertWindowGUI = new Alert(message);
@@ -22,5 +23,6 @@ public class GUILoader {
 		alertWindowGUI.pack();
 		alertWindowGUI.setVisible(true);
 		alertWindowGUI.setTitle("ALERT");
+		alertWindowGUI.getContentPane().setBackground(new Color(102,153,205));
 	}
 }

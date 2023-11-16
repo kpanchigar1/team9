@@ -13,7 +13,7 @@ public class Login extends JFrame {
     public Login() {
         setLayout(new GridLayout(5,2)); // Setting out the layout
 		
-		title = new JLabel("Welcome to your meal planner", SwingConstants.CENTER); // A welcome message
+		title = new JLabel("Welcome to Trains of Sheffield", SwingConstants.CENTER); // A welcome message
 		add(title);
 		
 		instructions = new JLabel("Please log in bellow", SwingConstants.CENTER); // Simple instructions
