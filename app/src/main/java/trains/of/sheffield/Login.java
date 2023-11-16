@@ -22,7 +22,7 @@ public class Login extends JFrame {
 		
 		UN = new JPanel(); // A panel to hold the user name objects
 		UN.setLayout(new GridLayout(1,2));
-		UN_prompt = new JLabel("Username:  ", SwingConstants.RIGHT); // Shows user where to enter their user name
+		UN_prompt = new JLabel("email:  ", SwingConstants.RIGHT); // Shows user where to enter their user name
 		UN.add(UN_prompt);
 		UN_enter = new JTextField("", 30); // Where to enter the user name
 		UN_enter.setBackground(new Color(147,198,249));
