@@ -1,3 +1,4 @@
+package trains.of.sheffield;
 public class User {
     private Integer id;
     private String forename;

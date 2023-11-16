@@ -1,3 +1,4 @@
+package trains.of.sheffield;
 public class Product {
     private String productCode;
     private String brandName;

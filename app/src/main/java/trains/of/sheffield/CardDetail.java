@@ -1,3 +1,4 @@
+package trains.of.sheffield;
 public class CardDetail {
     private String cardName;
     private Integer cardNumber;
