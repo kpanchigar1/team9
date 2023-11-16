@@ -35,7 +35,7 @@ CREATE TABLE User (
   forename varchar(45) NOT NULL,
   surnmane varchar(45) NOT NULL,
   email varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  passwordHash varchar(45) NOT NULL,
   role int NOT NULL,
   houseNumber varchar(10) NOT NULL,
   postCode varchar(10) NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE TrackPackTrainSetLink (
 -- add test data
 INSERT INTO Address VALUES ('1', 'Test Street', 'Test City', 'TE5T 1NG');
 INSERT INTO CardDetail VALUES (123456789, 1234, 123);
-INSERT INTO User VALUES (1, 'Test', 'User', 'testuser@test.com', 'testpassword', 2, '1', 'TE5T 1NG', 123456789);
+INSERT INTO User VALUES (1, 'Test', 'User', 'testuser@test.com', '423e16e053d0121774ce4e0a42556837fbfe0d9f74dcd4ef3966a5e5194ceceb', 2, '1', 'TE5T 1NG', 123456789);
 INSERT INTO Brand VALUES (1, 'Test Brand');
 INSERT INTO Product VALUES ('R001', 1, 'Track1', 1.99, 'OO', 'Track1 Description');
 INSERT INTO Product VALUES ('L001', 1, 'Locomotive1', 5.99, 'OO', 'Locomotive1 Description');
