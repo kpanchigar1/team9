@@ -4,27 +4,24 @@ import java.awt.event.*;
 import java.sql.*;
 
 public class SignUp extends JFrame{
-	JLabel UN_prompt, PW_prompt1, PW_prompt2, intro; // Creating variables
-	JTextField UN_enter;
-	JPasswordField PW_enter1, PW_enter2;
-	JButton signUp;
-	JPanel UN, PW;
+	JLabel usernamePrompt, pwPrompt1, pwPrompt2, intro, firstNamePrompt, secondNamePrompt, housePrompt, roadPrompt, cityPrompt, postCodePrompt, loginIntro, detailsIntro, adressIntro; // Creating variables
+	JTextField usernameEnter, firstNameEnter, secondNameEnter, houseEnter, roadEnter, cityEnter, postCodeEnter;
+	JPasswordField pwEnter1, pwEnter2;
+	JButton cancel, signUp;
+	JPanel loginDetails, loginFields, personalDetails, personalFields, address, addressFields, buttons;
 	public SignUp() {
-		setLayout(new GridLayout(4,2));
+		setLayout(new GridLayout(5,1));
 		
-		intro = new JLabel("Please enter the following details", SwingConstants.CENTER);
+		intro = new JLabel("Please fill out this form and click \"Submit\"", SwingConstants.CENTER);
 		add(intro);
 		
-		UN = new JPanel(); // A panel to hold the user name objects
-		UN.setLayout(new GridLayout(1,2));
+		loginDetails = new JPanel(); // A panel to hold the user name objects
+		loginDetails.setLayout(new GridLayout(2,1));
+
 		UN_prompt = new JLabel("Enter a new username:  ", SwingConstants.RIGHT); // Shows user where to enter their user name
-		UN.add(UN_prompt);
+		loginDetails.add(UN_prompt);
 		UN_enter = new JTextField("", 30); // Where to enter the user name
-		UN.add(UN_enter);
-		add(UN);
-		
-		PW = new JPanel(); // A panel to hold the password objects
-		PW.setLayout(new GridLayout(2,2));
+		loginDetails.add(UN_enter);
 		PW_prompt1 = new JLabel("Enter a new password:  ",SwingConstants.RIGHT); // Shows user where to enter their password
 		PW.add(PW_prompt1);
 		PW_enter1 = new JPasswordField("", 30); // Where to enter the password
