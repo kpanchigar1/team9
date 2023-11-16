@@ -6,4 +6,5 @@ public class User {
     private String password;
     private Address address;
     private CardDetail cardDetail;
+    private Role role;
 }
