@@ -82,7 +82,6 @@ public class Login extends JFrame {
 			results.next();
 			if(results.getString("pword").equals(PW_enter.getPassword())) { // If the entered passwords are the same, the details are entered
 				dispose(); // Takes out the current window
-				GUILoader.homeWindow(uName); // Opens the homepage
 			} else {
 				GUILoader.alertWindow("Your password was incorrect"); // Tells the user the password is incorrect
 			}
