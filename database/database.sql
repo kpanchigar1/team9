@@ -35,8 +35,8 @@ CREATE TABLE User (
   forename varchar(45) NOT NULL,
   surnmane varchar(45) NOT NULL,
   email varchar(45) NOT NULL,
-  roles int NOT NULL,
   `password` varchar(45) NOT NULL,
+  role int NOT NULL,
   houseNumber varchar(10) NOT NULL,
   postCode varchar(10) NOT NULL,
   cardNumber int NOT NULL,
@@ -136,3 +136,25 @@ CREATE TABLE TrackPackTrainSetLink (
   FOREIGN KEY (trainSetCode) REFERENCES Product(productCode),
   FOREIGN KEY (trackPackCode) REFERENCES Product(productCode)
 );
+
+-- add test data
+INSERT INTO Address VALUES ('1', 'Test Street', 'Test City', 'TE5T 1NG');
+INSERT INTO CardDetail VALUES (123456789, 1234, 123);
+INSERT INTO User VALUES (1, 'Test', 'User', 'testuser@test.com', 'testpassword', 2, '1', 'TE5T 1NG', 123456789);
+INSERT INTO Brand VALUES (1, 'Test Brand');
+INSERT INTO Product VALUES ('R001', 1, 'Track1', 1.99, 'OO', 'Track1 Description');
+INSERT INTO Product VALUES ('L001', 1, 'Locomotive1', 5.99, 'OO', 'Locomotive1 Description');
+INSERT INTO Product VALUES ('S001', 1, 'RollingStock1', 10.99, 'OO', 'RollingStock1 Description');
+INSERT INTO Product VALUES ('C001', 1, 'Controller1', 4.99, 'OO', 'Controller1 Description');
+INSERT INTO Product VALUES ('T001', 1, 'TrainSet1', 19.99, 'OO', 'TrainSet1 Description');
+INSERT INTO ControllerTable VALUES ('C001', 1);
+INSERT INTO ControllerTrainSetLink VALUES ('T001', 'C001');
+INSERT INTO DccCode VALUES ('L001', 'DCC');
+INSERT INTO EraLink VALUES ('L001', 'Era 1');
+INSERT INTO LocomotiveTrainSetLink VALUES ('T001', 'L001');
+INSERT INTO RollingStockTrainSetLinkk VALUES ('T001', 'S001');
+INSERT INTO Stock VALUES ('R001', 10);
+INSERT INTO TrackPacks VALUES ('R001', 1);
+INSERT INTO TrackPackTrainSetLink VALUES ('T001', 'R001');
+INSERT INTO Orders VALUES (1, '2018-01-01', 'Pending', 1);
+INSERT INTO OrderLines VALUES (1, 'T001', 1);
