@@ -23,9 +23,9 @@ public class SignUp extends JFrame{
 		loginFields = new JPanel(); // A panel to hold the login details entry fields
 		loginFields.setLayout(new GridLayout(3,2));
 		emailPrompt = new JLabel("Enter an email address:  ", SwingConstants.RIGHT); // Shows user where to enter their user name
-		loginDetails.add(emailPrompt);
+		loginFields.add(emailPrompt);
 		emailEnter = new JTextField("", 50); // Where to enter the user name
-		loginDetails.add(emailEnter);
+		loginFields.add(emailEnter);
 		pwPrompt1 = new JLabel("Enter a new password:  ",SwingConstants.RIGHT); // Shows user where to enter their password
 		loginFields.add(pwPrompt1);
 		pwEnter1 = new JPasswordField("", 256); // Where to enter the password

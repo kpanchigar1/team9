@@ -56,9 +56,6 @@ public class Login extends JFrame {
 		buttons.setBackground(new Color(102,153,205));
 		add(buttons);
     }
-    public static void main(String args[]) {
-		GUILoader.loginWindow(); // Loads the login window
-	}
 	public class actionLI implements ActionListener {
 		public void actionPerformed(ActionEvent LI) { // This compares the entered details with what is in the users table
 			tryLogIn();
