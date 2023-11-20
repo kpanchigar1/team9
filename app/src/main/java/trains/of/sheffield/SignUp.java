@@ -85,14 +85,19 @@ public class SignUp extends JFrame{
 		buttons = new JPanel(); // A panel to hold the buttons to be pressed to either: return to login or submit details
 		buttons.setLayout(new GridLayout(1,2));
 		cancel = new JButton("Cancel"); // Returns to the login window
-		cancel.setText("Cancel");
+		ActionCancel actionCancel = new ActionCancel();
+		cancel.addActionListener(actionCancel);
 		buttons.add(cancel);
 		submit = new JButton(); // Enters the details to be processed and saved
-		submit.setText("Submit");
-		submit.setName("Submit");
 		buttons.add(submit);
 		mainView.add(buttons);
 
 		add(mainView);
+	}
+	public class ActionCancel implements ActionListener {
+		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
+			dispose();
+			GUILoader.loginWindow();
+		}
 	}
 }
