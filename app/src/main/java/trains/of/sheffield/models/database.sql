@@ -31,7 +31,7 @@ CREATE TABLE CardDetail (
 );
 
 CREATE TABLE User (
-  userID int NOT NULL PRIMARY KEY,
+  userID varchar(45) NOT NULL PRIMARY KEY,
   forename varchar(45) NOT NULL,
   surnmane varchar(45) NOT NULL,
   email varchar(45) NOT NULL,

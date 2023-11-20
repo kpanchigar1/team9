@@ -4,4 +4,7 @@ public class Address {
     private String streetName;
     private String city;
     private String postCode;
+
+    public static Address getAddressFromDB(String houseNumber, String postCode) {
+    }
 }

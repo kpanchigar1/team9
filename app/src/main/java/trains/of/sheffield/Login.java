@@ -1,4 +1,6 @@
 package trains.of.sheffield;
+import trains.of.sheffield.models.DatabaseOperations;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -59,7 +61,7 @@ public class Login extends JFrame {
     }
 	public class actionLI implements ActionListener {
 		public void actionPerformed(ActionEvent LI) { // This compares the entered details with what is in the users table
-			tryLogIn();
+			DatabaseOperations.tryLogIn(UN_enter.getText(), PW_enter.getPassword());
 		}
 	}
 	public class actionSU implements ActionListener {
@@ -68,27 +70,5 @@ public class Login extends JFrame {
 			GUILoader.signupWindow();
 		}
 	}
-	public void tryLogIn() {
-		try {
-			String uName = UN_enter.getText();
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = null; // Initialising connection
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/meal planner", "user_access", "User1"); // Setting up a database connection
-			Statement st = con.createStatement();
-			String r = "SELECT uname, pword FROM users WHERE uname = '"+uName+"'"; // Fetches the details under the selected username
-			ResultSet results = st.executeQuery(r);
-			results.next();
-			if(results.getString("pword").equals(PW_enter.getPassword())) { // If the entered passwords are the same, the details are entered
-				dispose(); // Takes out the current window
-				results.next();
-				Role role = Role.valueOf(results.getString("role")); // Gets the role of the user
-				GUILoader.mainMenuWindow(role);
-			} else {
-				GUILoader.alertWindow("Your password was incorrect"); // Tells the user the password is incorrect
-			}
-			con.close(); // Ending connection
-		} catch(Exception ex) {
-			GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
-		}
-	}
+
 }

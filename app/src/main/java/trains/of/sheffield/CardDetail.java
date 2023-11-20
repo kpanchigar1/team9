@@ -5,4 +5,6 @@ public class CardDetail {
     private Integer expiryDate;
     private Integer cvv;
 
+    public static CardDetail getCardDetailFromDB(int cardNumber) {
+    }
 }

@@ -3,11 +3,13 @@ package trains.of.sheffield;
 
 import javax.swing.*;
 import java.awt.*;
-// TODO: fix layout
 // TODO: Do database operations
 // TODO: add sample data
 // TODO: add action listener to submit button
 // TODO: add back button
+// TODO: add action listener to back button
+// TODO: password hashing
+
 public class CardDetailsPage extends JFrame{
     private JTextField cardNameField;
     private JTextField cardNumberField;
@@ -20,7 +22,7 @@ public class CardDetailsPage extends JFrame{
 
         JPanel panel = new JPanel();
         this.add(panel);
-        panel.setLayout(new GridLayout(4, 2));
+        panel.setLayout(new GridLayout(5, 2));
 
         JLabel cardNameLabel = new JLabel("Card Name:");
         cardNameField = new JTextField(20);
@@ -32,6 +34,7 @@ public class CardDetailsPage extends JFrame{
         JLabel cvvLabel = new JLabel("CVV:");
 
         JButton submit = new JButton("Submit");
+        JButton back = new JButton("Back");
 
         panel.add(cardNameLabel);
         panel.add(cardNameField);
@@ -42,7 +45,11 @@ public class CardDetailsPage extends JFrame{
         panel.add(cvvLabel);
         panel.add(cvvField);
         panel.add(submit);
-
+        panel.add(back);
         setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        CardDetailsPage cardDetailsPage = new CardDetailsPage();
     }
 }
