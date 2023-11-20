@@ -21,7 +21,7 @@ public class SignUp extends JFrame{
 
 		loginDetails = new JPanel(); // A panel to hold the login details title
 		loginDetails.setLayout(new GridLayout(2,1));
-		loginIntro = new JLabel ("Login Details");
+		loginIntro = new JLabel ("Login Details", SwingConstants.CENTER);
 		loginDetails.add(loginIntro);
 		loginFields = new JPanel(); // A panel to hold the login details entry fields
 		loginFields.setLayout(new GridLayout(3,2));
@@ -42,7 +42,7 @@ public class SignUp extends JFrame{
 
 		personalDetails = new JPanel(); // A panel to hold the personal details
 		personalDetails.setLayout(new GridLayout(2,1));
-		detailsIntro = new JLabel ("Personal Details");
+		detailsIntro = new JLabel ("Personal Details", SwingConstants.CENTER);
 		personalDetails.add(detailsIntro);
 		personalFields = new JPanel(); // A panel to hold the personal details entry fields
 		personalFields.setLayout(new GridLayout(2,2));
@@ -59,7 +59,7 @@ public class SignUp extends JFrame{
 
 		address = new JPanel(); // A panel to hold the address details
 		address.setLayout(new GridLayout(2,1));
-		addressIntro = new JLabel ("Address");
+		addressIntro = new JLabel("Address", SwingConstants.CENTER);
 		address.add(addressIntro);
 		addressFields = new JPanel(); // A panel to hold the address details entry fields
 		addressFields.setLayout(new GridLayout(4,2));
@@ -84,14 +84,20 @@ public class SignUp extends JFrame{
 
 		buttons = new JPanel(); // A panel to hold the buttons to be pressed to either: return to login or submit details
 		buttons.setLayout(new GridLayout(1,2));
-		cancel = new JButton(); // Returns to the login window
-		cancel.setText("Cancel");
+		cancel = new JButton("Cancel"); // Returns to the login window
+		ActionCancel actionCancel = new ActionCancel();
+		cancel.addActionListener(actionCancel);
 		buttons.add(cancel);
 		submit = new JButton(); // Enters the details to be processed and saved
-		submit.setText("Submit");
 		buttons.add(submit);
 		mainView.add(buttons);
 
 		add(mainView);
+	}
+	public class ActionCancel implements ActionListener {
+		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
+			dispose();
+			GUILoader.loginWindow();
+		}
 	}
 }
