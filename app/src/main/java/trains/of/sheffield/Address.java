@@ -6,5 +6,6 @@ public class Address {
     private String postCode;
 
     public static Address getAddressFromDB(String houseNumber, String postCode) {
+        return new Address();
     }
 }

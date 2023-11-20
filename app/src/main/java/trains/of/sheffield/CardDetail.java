@@ -6,5 +6,6 @@ public class CardDetail {
     private Integer cvv;
 
     public static CardDetail getCardDetailFromDB(int cardNumber) {
+        return new CardDetail();
     }
 }

@@ -19,7 +19,11 @@ public class DatabaseOperations {
             results.next();
             if(results.getString("pword").equals(pWord)) { // If the entered passwords are the same, the details are entered
                 results.next();
-                UserStore.setUser(new User(results.getString("userID"), results.getString("forename"), results.getString("surname"), results.getString("email"), results.getString("passwordHash"), results.getInt("role"), Address.getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")), CardDetail.getCardDetailFromDB(results.getInt("cardNumber")))); // Stores the user details
+                UserStore.setUser(new User(results.getString("userID"), 
+                    results.getString("forename"), results.getString("surname"), 
+                    results.getString("email"), results.getString("passwordHash"), 
+                    results.getInt("role"), Address.getAddressFromDB(results.getString("houseNumber"), 
+                    results.getString("postCode")), CardDetail.getCardDetailFromDB(results.getInt("cardNumber")))); // Stores the user details
                 Role role = Role.valueOf(results.getString("role")); // Gets the role of the user
                 GUILoader.mainMenuWindow(role);
                 return true;
