@@ -61,7 +61,10 @@ public class Login extends JFrame {
     }
 	public class actionLI implements ActionListener {
 		public void actionPerformed(ActionEvent LI) { // This compares the entered details with what is in the users table
-			DatabaseOperations.tryLogIn(UN_enter.getText(), PW_enter.getPassword());
+			boolean loggedIn = DatabaseOperations.tryLogIn(UN_enter.getText(), PW_enter.getPassword());
+			if (loggedIn) {
+				dispose();
+			}
 		}
 	}
 	public class actionSU implements ActionListener {

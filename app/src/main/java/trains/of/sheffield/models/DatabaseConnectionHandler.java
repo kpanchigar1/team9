@@ -10,9 +10,9 @@ public class DatabaseConnectionHandler {
     private static final String DB_PASSWORD = "Zae5phaek";
 
     // Define the connection as a class member to share it across the application.
-    private Connection connection = null;
+    private static Connection connection = null;
 
-    public void openConnection() throws SQLException {
+    public static void openConnection() throws SQLException {
         // Load the JDBC driver and open the connection
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -33,8 +33,8 @@ public class DatabaseConnectionHandler {
         }
     }
 
-    public Connection getConnection() {
-        return this.connection;
+    public static Connection getConnection() {
+        return connection;
     }
 
 }
