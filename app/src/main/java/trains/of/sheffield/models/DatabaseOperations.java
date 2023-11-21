@@ -18,7 +18,7 @@ public class DatabaseOperations {
             results.next();
             if(results.getString("pword").equals(pWord)) { // If the entered passwords are the same, the details are entered
                 results.next();
-                UserStore.setUser(new User(results.getString("userID"), 
+                CurrentUser.setUser(new User(results.getString("userID"),
                     results.getString("forename"), results.getString("surname"), 
                     results.getString("email"), results.getString("passwordHash"), 
                     results.getInt("role"), Address.getAddressFromDB(results.getString("houseNumber"), 

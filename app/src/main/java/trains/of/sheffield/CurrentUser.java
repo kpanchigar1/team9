@@ -1,8 +1,8 @@
 package trains.of.sheffield;
 
-public class UserStore {
+public class CurrentUser {
     private static User user = null;
-    public static User getUser() {
+    public static User getCurrentUser() {
         return user;
     }
 
