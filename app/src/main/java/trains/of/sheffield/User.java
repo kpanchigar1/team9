@@ -23,4 +23,8 @@ public class User {
     public User(String string, String string2, String string3, String string4, String string5, int int1,
             Address addressFromDB, CardDetail cardDetailFromDB) {
     }
+
+    public Role getRole() {
+        return role;
+    }
 }

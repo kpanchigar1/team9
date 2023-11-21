@@ -5,7 +5,10 @@ public class Address {
     private String city;
     private String postCode;
 
-    public static Address getAddressFromDB(String houseNumber, String postCode) {
-        return new Address();
+    public Address(String houseNumber, String streetName, String city, String postCode) {
+        this.houseNumber = houseNumber;
+        this.streetName = streetName;
+        this.city = city;
+        this.postCode = postCode;
     }
 }

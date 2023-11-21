@@ -40,6 +40,15 @@ public class MainMenu extends JFrame
             }
         });
 
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.clearUser();
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+
         menu.add(signOut);
         menu.add(exit);
         menuBar.add(menu);

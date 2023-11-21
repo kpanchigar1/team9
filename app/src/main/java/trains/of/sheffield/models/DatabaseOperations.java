@@ -21,10 +21,9 @@ public class DatabaseOperations {
                 CurrentUser.setUser(new User(results.getString("userID"),
                     results.getString("forename"), results.getString("surname"), 
                     results.getString("email"), results.getString("passwordHash"), 
-                    results.getInt("role"), Address.getAddressFromDB(results.getString("houseNumber"), 
-                    results.getString("postCode")), CardDetail.getCardDetailFromDB(results.getInt("cardNumber")))); // Stores the user details
-                Role role = Role.valueOf(results.getString("role")); // Gets the role of the user
-                GUILoader.mainMenuWindow(role);
+                    results.getInt("role"), getAddressFromDB(results.getString("houseNumber"),
+                    results.getString("postCode")), getCardDetailFromDB(results.getInt("cardNumber")))); // Stores the user details
+                GUILoader.mainMenuWindow(CurrentUser.getRole());
                 return true;
             } else {
                 GUILoader.alertWindow("Your password was incorrect"); // Tells the user the password is incorrect
@@ -36,6 +35,35 @@ public class DatabaseOperations {
         return false;
     }
 
+    public static CardDetail getCardDetailFromDB(int cardNumber){
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM cardDetails WHERE cardNumber = '"+cardNumber+"'"; // Fetches the details under the selected card number
+            ResultSet results = st.executeQuery(r);
+            results.next();
+            return new CardDetail(results.getString("cardName"), results.getInt("cardNumber"), results.getInt("expiryDate"), results.getInt("cvv")); // Returns the card details
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
+
+    public static Address getAddressFromDB(String houseNumber, String postCode){
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM address WHERE houseNumber = '"+houseNumber+"' AND postCode = '"+postCode+"'"; // Fetches the details under the selected house number and postcode
+            ResultSet results = st.executeQuery(r);
+            results.next();
+            return new Address(results.getString("houseNumber"), results.getString("streetName"), results.getString("city"), results.getString("postCode")); // Returns the address details
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
     public String verifyLogin(Connection connection, String username, char[] enteredPassword) {
         try {
             // Query the database to fetch user information
