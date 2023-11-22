@@ -20,12 +20,14 @@ public class DatabaseOperations {
                 try (ResultSet results = preparedStatement.executeQuery()) {
                     results.next();
                     // Process the result set if needed
+                    System.out.println(results.getInt("role"));
+                    System.out.println(Role.getRole(2));
                     if(results.getString("passwordHash").equals(HashedPasswordGenerator.hashPassword(pWord))) { // If the entered passwords are the same, the details are entered
                             CurrentUser.setUser(new User(results.getString("userID"),
                             results.getString("forename"), results.getString("surname"), 
-                            results.getString("email"), results.getString("passwordHash"), 
-                            results.getInt("role"), getAddressFromDB(results.getString("houseNumber"),
-                            results.getString("postCode")), getCardDetailFromDB(results.getInt("cardNumber")))); // Stores the user details
+                            results.getString("email"), results.getString("passwordHash"),
+                            getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")), 
+                            getCardDetailFromDB(results.getInt("cardNumber")), Role.getRole(results.getInt("role")))); // Stores the user details
                         GUILoader.mainMenuWindow(CurrentUser.getRole());
                         return true;
                     } else {

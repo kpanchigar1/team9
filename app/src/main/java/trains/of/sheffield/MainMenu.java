@@ -108,6 +108,6 @@ public class MainMenu extends JFrame
 
     public static void main(String[] args)
     {
-        MainMenu mainMenu = new MainMenu(Role.MANAGER);
+        MainMenu mainMenu = new MainMenu(Role.STAFF);
     }
 }
