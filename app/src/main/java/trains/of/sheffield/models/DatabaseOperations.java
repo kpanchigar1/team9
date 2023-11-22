@@ -2,6 +2,7 @@ package trains.of.sheffield.models;
 
 import trains.of.sheffield.*;
 import trains.of.sheffield.util.HashedPasswordGenerator;
+import trains.of.sheffield.util.UniqueUserIDGenerator;
 
 import java.sql.*;
 
@@ -33,6 +34,23 @@ public class DatabaseOperations {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
         return false;
+    }
+
+    public static boolean trySignUp(char[] pWord, String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode, String cardName) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "INSERT INTO User VALUES ("+UniqueUserIDGenerator.generateUniqueUserID()+
+                ", "+fName+", "+sName+", "+email+", "+HashedPasswordGenerator.hashPassword(pWord)+
+                ", 2, "+houseNumber+", "+postCode+", NULL)"; // Fetches the details under the selected username
+            st.executeUpdate(r);
+            r = "INSERT INTO Address VALUES ("+houseNumber+", "+streetName+", "+city+", "+postCode+")";
+            return true;
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+            return false;
+        }
     }
 
     public static CardDetail getCardDetailFromDB(int cardNumber){

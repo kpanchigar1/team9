@@ -8,7 +8,7 @@ public class GUILoader {
 		loginGUI.pack(); // Packed to fit
 		loginGUI.setVisible(true); // Window can be seen
 		loginGUI.setTitle("Trains of Sheffield - Login"); // Title of window
-		loginGUI.getContentPane().setBackground(new Color(102,153,205));
+		loginGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
     public static void signupWindow() {
 		SignUp signUpWindowGUI = new SignUp();
@@ -16,7 +16,7 @@ public class GUILoader {
 		signUpWindowGUI.pack();
 		signUpWindowGUI.setVisible(true);
 		signUpWindowGUI.setTitle("Trains of Sheffield - New Account");
-		signUpWindowGUI.getContentPane().setBackground(new Color(102,153,205));
+		signUpWindowGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
     public static void alertWindow(String message) {
 		Alert alertWindowGUI = new Alert(message);
@@ -24,7 +24,6 @@ public class GUILoader {
 		alertWindowGUI.pack();
 		alertWindowGUI.setVisible(true);
 		alertWindowGUI.setTitle("ALERT");
-		alertWindowGUI.getContentPane().setBackground(new Color(102,153,205));
 	}
 
 	public static void mainMenuWindow(Role role) {

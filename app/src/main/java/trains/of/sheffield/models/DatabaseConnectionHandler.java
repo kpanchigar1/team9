@@ -15,6 +15,12 @@ public class DatabaseConnectionHandler {
     public static void openConnection() throws SQLException {
         // Load the JDBC driver and open the connection
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+        try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();

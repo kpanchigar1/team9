@@ -1,23 +1,33 @@
 package trains.of.sheffield;
 import java.awt.*;
 import javax.swing.*;
+
+import trains.of.sheffield.models.DatabaseOperations;
+
 import java.awt.event.*;
 import java.sql.*;
+import java.util.Arrays;
 
 public class SignUp extends JFrame{
 	JLabel emailPrompt, pwPrompt1, pwPrompt2, intro, firstNamePrompt, secondNamePrompt, housePrompt, roadPrompt, cityPrompt, postCodePrompt, loginIntro, detailsIntro, addressIntro; // Creating variables
 	JTextField emailEnter, firstNameEnter, secondNameEnter, houseEnter, roadEnter, cityEnter, postCodeEnter;
 	JPasswordField pwEnter1, pwEnter2;
 	JButton cancel, submit;
-	JPanel mainView, loginDetails, loginFields, personalDetails, personalFields, address, addressFields, buttons;
+	JPanel mainView, introPanel, loginDetails, loginFields, personalDetails, personalFields, address, addressFields, buttons;
 	JScrollPane scroll;
 	public SignUp() {
 		setLayout(new FlowLayout()); // Sets the layout of the window
 		mainView = new JPanel(); // A panel to hold the main view
 		mainView.setLayout(new GridLayout(5,1));
+		mainView.setPreferredSize(new Dimension(750, 600)); // Adjust the size as needed
 		scroll = new JScrollPane(mainView);
+
+		introPanel = new JPanel(); // A panel to hold the intro message
+		introPanel.setLayout(new GridLayout(1,1));
 		intro = new JLabel("Please fill out this form and click \"Submit\"", SwingConstants.CENTER);
-		mainView.add(intro);
+		introPanel.add(intro);
+		introPanel.setSize(200, 10);
+		mainView.add(introPanel);
 
 		loginDetails = new JPanel(); // A panel to hold the login details title
 		loginDetails.setLayout(new GridLayout(2,1));
@@ -83,14 +93,19 @@ public class SignUp extends JFrame{
 		mainView.add(address);
 
 		buttons = new JPanel(); // A panel to hold the buttons to be pressed to either: return to login or submit details
-		buttons.setLayout(new GridLayout(1,2));
-		cancel = new JButton("Cancel"); // Returns to the login window
+		buttons.setLayout(new GridLayout(1, 2));
+		cancel = new JButton(); // Returns to the login window
 		ActionCancel actionCancel = new ActionCancel();
 		cancel.addActionListener(actionCancel);
+		cancel.setText("Cancel"); // Set the text
 		buttons.add(cancel);
 		submit = new JButton(); // Enters the details to be processed and saved
+		submit.setText("Submit"); // Set the text
+		ActionSubmit actionSubmit = new ActionSubmit();
+		submit.addActionListener(actionSubmit);
 		buttons.add(submit);
 		mainView.add(buttons);
+
 
 		add(scroll);
 	}
@@ -98,6 +113,21 @@ public class SignUp extends JFrame{
 		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
 			dispose();
 			GUILoader.loginWindow();
+		}
+	}
+	public class ActionSubmit implements ActionListener {
+		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
+			System.out.println(pwEnter1.getPassword());
+			System.out.println(pwEnter2.getPassword());
+			if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {
+				boolean signedUp = DatabaseOperations.trySignUp(pwEnter1.getPassword(), firstNameEnter.getText(), secondNameEnter.getText(), emailEnter.getText(), houseEnter.getText(), roadEnter.getText(), cityEnter.getText(), postCodeEnter.getText(), "cardName");
+				if (signedUp) {
+					dispose();
+					GUILoader.loginWindow();
+				}
+			} else {
+				GUILoader.alertWindow("Error: Passwords do not match");
+			}
 		}
 	}
 }

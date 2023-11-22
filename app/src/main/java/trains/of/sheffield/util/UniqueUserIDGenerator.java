@@ -7,8 +7,4 @@ public class UniqueUserIDGenerator {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }
-    public static void main(String[] args) {
-        String uniqueUserID = generateUniqueUserID();
-        System.out.println("Unique User ID: " + uniqueUserID);
-    }
 }
