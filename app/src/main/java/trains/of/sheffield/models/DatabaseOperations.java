@@ -20,8 +20,6 @@ public class DatabaseOperations {
                 try (ResultSet results = preparedStatement.executeQuery()) {
                     results.next();
                     // Process the result set if needed
-                    System.out.println(results.getInt("role"));
-                    System.out.println(Role.getRole(2));
                     if(results.getString("passwordHash").equals(HashedPasswordGenerator.hashPassword(pWord))) { // If the entered passwords are the same, the details are entered
                             CurrentUser.setUser(new User(results.getString("userID"),
                             results.getString("forename"), results.getString("surname"), 

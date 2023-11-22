@@ -101,7 +101,6 @@ public class MainMenu extends JFrame
             }
         });
         contentPane.add(buttonPanel, BorderLayout.CENTER);
-        System.out.println(role);
         setVisible(true);
     }
 
