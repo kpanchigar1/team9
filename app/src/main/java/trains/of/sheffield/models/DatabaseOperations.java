@@ -5,6 +5,7 @@ import trains.of.sheffield.util.HashedPasswordGenerator;
 import trains.of.sheffield.util.UniqueUserIDGenerator;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseOperations {
@@ -26,7 +27,7 @@ public class DatabaseOperations {
                             results.getString("email"), results.getString("passwordHash"),
                             getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")), 
                             getCardDetailFromDB(results.getInt("cardNumber")), Role.getRole(results.getInt("role")))); // Stores the user details
-                        GUILoader.mainMenuWindow(CurrentUser.getRole());
+                        GUILoader.mainMenuWindow();
                         return true;
                     } else {
                         GUILoader.alertWindow("Your password was incorrect"); // Tells the user the password is incorrect
@@ -86,7 +87,7 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM cardDetails WHERE cardNumber = '"+cardNumber+"'"; // Fetches the details under the selected card number
+            String r = "SELECT * FROM CardDetail WHERE cardNumber = '"+cardNumber+"'"; // Fetches the details under the selected card number
             ResultSet results = st.executeQuery(r);
             results.next();
             return new CardDetail(results.getString("cardName"), results.getInt("cardNumber"), results.getInt("expiryDate"), results.getInt("cvv")); // Returns the card details
@@ -101,7 +102,7 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM address WHERE houseNumber = '"+houseNumber+"' AND postCode = '"+postCode+"'"; // Fetches the details under the selected house number and postcode
+            String r = "SELECT * FROM Address WHERE houseNumber = '"+houseNumber+"' AND postCode = '"+postCode+"'"; // Fetches the details under the selected house number and postcode
             ResultSet results = st.executeQuery(r);
             results.next();
             return new Address(results.getString("houseNumber"), results.getString("streetName"), results.getString("city"), results.getString("postCode")); // Returns the address details
@@ -122,7 +123,7 @@ public class DatabaseOperations {
     }
 
     public static List<Product> getAllProducts(){
-        List<Product> allProducts = null;
+        List<Product> allProducts = new ArrayList<>();
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();

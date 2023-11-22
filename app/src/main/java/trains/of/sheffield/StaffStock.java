@@ -45,8 +45,8 @@ public class StaffStock extends JFrame {
         staffStockPanel.add(backButton);
 
         backButton.addActionListener(e -> {
-            //dispose();
-            //GUILoader.staffDashboardWindow();
+            dispose();
+            GUILoader.staffDashboardWindow();
         });
 
         //TODO: add confirm changes button

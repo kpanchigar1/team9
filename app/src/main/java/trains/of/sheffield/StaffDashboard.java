@@ -3,6 +3,7 @@ package trains.of.sheffield;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class StaffDashboard extends JFrame {
     private JPanel staffDashboardPanel;
@@ -42,12 +43,16 @@ public class StaffDashboard extends JFrame {
             //GUILoader.staffOrdersWindow();
         });
         stockButton.addActionListener(e -> {
-            //dispose();
-            GUILoader.staffStockWindow();
+            dispose();
+            try {
+                GUILoader.staffStockWindow();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         backButton.addActionListener(e -> {
             dispose();
-            GUILoader.mainMenuWindow(CurrentUser.getRole());
+            GUILoader.mainMenuWindow();
         });
 
         signOut.addActionListener(new ActionListener() {

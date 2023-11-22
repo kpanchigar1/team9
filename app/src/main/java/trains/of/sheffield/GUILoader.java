@@ -1,6 +1,8 @@
 package trains.of.sheffield;
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
+
 public class GUILoader {
     public static void loginWindow() {
 		Login loginGUI = new Login(); // Creates a new instance of the GUI
@@ -26,8 +28,8 @@ public class GUILoader {
 		alertWindowGUI.setTitle("ALERT");
 	}
 
-	public static void mainMenuWindow(Role role) {
-		MainMenu mainMenuGUI = new MainMenu(role);
+	public static void mainMenuWindow() {
+		MainMenu mainMenuGUI = new MainMenu(CurrentUser.getRole());
 	}
 
 	// public static void customerDashboardWindow() {
@@ -38,7 +40,7 @@ public class GUILoader {
 		StaffDashboard staffDashboardGUI = new StaffDashboard();
 	}
 
-	public static void staffStockWindow() {
+	public static void staffStockWindow() throws SQLException {
 		StaffStock staffStockGUI = new StaffStock();
 	}
 }

@@ -26,6 +26,7 @@ CREATE TABLE Address (
 
 CREATE TABLE CardDetail (
   cardNumber int NOT NULL PRIMARY KEY,
+  cardName varchar(45) NOT NULL,
   expiryDate int NOT NULL,
   CVV int NOT NULL
 );
@@ -151,5 +152,9 @@ INSERT INTO EraLink VALUES ('L001', 'Era 1');
 INSERT INTO LocomotiveTrainSetLink VALUES ('T001', 'L001');
 INSERT INTO RollingStockTrainSetLink VALUES ('T001', 'S001');
 INSERT INTO Stock VALUES ('R001', 10);
+INSERT INTO Stock VALUES ('L001', 10);
+INSERT INTO Stock VALUES ('S001', 10);
+INSERT INTO Stock VALUES ('C001', 10);
+INSERT INTO Stock VALUES ('T001', 10);
 INSERT INTO TrackPacks VALUES ('R001', 1);
 INSERT INTO TrackPackTrainSetLink VALUES ('T001', 'R001');
