@@ -9,25 +9,32 @@ import java.sql.*;
 public class DatabaseOperations {
 
 
-    public static boolean tryLogIn(String uName, char[] pWord) {
+    public static boolean tryLogIn(String email, char[] pWord) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
-            Statement st = connection.createStatement();
-            String r = "SELECT * FROM users WHERE uname = '"+uName+"'"; // Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            results.next();
-            if(results.getString("pword").equals(pWord)) { // If the entered passwords are the same, the details are entered
-                results.next();
-                CurrentUser.setUser(new User(results.getString("userID"),
-                    results.getString("forename"), results.getString("surname"), 
-                    results.getString("email"), results.getString("passwordHash"), 
-                    results.getInt("role"), getAddressFromDB(results.getString("houseNumber"),
-                    results.getString("postCode")), getCardDetailFromDB(results.getInt("cardNumber")))); // Stores the user details
-                GUILoader.mainMenuWindow(CurrentUser.getRole());
-                return true;
-            } else {
-                GUILoader.alertWindow("Your password was incorrect"); // Tells the user the password is incorrect
+            String r = "SELECT * FROM User WHERE email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(r)) {
+                preparedStatement.setString(1, email);
+
+                try (ResultSet results = preparedStatement.executeQuery()) {
+                    results.next();
+                    // Process the result set if needed
+                    if(results.getString("passwordHash").equals(HashedPasswordGenerator.hashPassword(pWord))) { // If the entered passwords are the same, the details are entered
+                            CurrentUser.setUser(new User(results.getString("userID"),
+                            results.getString("forename"), results.getString("surname"), 
+                            results.getString("email"), results.getString("passwordHash"), 
+                            results.getInt("role"), getAddressFromDB(results.getString("houseNumber"),
+                            results.getString("postCode")), getCardDetailFromDB(results.getInt("cardNumber")))); // Stores the user details
+                        GUILoader.mainMenuWindow(CurrentUser.getRole());
+                        return true;
+                    } else {
+                        GUILoader.alertWindow("Your password was incorrect"); // Tells the user the password is incorrect
+                    }
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                GUILoader.alertWindow("Error: Could not execute query " + ex.getMessage());
             }
             connection.close(); // Ending connection
         } catch(Exception ex) {
@@ -40,17 +47,38 @@ public class DatabaseOperations {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
-            Statement st = connection.createStatement();
-            String r = "INSERT INTO User VALUES ("+UniqueUserIDGenerator.generateUniqueUserID()+
-                ", "+fName+", "+sName+", "+email+", "+HashedPasswordGenerator.hashPassword(pWord)+
-                ", 2, "+houseNumber+", "+postCode+", NULL)"; // Fetches the details under the selected username
-            st.executeUpdate(r);
-            r = "INSERT INTO Address VALUES ("+houseNumber+", "+streetName+", "+city+", "+postCode+")";
+
+            // Insert address
+            String addressQuery = "INSERT INTO Address VALUES (?, ?, ?, ?)";
+            try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
+                addressStatement.setString(1, houseNumber);
+                addressStatement.setString(2, streetName);
+                addressStatement.setString(3, city);
+                addressStatement.setString(4, postCode);
+                addressStatement.executeUpdate();
+            }
+            
+            // Insert user
+            String userQuery = "INSERT INTO User VALUES (?, ?, ?, ?, ?, 2, ?, ?, NULL)";
+            try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                userStatement.setString(1, UniqueUserIDGenerator.generateUniqueUserID());
+                userStatement.setString(2, fName);
+                userStatement.setString(3, sName);
+                userStatement.setString(4, email);
+                userStatement.setString(5, HashedPasswordGenerator.hashPassword(pWord));
+                userStatement.setString(6, houseNumber);
+                userStatement.setString(7, postCode);
+                userStatement.executeUpdate();
+            }
+        
+            DatabaseConnectionHandler.closeConnection(); // Ending connection
             return true;
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log the exception for debugging purposes
+            GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
             return false;
         }
+        
     }
 
     public static CardDetail getCardDetailFromDB(int cardNumber){
