@@ -92,7 +92,7 @@ public class SignUp extends JFrame{
 		buttons.add(submit);
 		mainView.add(buttons);
 
-		add(mainView);
+		add(scroll);
 	}
 	public class ActionCancel implements ActionListener {
 		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
