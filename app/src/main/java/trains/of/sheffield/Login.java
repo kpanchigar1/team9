@@ -63,6 +63,7 @@ public class Login extends JFrame {
 		public void actionPerformed(ActionEvent LI) { // This compares the entered details with what is in the users table
 			boolean loggedIn = DatabaseOperations.tryLogIn(UN_enter.getText(), PW_enter.getPassword());
 			if (loggedIn) {
+				// goes to main menu
 				dispose();
 			}
 		}
