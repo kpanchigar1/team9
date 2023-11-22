@@ -171,4 +171,26 @@ public class DatabaseOperations {
         }
         return null;
     }
+
+    public static List<Product> getProductFromType(String m) {
+        List<Product> allProducts = new ArrayList<>();
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM Product WHERE productCode LIKE '"+m+"%'"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            while(results.next()) {
+                allProducts.add(new Product(results.getString("productCode"),
+                        getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
+                        results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
+                        results.getString("description"), getProductStock(results.getString("productCode")))); // Stores the user details
+            }
+            DatabaseConnectionHandler.closeConnection();
+            return allProducts;
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
 }

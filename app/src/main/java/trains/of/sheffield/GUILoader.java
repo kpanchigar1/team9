@@ -43,4 +43,8 @@ public class GUILoader {
 	public static void staffStockWindow() throws SQLException {
 		StaffStock staffStockGUI = new StaffStock();
 	}
+
+	public static void trainSetStockWindow() {
+		TrainSetStock trainSetStockGUI = new TrainSetStock();
+	}
 }

@@ -1,26 +1,28 @@
 package trains.of.sheffield;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class StaffDashboard extends JFrame {
-    private JPanel staffDashboardPanel;
-    private JButton ordersButton, stockButton, addNewProductButton, backButton;
+    private JPanel titlePanel, centerButtonPanel, southButtonPanel;
+    private Container contentPane;
+    private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton,
+            controllerButton, managerButton, pendingOrdersButton, previousOrdersButton;
+    private JLabel titleLabel;
 
-    //TODO: make GUI proper
-    //TODO: stock page
-    //TODO: orders page
-    
+    // TODO: add a pending orders button
+    // TODO: add a previous orders button
     public StaffDashboard() {
         super("Trains of Sheffield - Staff Dashboard");
-        staffDashboardPanel = new JPanel();
-        setContentPane(staffDashboardPanel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        contentPane = getContentPane();
+        contentPane.setLayout(new BorderLayout());
         setSize(800, 400);
 
-        JMenuBar menuBar = new MenuBarPanel();
 
+        JMenuBar menuBar = new MenuBarPanel();
 
         JMenu staffMenu = new JMenu("Staff");
         staffMenu.add(new JMenuItem("Orders"));
@@ -29,33 +31,116 @@ public class StaffDashboard extends JFrame {
 
         setJMenuBar(menuBar);
 
-        ordersButton = new JButton("Orders");
-        stockButton = new JButton("Stock");
-        backButton = new JButton("Back");
-        addNewProductButton = new JButton("Add New Product");
-        staffDashboardPanel.add(ordersButton);
-        staffDashboardPanel.add(stockButton);
-        staffDashboardPanel.add(addNewProductButton);
-        staffDashboardPanel.add(backButton);
+        // TODO: display all categories of products like the main menu
 
-        ordersButton.addActionListener(e -> {
-            //dispose();
-            //GUILoader.staffOrdersWindow();
-        });
-        stockButton.addActionListener(e -> {
-            dispose();
-            try {
-                GUILoader.staffStockWindow();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+        titlePanel = new JPanel();
+        titleLabel = new JLabel("Trains of Sheffield - Staff Dashboard");
+        titlePanel.add(titleLabel);
+        contentPane.add(titlePanel, BorderLayout.NORTH);
+
+        centerButtonPanel = new JPanel();
+        centerButtonPanel.setLayout(new GridLayout(1, 3));
+
+        southButtonPanel = new JPanel();
+        southButtonPanel.setLayout(new GridLayout(1, 3));
+
+        trainSetButton = new JButton("Train Set Stock");
+        trainSetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                GUILoader.trainSetStockWindow();
             }
         });
-        backButton.addActionListener(e -> {
-            dispose();
-            GUILoader.mainMenuWindow();
+
+        trackPackButton = new JButton("Track Pack Stock");
+        trackPackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.trackPackStockWindow();
+            }
         });
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        locomotiveButton = new JButton("Locomotives Stock");
+        locomotiveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.locomotiveStockWindow();
+            }
+        });
+
+        rollingStockButton = new JButton("Rolling Stock Stock");
+        rollingStockButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.rollingStockStockWindow();
+            }
+        });
+
+        trackButton = new JButton("Track Stock");
+        trackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.trackStockWindow();
+            }
+        });
+
+        controllerButton = new JButton("Controllers Stock");
+        controllerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.controllerStockWindow();
+            }
+        });
+
+        managerButton = new JButton("Manager Dashboard");
+        managerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.staffStockWindow();
+            }
+        });
+
+        centerButtonPanel.add(trainSetButton);
+        centerButtonPanel.add(trackPackButton);
+        centerButtonPanel.add(locomotiveButton);
+        centerButtonPanel.add(rollingStockButton);
+        centerButtonPanel.add(trackButton);
+        centerButtonPanel.add(controllerButton);
+
+        contentPane.add(centerButtonPanel, BorderLayout.CENTER);
+
+        pendingOrdersButton = new JButton("Pending Orders");
+        pendingOrdersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.pendingOrdersWindow();
+            }
+        });
+        southButtonPanel.add(pendingOrdersButton);
+
+        previousOrdersButton = new JButton("Previous Orders");
+        previousOrdersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.previousOrdersWindow();
+            }
+        });
+        southButtonPanel.add(previousOrdersButton);
+
+        if (CurrentUser.getRole() == Role.MANAGER) {
+            southButtonPanel.add(managerButton);
+        }
+
+        contentPane.add(southButtonPanel, BorderLayout.SOUTH);
         setVisible(true);
     }
 

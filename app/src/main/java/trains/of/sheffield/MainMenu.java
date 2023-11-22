@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class MainMenu extends JFrame
 {
-    private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton, controllerButton, staffButton, managerButton;
+    private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton, controllerButton, staffButton;
     private JLabel titleLabel;
     private JPanel buttonPanel, titlePanel;
     private Container contentPane;
