@@ -19,14 +19,14 @@ public class StaffDashboard extends JFrame {
         setContentPane(staffDashboardPanel);
         setSize(800, 400);
 
+        JMenuBar menuBar = new MenuBarPanel();
 
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Menu");
-        JMenuItem signOut = new JMenuItem("Sign Out");
-        JMenuItem exit = new JMenuItem("Exit");
-        menu.add(signOut);
-        menu.add(exit);
-        menuBar.add(menu);
+
+        JMenu staffMenu = new JMenu("Staff");
+        staffMenu.add(new JMenuItem("Orders"));
+        staffMenu.add(new JMenuItem("Stock"));
+        menuBar.add(staffMenu);
+
         setJMenuBar(menuBar);
 
         ordersButton = new JButton("Orders");
@@ -53,21 +53,6 @@ public class StaffDashboard extends JFrame {
         backButton.addActionListener(e -> {
             dispose();
             GUILoader.mainMenuWindow();
-        });
-
-        signOut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                GUILoader.loginWindow();
-            }
-        });
-
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
         });
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

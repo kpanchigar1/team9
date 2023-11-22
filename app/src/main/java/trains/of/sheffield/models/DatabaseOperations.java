@@ -48,7 +48,7 @@ public class DatabaseOperations {
             try {
                 DatabaseConnectionHandler.openConnection(); // Opens connection
                 Connection connection = DatabaseConnectionHandler.getConnection();
-
+                // TODO: check if address already exists
                 // Insert address
                 String addressQuery = "INSERT INTO Address VALUES (?, ?, ?, ?)";
                 try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {

@@ -6,101 +6,106 @@ import javax.swing.*;
 
 public class MainMenu extends JFrame
 {
-    private JButton managerButton, customerButton, staffButton;
+    private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton, controllerButton, staffButton, managerButton;
     private JLabel titleLabel;
     private JPanel buttonPanel, titlePanel;
     private Container contentPane;
-    private Font titleFont = new Font("Arial", Font.BOLD, 36);
-    private Font buttonFont = new Font("Arial", Font.BOLD, 24);
 
     public MainMenu(Role role)
     {
-        // TODO: add action listeners to buttons
 
         super("Trains of Sheffield");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
         setSize(800, 400);
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Menu");
-        JMenuItem signOut = new JMenuItem("Sign Out");
-        signOut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                GUILoader.loginWindow();
-            }
-        });
-        JMenuItem exit = new JMenuItem("Exit");
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
 
-        signOut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CurrentUser.clearUser();
-                dispose();
-                GUILoader.loginWindow();
-            }
-        });
+        JMenuBar menuBar = new MenuBarPanel();
 
-        menu.add(signOut);
-        menu.add(exit);
-        menuBar.add(menu);
         setJMenuBar(menuBar);
 
-        // create the title panel
         titlePanel = new JPanel();
         titleLabel = new JLabel("Welcome to Trains of Sheffield");
-        titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
         contentPane.add(titlePanel, BorderLayout.NORTH);
 
-        // create the button panel
+
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1, 3));
-        managerButton = new JButton("Manager");
-        if (role != Role.MANAGER) {
-            managerButton.setEnabled(false);
-        }
-        managerButton.setFont(buttonFont);
-        buttonPanel.add(managerButton);
-        customerButton = new JButton("Customer");
-        customerButton.setFont(buttonFont);
-        buttonPanel.add(customerButton);
-        staffButton = new JButton("Staff");
-        if (role == Role.CUSTOMER) {
-            staffButton.setEnabled(false);
-        }
-        staffButton.setFont(buttonFont);
-        buttonPanel.add(staffButton);
-        managerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //dispose();
-                //GUILoader.managerDashboardWindow();
-            }
-        });
-        customerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //dispose();
-                //GUILoader.customerDashboardWindow();
-            }
-        });
-        staffButton.addActionListener(new ActionListener() {
+
+        trainSetButton = new JButton("Train Sets");
+        trainSetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                GUILoader.staffDashboardWindow();
+                //GUILoader.trainSetWindow();
             }
         });
+        buttonPanel.add(trainSetButton);
+
+        trackPackButton = new JButton("Track Packs");
+        trackPackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.trackPackWindow();
+            }
+        });
+        buttonPanel.add(trackPackButton);
+
+        locomotiveButton = new JButton("Locomotives");
+        locomotiveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.locomotiveWindow();
+            }
+        });
+        buttonPanel.add(locomotiveButton);
+
+        rollingStockButton = new JButton("Rolling Stock");
+        rollingStockButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.rollingStockWindow();
+            }
+        });
+        buttonPanel.add(rollingStockButton);
+
+        trackButton = new JButton("Track");
+        trackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.trackWindow();
+            }
+        });
+        buttonPanel.add(trackButton);
+
+        controllerButton = new JButton("Controllers");
+        controllerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                //GUILoader.controllerWindow();
+            }
+        });
+        buttonPanel.add(controllerButton);
+
         contentPane.add(buttonPanel, BorderLayout.CENTER);
+
+        if (role == Role.STAFF || role == Role.MANAGER) {
+            staffButton = new JButton("Staff Dashboard");
+            staffButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                    GUILoader.staffDashboardWindow();
+                }
+            });
+            contentPane.add(staffButton, BorderLayout.SOUTH);
+        }
         setVisible(true);
     }
 

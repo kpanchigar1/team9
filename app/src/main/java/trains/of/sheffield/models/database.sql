@@ -98,6 +98,7 @@ CREATE TABLE Orders (
   `date` date NOT NULL,
   `status` varchar(45) NOT NULL,
   userID VARCHAR(45) NOT NULL,
+  totalPrice double NOT NULL,
   FOREIGN KEY (userID) REFERENCES User(userID)
 );
 
