@@ -5,7 +5,10 @@ public class CardDetail {
     private Integer expiryDate;
     private Integer cvv;
 
-    public static CardDetail getCardDetailFromDB(int cardNumber) {
-        return new CardDetail();
+    public CardDetail(String cardName, Integer cardNumber, Integer expiryDate, Integer cvv) {
+        this.cardName = cardName;
+        this.cardNumber = cardNumber;
+        this.expiryDate = expiryDate;
+        this.cvv = cvv;
     }
 }

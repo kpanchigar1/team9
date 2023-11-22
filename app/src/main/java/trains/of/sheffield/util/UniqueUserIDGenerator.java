@@ -1,4 +1,4 @@
-package com.sheffield.util;
+package trains.of.sheffield.util;
 
 import java.util.UUID;
 
