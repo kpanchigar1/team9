@@ -4,7 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashedPasswordGenerator {
-    private static final String SALT = "OMG I WANT IT"; // Replace with your own static salt
+    private static final String SALT = "OMG I WANT IT";
+
+    //TODO: make salt generation dynamic and store in db for each user.
 
     public static String hashPassword(char[] password) {
         try {
@@ -38,13 +40,5 @@ public class HashedPasswordGenerator {
         System.arraycopy(arr1, 0, combined, 0, arr1.length);
         System.arraycopy(arr2, 0, combined, arr1.length, arr2.length);
         return combined;
-    }
-
-    public static void main(String[] args) {
-        char[] password = "asd@456".toCharArray();
-        String hashedPassword = hashPassword(password);
-
-        System.out.println("Original Password: " + String.valueOf(password));
-        System.out.println("Hashed Password: " + hashedPassword);
     }
 }

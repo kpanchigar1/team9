@@ -39,7 +39,7 @@ CREATE TABLE User (
   role int NOT NULL,
   houseNumber varchar(10) NOT NULL,
   postCode varchar(10) NOT NULL,
-  cardNumber int NOT NULL,
+  cardNumber int,
   FOREIGN KEY (houseNumber, postCode) REFERENCES Address(houseNumber, postCode),
   FOREIGN KEY (cardNumber) REFERENCES CardDetail(cardNumber)
 );
