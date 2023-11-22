@@ -1,12 +1,17 @@
 package trains.of.sheffield;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StaffDashboard extends JFrame {
     private JPanel staffDashboardPanel;
-    private JButton ordersButton, stockButton, backButton;
+    private JButton ordersButton, stockButton, addNewProductButton, backButton;
 
     //TODO: make GUI proper
+    //TODO: stock page
+    //TODO: orders page
+    
     public StaffDashboard() {
         super("Trains of Sheffield - Staff Dashboard");
         staffDashboardPanel = new JPanel();
@@ -26,21 +31,40 @@ public class StaffDashboard extends JFrame {
         ordersButton = new JButton("Orders");
         stockButton = new JButton("Stock");
         backButton = new JButton("Back");
+        addNewProductButton = new JButton("Add New Product");
         staffDashboardPanel.add(ordersButton);
         staffDashboardPanel.add(stockButton);
+        staffDashboardPanel.add(addNewProductButton);
         staffDashboardPanel.add(backButton);
+
         ordersButton.addActionListener(e -> {
             //dispose();
             //GUILoader.staffOrdersWindow();
         });
         stockButton.addActionListener(e -> {
             //dispose();
-            //GUILoader.staffStockWindow();
+            GUILoader.staffStockWindow();
         });
         backButton.addActionListener(e -> {
             dispose();
             GUILoader.mainMenuWindow(CurrentUser.getRole());
         });
+
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

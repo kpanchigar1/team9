@@ -41,4 +41,10 @@ public class HashedPasswordGenerator {
         System.arraycopy(arr2, 0, combined, arr1.length, arr2.length);
         return combined;
     }
+
+    public static void main(String[] args) {
+        for(int i = 0; i < 10; i++){
+            System.out.println(hashPassword("password".toCharArray()).length());
+        }
+    }
 }

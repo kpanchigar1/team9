@@ -29,4 +29,16 @@ public class GUILoader {
 	public static void mainMenuWindow(Role role) {
 		MainMenu mainMenuGUI = new MainMenu(role);
 	}
+
+	// public static void customerDashboardWindow() {
+		//CustomerDashboard customerDashboardGUI = new CustomerDashboard();
+	//}
+
+	public static void staffDashboardWindow() {
+		StaffDashboard staffDashboardGUI = new StaffDashboard();
+	}
+
+	public static void staffStockWindow() {
+		StaffStock staffStockGUI = new StaffStock();
+	}
 }

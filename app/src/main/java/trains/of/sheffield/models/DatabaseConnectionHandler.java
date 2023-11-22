@@ -27,7 +27,7 @@ public class DatabaseConnectionHandler {
         }
     }
 
-    public void closeConnection() {
+    public static void closeConnection() {
         // Close the connection in a separate method to ensure proper resource
         // management.
         if (connection != null) {

@@ -117,8 +117,6 @@ public class SignUp extends JFrame{
 	}
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
-			System.out.println(pwEnter1.getPassword());
-			System.out.println(pwEnter2.getPassword());
 			if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {
 				boolean signedUp = DatabaseOperations.trySignUp(pwEnter1.getPassword(), firstNameEnter.getText(), secondNameEnter.getText(), emailEnter.getText(), houseEnter.getText(), roadEnter.getText(), cityEnter.getText(), postCodeEnter.getText(), "cardName");
 				if (signedUp) {

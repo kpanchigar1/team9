@@ -79,6 +79,27 @@ public class MainMenu extends JFrame
         }
         staffButton.setFont(buttonFont);
         buttonPanel.add(staffButton);
+        managerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //dispose();
+                //GUILoader.managerDashboardWindow();
+            }
+        });
+        customerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //dispose();
+                //GUILoader.customerDashboardWindow();
+            }
+        });
+        staffButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                GUILoader.staffDashboardWindow();
+            }
+        });
         contentPane.add(buttonPanel, BorderLayout.CENTER);
         System.out.println(role);
         setVisible(true);

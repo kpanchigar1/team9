@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class DatabaseOperations {
 
-
+    //TODO: parameterise all queries
     public static boolean tryLogIn(String uName, char[] pWord) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -40,15 +40,35 @@ public class DatabaseOperations {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
-            Statement st = connection.createStatement();
-            String r = "INSERT INTO User VALUES ("+UniqueUserIDGenerator.generateUniqueUserID()+
-                ", "+fName+", "+sName+", "+email+", "+HashedPasswordGenerator.hashPassword(pWord)+
-                ", 2, "+houseNumber+", "+postCode+", NULL)"; // Fetches the details under the selected username
-            st.executeUpdate(r);
-            r = "INSERT INTO Address VALUES ("+houseNumber+", "+streetName+", "+city+", "+postCode+")";
+
+            // Insert address
+            String addressQuery = "INSERT INTO Address VALUES (?, ?, ?, ?)";
+            try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
+                addressStatement.setString(1, houseNumber);
+                addressStatement.setString(2, streetName);
+                addressStatement.setString(3, city);
+                addressStatement.setString(4, postCode);
+                addressStatement.executeUpdate();
+            }
+
+            // Insert user
+            String userQuery = "INSERT INTO User VALUES (?, ?, ?, ?, ?, 2, ?, ?, NULL)";
+            try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                userStatement.setString(1, UniqueUserIDGenerator.generateUniqueUserID());
+                userStatement.setString(2, fName);
+                userStatement.setString(3, sName);
+                userStatement.setString(4, email);
+                userStatement.setString(5, HashedPasswordGenerator.hashPassword(pWord));
+                userStatement.setString(6, houseNumber);
+                userStatement.setString(7, postCode);
+                userStatement.executeUpdate();
+            }
+
+            DatabaseConnectionHandler.closeConnection(); // Ending connection
             return true;
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log the exception for debugging purposes
+            GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
             return false;
         }
     }
@@ -137,5 +157,55 @@ public class DatabaseOperations {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static List<Product> getAllProducts(){
+        List<Product> allProducts = null;
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM Product"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            while(results.next()) {
+                allProducts.add(new Product(results.getString("productCode"),
+                        getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
+                        results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
+                        results.getString("description"), getProductStock(results.getString("productCode")))); // Stores the user details
+            }
+            DatabaseConnectionHandler.closeConnection();
+            return allProducts;
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
+
+    private static String getBrandNameFromID(String brandID) {
+        try {
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM Brand WHERE brandID = '"+brandID+"'"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            results.next();
+            return results.getString("brandName");
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
+
+    private static Integer getProductStock(String productCode) {
+        try {
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM Stock WHERE productCode = '"+productCode+"'"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            results.next();
+            return results.getInt("stockCount");
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
     }
 }
