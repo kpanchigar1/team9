@@ -60,6 +60,9 @@ public class ProductStockPanel extends JFrame {
                     // Now you have the product code and the current stock value
 
                 DatabaseOperations.updateStock(productCode, stock);
+
+                dispose();
+                GUILoader.productStockPanelWindow(productType);
                 }
             }
         });
