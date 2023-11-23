@@ -49,7 +49,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                GUILoader.trainSetStockWindow();
+                GUILoader.productStockPanelWindow("M");
             }
         });
 
@@ -58,7 +58,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.trackPackStockWindow();
+                GUILoader.productStockPanelWindow("P");
             }
         });
 
@@ -67,7 +67,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.locomotiveStockWindow();
+                GUILoader.productStockPanelWindow("L");
             }
         });
 
@@ -76,7 +76,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.rollingStockStockWindow();
+                GUILoader.productStockPanelWindow("S");
             }
         });
 
@@ -85,7 +85,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.trackStockWindow();
+                GUILoader.productStockPanelWindow("R");
             }
         });
 
@@ -94,7 +94,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.controllerStockWindow();
+                GUILoader.productStockPanelWindow("C");
             }
         });
 

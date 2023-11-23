@@ -8,16 +8,16 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import java.util.List;
 
-public class TrainSetStock extends JFrame {
-    private JPanel staffStockPanel;
+public class ProductStockPanel extends JFrame {
+    private JPanel productStockPanel;
     private JButton backButton, confirmChangesButton;
-    public TrainSetStock() {
+    public ProductStockPanel(String productType) {
         super("Trains of Sheffield - Staff Stock");
-        staffStockPanel = new JPanel();
-        setContentPane(staffStockPanel);
+        productStockPanel = new JPanel();
+        setContentPane(productStockPanel);
         setSize(800, 400);
 
-        List<Product> allProducts = DatabaseOperations.getProductFromType("M");
+        List<Product> allProducts = DatabaseOperations.getProductFromType(productType);
 
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new Object[]{"Product Code", "Product Name", "Stock Level"});
@@ -44,7 +44,7 @@ public class TrainSetStock extends JFrame {
 
         JScrollPane stockTableScrollPane = new JScrollPane(stockTable);
         stockTableScrollPane.setBounds(0, 0, 800, 300);
-        staffStockPanel.add(stockTableScrollPane);
+        productStockPanel.add(stockTableScrollPane);
 
         confirmChangesButton = new JButton("Confirm Changes");
         confirmChangesButton.addActionListener(e -> {
@@ -63,10 +63,10 @@ public class TrainSetStock extends JFrame {
                 }
             }
         });
-        staffStockPanel.add(confirmChangesButton);
+        productStockPanel.add(confirmChangesButton);
 
         backButton = new JButton("Back");
-        staffStockPanel.add(backButton);
+        productStockPanel.add(backButton);
 
         backButton.addActionListener(e -> {
             dispose();
@@ -77,9 +77,5 @@ public class TrainSetStock extends JFrame {
 
         setVisible(true);
 
-    }
-
-    public static void main(String[] args) {
-        new TrainSetStock();
     }
 }

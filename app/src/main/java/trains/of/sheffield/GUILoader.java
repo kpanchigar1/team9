@@ -1,7 +1,5 @@
 package trains.of.sheffield;
 import javax.swing.*;
-import java.awt.*;
-import java.sql.SQLException;
 
 public class GUILoader {
     public static void loginWindow() {
@@ -40,11 +38,7 @@ public class GUILoader {
 		StaffDashboard staffDashboardGUI = new StaffDashboard();
 	}
 
-	public static void staffStockWindow() throws SQLException {
-		StaffStock staffStockGUI = new StaffStock();
-	}
-
-	public static void trainSetStockWindow() {
-		TrainSetStock trainSetStockGUI = new TrainSetStock();
+	public static void productStockPanelWindow(String productType) {
+		ProductStockPanel productStockPanelGUI = new ProductStockPanel(productType);
 	}
 }

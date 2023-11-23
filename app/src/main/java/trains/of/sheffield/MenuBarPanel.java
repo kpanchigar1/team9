@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuBarPanel extends JMenuBar {
-
+    // TODO: make action listeners working
     public MenuBarPanel() {
         JMenu profile = new JMenu("Profile");
         JMenuItem editProfile = new JMenuItem("Edit Profile");
