@@ -60,16 +60,18 @@ public class CardDetailsPage extends JFrame{
         panel.add(submit);
 
         setVisible(true);
+
+        fillDetails();
     }
 
     private void fillDetails() {
         if(!CurrentUser.getCardDetail().equals(null)) {
             Card card = CurrentUser.getCardDetail();
             cardNameField.setText(card.getCardName());
-            cardNumberField.setText(card.getCardNumber());
-            monthField.setText(card.getExpiryDate().substring(0, 2));
-            yearField.setText(card.getExpiryDate().substring(2, 4));
-            cvvField.setText(card.getCvv());
+            cardNumberField.setText(card.getCardNumber().toString());
+            monthField.setText(card.getExpiryDate().toString().substring(0, 2));
+            yearField.setText(card.getExpiryDate().toString().substring(2, 4));
+            cvvField.setText(card.getCvv().toString());
         }
     }
 
