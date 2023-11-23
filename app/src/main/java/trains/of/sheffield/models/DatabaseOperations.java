@@ -193,4 +193,35 @@ public class DatabaseOperations {
         }
         return null;
     }
+
+    public static void updateStock(String productCode, int stock) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            // check if stock is present, if yes then update else insert
+            String r = "SELECT * FROM Stock WHERE productCode = '"+productCode+"'"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            if (results.next()) {
+                // update
+                String updateQuery = "UPDATE Stock SET stockCount = ? WHERE productCode = ?";
+                try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                    updateStatement.setInt(1, stock);
+                    updateStatement.setString(2, productCode);
+                    updateStatement.executeUpdate();
+                }
+            } else {
+                // insert
+                String insertQuery = "INSERT INTO Stock VALUES (?, ?)";
+                try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                    insertStatement.setString(1, productCode);
+                    insertStatement.setInt(2, stock);
+                    insertStatement.executeUpdate();
+                }
+            }
+            DatabaseConnectionHandler.closeConnection();
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+    }
 }

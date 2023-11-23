@@ -59,7 +59,7 @@ public class ProductStockPanel extends JFrame {
 
                     // Now you have the product code and the current stock value
 
-                //DatabaseOperations.updateStock(productCode, stock);
+                DatabaseOperations.updateStock(productCode, stock);
                 }
             }
         });
