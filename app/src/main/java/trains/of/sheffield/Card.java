@@ -1,11 +1,11 @@
 package trains.of.sheffield;
-public class CardDetail {
+public class Card {
     private String cardName;
     private Integer cardNumber;
     private Integer expiryDate;
     private Integer cvv;
 
-    public CardDetail(String cardName, Integer cardNumber, Integer expiryDate, Integer cvv) {
+    public Card(String cardName, Integer cardNumber, Integer expiryDate, Integer cvv) {
         this.cardName = cardName;
         this.cardNumber = cardNumber;
         this.expiryDate = expiryDate;

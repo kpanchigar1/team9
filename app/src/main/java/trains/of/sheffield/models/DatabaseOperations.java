@@ -82,7 +82,7 @@ public class DatabaseOperations {
         }
 
 
-        public static CardDetail getCardDetailFromDB(int cardNumber){
+        public static Card getCardDetailFromDB(int cardNumber){
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
@@ -90,7 +90,7 @@ public class DatabaseOperations {
             String r = "SELECT * FROM CardDetail WHERE cardNumber = '"+cardNumber+"'"; // Fetches the details under the selected card number
             ResultSet results = st.executeQuery(r);
             results.next();
-            return new CardDetail(results.getString("cardName"), results.getInt("cardNumber"), results.getInt("expiryDate"), results.getInt("cvv")); // Returns the card details
+            return new Card(results.getString("cardName"), results.getInt("cardNumber"), results.getInt("expiryDate"), results.getInt("cvv")); // Returns the card details
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }

@@ -64,7 +64,7 @@ public class CardDetailsPage extends JFrame{
 
     private void fillDetails() {
         if(!CurrentUser.getCardDetail().equals(null)) {
-            CardDetail card = CurrentUser.getCardDetail();
+            Card card = CurrentUser.getCardDetail();
             cardNameField.setText(card.);
             cardNumberField.setText(CurrentUser.getCardDetail().getCardNumber());
             monthField.setText(CurrentUser.getCardDetail().getExpiryDate().substring(0, 2));

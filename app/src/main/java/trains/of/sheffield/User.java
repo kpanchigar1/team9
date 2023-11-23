@@ -6,10 +6,10 @@ public class User {
     private String email;
     private String password;
     private Address address;
-    private CardDetail cardDetail;
+    private Card cardDetail;
     private Role role;
 
-    public User(String id2, String forename, String surname, String email, String passwordHash, Address address, CardDetail cardDetail, Role role) {
+    public User(String id2, String forename, String surname, String email, String passwordHash, Address address, Card cardDetail, Role role) {
         this.id = id2;
         this.forename = forename;
         this.surname = surname;
@@ -21,14 +21,14 @@ public class User {
     }
 
     public User(String string, String string2, String string3, String string4, String string5, int int1,
-            Address addressFromDB, CardDetail cardDetailFromDB) {
+            Address addressFromDB, Card cardDetailFromDB) {
     }
 
     public Role getRole() {
         return role;
     }
 
-    public CardDetail getCardDetail() {
+    public Card getCardDetail() {
         return cardDetail;
     }
 }
