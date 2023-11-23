@@ -12,42 +12,65 @@ import java.awt.*;
 // TODO: password hashing
 
 public class CardDetailsPage extends JFrame{
-    private JTextField cardNameField;
-    private JTextField cardNumberField;
-    private JTextField expiryDateField;
+    private JPanel panel, expiryDatePanel;
+    private JLabel cardNameLabel, cardNumberLabel, expiryDateLabel, cvvLabel, slash;
+    private JTextField cardNameField, cardNumberField, monthField, yearField;
     private JPasswordField cvvField;
+    private JButton submit, back;
     public CardDetailsPage (){
         super("Card Details");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(500, 500);
 
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         this.add(panel);
         panel.setLayout(new GridLayout(5, 2));
 
-        JLabel cardNameLabel = new JLabel("Card Name:");
+        cardNameLabel = new JLabel("Card Name:");
         cardNameField = new JTextField(20);
-        cardNumberField = new JTextField(16);
-        expiryDateField = new JTextField(4);
-        cvvField = new JPasswordField(3);
-        JLabel cardNumberLabel = new JLabel("Card Number:");
-        JLabel expiryDateLabel = new JLabel("Expiry Date (MMYY):");
-        JLabel cvvLabel = new JLabel("CVV:");
-
-        JButton submit = new JButton("Submit");
-        JButton back = new JButton("Back");
-
         panel.add(cardNameLabel);
         panel.add(cardNameField);
+
+        cardNumberLabel = new JLabel("Card Number:");
+        cardNumberField = new JTextField(16);
         panel.add(cardNumberLabel);
         panel.add(cardNumberField);
+
+        expiryDateLabel = new JLabel("Expiry Date (MMYY):");
+        expiryDatePanel = new JPanel();
+        expiryDatePanel.setLayout(new GridLayout(1, 3));
+        monthField = new JTextField(2);
+        expiryDatePanel.add(monthField);
+        slash = new JLabel("/");
+        slash.setHorizontalAlignment(JLabel.CENTER);
+        expiryDatePanel.add(slash);
+        yearField = new JTextField(2);
+        expiryDatePanel.add(yearField);
         panel.add(expiryDateLabel);
-        panel.add(expiryDateField);
+        panel.add(expiryDatePanel);
+
+        cvvLabel = new JLabel("CVV:");
+        cvvField = new JPasswordField(3);
         panel.add(cvvLabel);
         panel.add(cvvField);
-        panel.add(submit);
+
+        back = new JButton("Back");
+        submit = new JButton("Submit");
         panel.add(back);
+        panel.add(submit);
+
         setVisible(true);
+    }
+
+    private void fillDetails() {
+        if(!CurrentUser.getCardDetail().equals(null)) {
+            CardDetail card = CurrentUser.getCardDetail();
+            cardNameField.setText(card.);
+            cardNumberField.setText(CurrentUser.getCardDetail().getCardNumber());
+            monthField.setText(CurrentUser.getCardDetail().getExpiryDate().substring(0, 2));
+            yearField.setText(CurrentUser.getCardDetail().getExpiryDate().substring(2, 4));
+            cvvField.setText(CurrentUser.getCardDetail().getCvv());
+        }
     }
 
     public static void main(String[] args) {

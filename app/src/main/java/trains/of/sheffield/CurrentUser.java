@@ -19,4 +19,11 @@ public class CurrentUser {
         }
         return user.getRole();
     }
+
+    public static CardDetail getCardDetail() {
+        if (user == null) {
+            return null;
+        }
+        return user.getCardDetail();
+    }
 }
