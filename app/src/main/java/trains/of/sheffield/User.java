@@ -6,7 +6,7 @@ public class User {
     private String email;
     private String password;
     private Address address;
-    private Card cardDetail;
+    private Card card;
     private Role role;
 
     public User(String id2, String forename, String surname, String email, String passwordHash, Address address, Card cardDetail, Role role) {
@@ -16,7 +16,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.address = address;
-        this.cardDetail = cardDetail;
+        this.card = cardDetail;
         this.role = role;
     }
 
@@ -29,6 +29,6 @@ public class User {
     }
 
     public Card getCardDetail() {
-        return cardDetail;
+        return card;
     }
 }

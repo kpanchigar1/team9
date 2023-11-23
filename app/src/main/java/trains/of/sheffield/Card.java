@@ -11,4 +11,20 @@ public class Card {
         this.expiryDate = expiryDate;
         this.cvv = cvv;
     }
+
+    public String getCardName() {
+        return cardName;
+    }
+
+    public Integer getCardNumber() {
+        return cardNumber;
+    }
+
+    public Integer getExpiryDate() {
+        return expiryDate;
+    }
+
+    public Integer getCvv() {
+        return cvv;
+    }
 }
