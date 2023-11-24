@@ -52,4 +52,8 @@ public class CurrentUser {
     public static void setEmail(String email) {
         user.setEmail(email);
     }
+
+    public static void setPasswordHash(String passwordHash) {
+        user.setPasswordHash(passwordHash);
+    }
 }

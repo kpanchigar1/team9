@@ -128,6 +128,8 @@ public class DatabaseOperations {
                     userStatement.setString(1, HashedPasswordGenerator.hashPassword(pWord));
                     userStatement.setString(2, CurrentUser.getCurrentUser().getId());
                     userStatement.executeUpdate();
+                    // update current user details
+                    CurrentUser.setPasswordHash(HashedPasswordGenerator.hashPassword(pWord));
                 }
                 DatabaseConnectionHandler.closeConnection(); // Ending connection
             } catch (SQLException ex) {

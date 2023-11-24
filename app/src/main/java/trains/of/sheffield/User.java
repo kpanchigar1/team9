@@ -71,4 +71,8 @@ public class User {
     public void setCardDetail(Card cardDetail) {
         this.card = cardDetail;
     }
+
+    public void setPasswordHash(String passwordHash) {
+        this.password = passwordHash;
+    }
 }
