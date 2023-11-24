@@ -9,8 +9,8 @@ public class User {
     private Card card;
     private Role role;
 
-    public User(String id2, String forename, String surname, String email, String passwordHash, Address address, Card cardDetail, Role role) {
-        this.id = id2;
+    public User(String id, String forename, String surname, String email, String passwordHash, Address address, Card cardDetail, Role role) {
+        this.id = id;
         this.forename = forename;
         this.surname = surname;
         this.email = email;
@@ -18,10 +18,6 @@ public class User {
         this.address = address;
         this.card = cardDetail;
         this.role = role;
-    }
-
-    public User(String string, String string2, String string3, String string4, String string5, int int1,
-            Address addressFromDB, Card cardDetailFromDB) {
     }
 
     public Role getRole() {

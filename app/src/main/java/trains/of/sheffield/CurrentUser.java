@@ -21,7 +21,7 @@ public class CurrentUser {
     }
 
     public static Card getCardDetail() {
-        if (user == null) {
+        if (user == null || user.getCardDetail() == null) {
             return null;
         }
         return user.getCardDetail();
