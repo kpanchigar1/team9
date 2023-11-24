@@ -2,6 +2,7 @@ package trains.of.sheffield.views;
 
 import javax.swing.*;
 
+import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 
 import java.awt.event.ActionEvent;
@@ -25,6 +26,13 @@ public class MenuBarPanel extends JMenuBar {
             }
         });
         profile.add(editProfile);
+
+        changePassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUILoader.changePasswordWindow();
+            }
+        });
         profile.add(changePassword);
 
         editCardDetails.addActionListener(new ActionListener() {
@@ -34,6 +42,14 @@ public class MenuBarPanel extends JMenuBar {
             }
         });
         profile.add(editCardDetails);
+
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                GUILoader.loginWindow();
+            }
+        });
         profile.add(signOut);
 
         orders = new JMenu("Orders");

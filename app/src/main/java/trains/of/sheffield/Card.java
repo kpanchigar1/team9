@@ -2,10 +2,10 @@ package trains.of.sheffield;
 public class Card {
     private String cardName;
     private String cardNumber;
-    private Integer expiryDate;
-    private Integer cvv;
+    private String expiryDate;
+    private String cvv;
 
-    public Card(String cardName, String cardNumber, Integer expiryDate, Integer cvv) {
+    public Card(String cardName, String cardNumber, String expiryDate, String cvv) {
         this.cardName = cardName;
         this.cardNumber = cardNumber;
         this.expiryDate = expiryDate;
@@ -20,11 +20,11 @@ public class Card {
         return cardNumber;
     }
 
-    public Integer getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
-    public Integer getCvv() {
+    public String getCvv() {
         return cvv;
     }
 }

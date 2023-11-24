@@ -159,7 +159,7 @@ public class DatabaseOperations {
                     userStatement.setString(2, CurrentUser.getCurrentUser().getId());
                     userStatement.executeUpdate();
                     // update current user details
-                    CurrentUser.setCardDetail(new Card(cardName, cardNumber, Integer.parseInt(expiryDate), Integer.parseInt(cvv)));
+                    CurrentUser.setCardDetail(new Card(cardName, cardNumber, expiryDate, cvv));
                 }
                 DatabaseConnectionHandler.closeConnection(); // Ending connection
             } catch (SQLException ex) {
@@ -190,7 +190,7 @@ public class DatabaseOperations {
                     userStatement.setString(2, CurrentUser.getCurrentUser().getId());
                     userStatement.executeUpdate();
                     // update current user details
-                    CurrentUser.setCardDetail(new Card(cardName, cardNumber, Integer.parseInt(expiryDate), Integer.parseInt(cvv)));
+                    CurrentUser.setCardDetail(new Card(cardName, cardNumber, expiryDate, cvv));
                 }
                 DatabaseConnectionHandler.closeConnection(); // Ending connection
             } catch (SQLException ex) {
@@ -207,7 +207,7 @@ public class DatabaseOperations {
             String r = "SELECT * FROM CardDetail WHERE cardNumber = '"+cardNumber+"'"; // Fetches the details under the selected card number
             ResultSet results = st.executeQuery(r);
             results.next();
-            return new Card(results.getString("cardName"), results.getString("cardNumber"), results.getInt("expiryDate"), results.getInt("cvv")); // Returns the card details
+            return new Card(results.getString("cardName"), results.getString("cardNumber"), results.getString("expiryDate"), results.getString("cvv")); // Returns the card details
         } catch(Exception ex) {
             return null;
         }

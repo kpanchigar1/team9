@@ -73,4 +73,13 @@ public class GUILoader {
 	public static void orderLinesWindow(int orderID) {
 		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(orderID);
 	}
+
+	public static void changePasswordWindow() {
+		ChangePassword changePasswordGUI = new ChangePassword();
+		changePasswordGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		changePasswordGUI.pack();
+		changePasswordGUI.setVisible(true);
+		changePasswordGUI.setTitle("Trains of Sheffield - Change Password");
+		changePasswordGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
+	}
 }
