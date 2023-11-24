@@ -50,7 +50,7 @@ public class GUILoader {
 	}
 
 	public static void previousOrdersWindow() {
-		PreviousOrders previousOrdersGUI = new PreviousOrders();
+		StaffOrdersPanel previousOrdersGUI = new StaffOrdersPanel(Status.FULFILLED);
 	}
     public static void cardDetailsWindow() {
 		CardDetailsPage cardDetailsGUI = new CardDetailsPage();

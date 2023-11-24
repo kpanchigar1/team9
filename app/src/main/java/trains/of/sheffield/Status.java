@@ -17,7 +17,7 @@ public enum Status {
         return null;
     }
 
-    private int getStatusID() {
+    public int getStatusID() {
         return statusID;
     }
 

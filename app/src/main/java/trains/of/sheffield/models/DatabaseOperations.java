@@ -287,29 +287,34 @@ public class DatabaseOperations {
         }
     }
 
-    public static String[][] getPreviousOrders(){
+    public static String[][] getOrdersFromStatus(Status status){
         // String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total"};
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
-            Statement st = connection.createStatement();
-            String r = "SELECT * FROM Orders WHERE status = 2"; // Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            List<String[]> orderList = new ArrayList<>();
-            while(results.next()) {
-                String[] order = new String[7];
-                User user = getUserFromID(results.getString("userID"));
-                order[0] = results.getString("orderID");
-                order[1] = results.getString("date");
-                order[2] = user.getForename() + " " + user.getSurname();
-                order[3] = user.getEmail();
-                order[4] = user.getAddress().toString();
-                order[5] = Status.getStatus(results.getInt("status")).toString();
-                order[6] = String.valueOf(results.getDouble("totalPrice"));
-                orderList.add(order);
+            String orderQuery = "SELECT * FROM Orders WHERE status = ?"; // Fetches the details under the selected username
+            try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                ordersStatement.setInt(1, status.getStatusID());
+                ResultSet results = ordersStatement.executeQuery();
+                List<String[]> orderList = new ArrayList<>();
+                while(results.next()) {
+                    String[] order = new String[8];
+                    User user = getUserFromID(results.getString("userID"));
+                    order[0] = results.getString("orderID");
+                    order[1] = results.getString("date");
+                    order[2] = user.getForename() + " " + user.getSurname();
+                    order[3] = user.getEmail();
+                    order[4] = user.getAddress().toString();
+                    order[5] = Status.getStatus(results.getInt("status")).toString();
+                    order[6] = String.valueOf(results.getDouble("totalPrice"));
+                    if(status.equals(Status.FULFILLED)){
+                        order[7] = "True";
+                    }
+                    orderList.add(order);
+                    DatabaseConnectionHandler.closeConnection();
+                    return orderList.toArray(new String[0][0]);
+                }
             }
-            DatabaseConnectionHandler.closeConnection();
-            return orderList.toArray(new String[0][0]);
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
@@ -321,7 +326,7 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM User WHERE userID = '"+userID+"'"; // Fetches the details under the selected username
+            String r = "SELECT * FROM User WHERE userID = '"+userID+"'";// Fetches the details under the selected username
             ResultSet results = st.executeQuery(r);
             results.next();
             return new User(results.getString("userID"),

@@ -1,27 +1,23 @@
 package trains.of.sheffield.views;
 
-import trains.of.sheffield.*;
+import trains.of.sheffield.GUILoader;
+import trains.of.sheffield.Status;
 import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PreviousOrders extends JFrame {
+public class StaffOrdersPanel extends JFrame {
     private JPanel titlePanel;
     private Container contentPane;
     private JLabel titleLabel;
     private JButton backButton;
     private JTable orderTable;
 
-    public PreviousOrders() {
+    public StaffOrdersPanel(Status status) {
         super("Trains of Sheffield - Previous Orders");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = getContentPane();
@@ -36,8 +32,8 @@ public class PreviousOrders extends JFrame {
         titlePanel.add(titleLabel);
         contentPane.add(titlePanel, BorderLayout.NORTH);
 
-        String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total"};
-        String[][] orderData = DatabaseOperations.getPreviousOrders();
+        String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card"};
+        String[][] orderData = DatabaseOperations.getOrdersFromStatus(status);
 
 
         // TODO: Make the table display the order lines when double clicked
@@ -63,8 +59,6 @@ public class PreviousOrders extends JFrame {
                 if (e.getClickCount() == 2) { // Detect double-click
                     int selectedRow = orderTable.getSelectedRow();
                     int orderID = Integer.parseInt(orderTable.getValueAt(selectedRow, 0).toString());
-                    System.out.println("HELLO");
-
                     // Display order lines using the retrieved orderID
                     GUILoader.orderLinesWindow(orderID);
                 }
@@ -84,8 +78,6 @@ public class PreviousOrders extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new PreviousOrders().setVisible(true);
-        });
+        new StaffOrdersPanel(Status.FULFILLED);
     }
 }
