@@ -82,4 +82,8 @@ public class GUILoader {
 		changePasswordGUI.setTitle("Trains of Sheffield - Change Password");
 		changePasswordGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
+
+	public static void pendingOrdersWindow() {
+		StaffPendingOrders pendingOrders = new StaffPendingOrders();
+	}
 }
