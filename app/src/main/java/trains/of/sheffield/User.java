@@ -14,7 +14,7 @@ public class User {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.password = password;
+        this.password = passwordHash;
         this.address = address;
         this.card = cardDetail;
         this.role = role;

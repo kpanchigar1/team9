@@ -75,6 +75,8 @@ public class ChangePassword extends JFrame{
 	}
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
+			System.out.println(CurrentUser.getPasswordHash());
+			System.out.println(HashedPasswordGenerator.hashPassword(originalPasswordEnter.getPassword()));
             if (HashedPasswordGenerator.hashPassword(originalPasswordEnter.getPassword()).equals(CurrentUser.getPasswordHash())){
                 if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {
                     if (DatabaseOperations.tryLogIn(CurrentUser.getCurrentUser().getEmail(), originalPasswordEnter.getPassword())) {
