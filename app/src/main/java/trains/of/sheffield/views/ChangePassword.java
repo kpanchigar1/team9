@@ -8,6 +8,7 @@ import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.User;
 import trains.of.sheffield.models.DatabaseOperations;
+import trains.of.sheffield.util.HashedPasswordGenerator;
 
 public class ChangePassword extends JFrame{
 	JLabel intro, passwordIntro, originalPasswordPrompt, pwPrompt1, pwPrompt2; // Creating variables
@@ -75,14 +76,18 @@ public class ChangePassword extends JFrame{
 	}
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
-            if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {
-                if (DatabaseOperations.tryLogIn(CurrentUser.getCurrentUser().getEmail(), originalPasswordEnter.getPassword())) {
-                    DatabaseOperations.changePassword(CurrentUser.getCurrentUser().getEmail(), pwEnter1.getPassword());
-                    dispose();
-                    GUILoader.mainMenuWindow();
+            if (HashedPasswordGenerator.hashPassword(originalPasswordEnter.getPassword()).equals(CurrentUser.getPasswordHash())){
+                if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {
+                    if (DatabaseOperations.tryLogIn(CurrentUser.getCurrentUser().getEmail(), originalPasswordEnter.getPassword())) {
+                        DatabaseOperations.updatePassword(pwEnter1.getPassword());
+                        dispose();
+                        GUILoader.mainMenuWindow();
+                    }
+                } else {
+                    GUILoader.alertWindow("Error: Passwords do not match");
                 }
             } else {
-                GUILoader.alertWindow("Error: Passwords do not match");
+                GUILoader.alertWindow("Error: Original password is incorrect");
             }
 		}
 	}

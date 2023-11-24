@@ -118,19 +118,17 @@ public class DatabaseOperations {
             }
         }
 
-        public static void updatePassword(char[] newPWord, char[] oldPWord) {
+        public static void updatePassword(char[] pWord) {
             try {
                 DatabaseConnectionHandler.openConnection(); // Opens connection
                 Connection connection = DatabaseConnectionHandler.getConnection();
                 // Update user
-                String userQuery = "UPDATE User SET passwordHash = ? WHERE userID = ? AND passwordHash = ?";
+                String userQuery = "UPDATE User SET passwordHash = ? WHERE userID = ?";
                 try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
-                    userStatement.setString(1, HashedPasswordGenerator.hashPassword(newPWord));
+                    userStatement.setString(1, HashedPasswordGenerator.hashPassword(pWord));
                     userStatement.setString(2, CurrentUser.getCurrentUser().getId());
-                    userStatement.setString(3, HashedPasswordGenerator.hashPassword(oldPWord));
                     userStatement.executeUpdate();
                 }
-
                 DatabaseConnectionHandler.closeConnection(); // Ending connection
             } catch (SQLException ex) {
                 ex.printStackTrace(); // Log the exception for debugging purposes
