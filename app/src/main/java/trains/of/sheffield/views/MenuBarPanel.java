@@ -1,6 +1,9 @@
 package trains.of.sheffield.views;
 
 import javax.swing.*;
+
+import trains.of.sheffield.GUILoader;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,6 +16,13 @@ public class MenuBarPanel extends JMenuBar {
         JMenuItem signOut = new JMenuItem("Sign Out");
 
         profile.add(editProfile);
+
+        editCardDetails.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUILoader.cardDetailsWindow();
+            }
+        });
         profile.add(editCardDetails);
         profile.add(signOut);
 

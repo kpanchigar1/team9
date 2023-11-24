@@ -22,7 +22,6 @@ public class CardDetailsPage extends JFrame{
     private JButton submit, back;
     private Card card = CurrentUser.getCardDetail();
     public CardDetailsPage (){
-        super("Card Details");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(500, 500);
 
@@ -31,16 +30,19 @@ public class CardDetailsPage extends JFrame{
         panel.setLayout(new GridLayout(5, 2));
 
         cardNameLabel = new JLabel("Card Name:");
+        cardNameLabel.setHorizontalAlignment(JLabel.CENTER);
         cardNameField = new JTextField(20);
         panel.add(cardNameLabel);
         panel.add(cardNameField);
 
         cardNumberLabel = new JLabel("Card Number:");
+        cardNumberLabel.setHorizontalAlignment(JLabel.CENTER);
         cardNumberField = new JTextField(16);
         panel.add(cardNumberLabel);
         panel.add(cardNumberField);
 
         expiryDateLabel = new JLabel("Expiry Date (MMYY):");
+        expiryDateLabel.setHorizontalAlignment(JLabel.CENTER);
         expiryDatePanel = new JPanel();
         expiryDatePanel.setLayout(new GridLayout(1, 3));
         monthField = new JTextField(2);
@@ -53,7 +55,8 @@ public class CardDetailsPage extends JFrame{
         panel.add(expiryDateLabel);
         panel.add(expiryDatePanel);
 
-        cvvLabel = new JLabel("CVV:");
+        cvvLabel = new JLabel("CVV (three numbers on the back of your card):");
+        cvvLabel.setHorizontalAlignment(JLabel.CENTER);
         cvvField = new JPasswordField(3);
         panel.add(cvvLabel);
         panel.add(cvvField);
@@ -65,13 +68,11 @@ public class CardDetailsPage extends JFrame{
         panel.add(back);
         panel.add(submit);
 
-        setVisible(true);
-
         fillDetails();
     }
 
     private void fillDetails() {
-        if(!CurrentUser.getCardDetail().equals(null)) {
+        if(card != null) {
             cardNameField.setText(card.getCardName());
             cardNumberField.setText(card.getCardNumber().toString());
             monthField.setText(card.getExpiryDate().toString().substring(0, 2));
@@ -83,7 +84,6 @@ public class CardDetailsPage extends JFrame{
     public class ReturnToMenu implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             dispose();
-            GUILoader.mainMenuWindow();
         }
     }
 

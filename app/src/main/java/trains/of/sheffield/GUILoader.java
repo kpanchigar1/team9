@@ -30,6 +30,11 @@ public class GUILoader {
 
 	public static void mainMenuWindow() {
 		MainMenu mainMenuGUI = new MainMenu(CurrentUser.getRole());
+		mainMenuGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainMenuGUI.pack();
+		mainMenuGUI.setVisible(true);
+		mainMenuGUI.setTitle("Trains of Sheffield - Main Menu");
+		mainMenuGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
 	// public static void customerDashboardWindow() {
@@ -47,4 +52,12 @@ public class GUILoader {
 	public static void previousOrdersWindow() {
 		PreviousOrders previousOrdersGUI = new PreviousOrders();
 	}
+    public static void cardDetailsWindow() {
+		CardDetailsPage cardDetailsGUI = new CardDetailsPage();
+		cardDetailsGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		cardDetailsGUI.pack();
+		cardDetailsGUI.setVisible(true);
+		cardDetailsGUI.setTitle("Trains of Sheffield - Card Details");
+		cardDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
+    }
 }
