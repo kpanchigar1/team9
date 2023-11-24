@@ -131,7 +131,7 @@ public class ChangeDetails extends JFrame{
             if (email.equals("") || firstName.equals("") || secondName.equals("") || houseNumber.equals("") || streetName.equals("") || city.equals("") || postCode.equals("")) {
                 GUILoader.alertWindow("Please fill out all fields");
             } else {
-                DatabaseOperations.updateDetails(email, firstName, secondName, houseNumber, streetName, city, postCode);
+                DatabaseOperations.updateDetails(firstName, secondName, email, houseNumber, streetName, city, postCode);
                 dispose();
                 GUILoader.mainMenuWindow();
             }
