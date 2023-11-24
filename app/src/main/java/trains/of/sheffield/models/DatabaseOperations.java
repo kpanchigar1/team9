@@ -205,10 +205,13 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM CardDetail WHERE cardNumber = '"+cardNumber+"'"; // Fetches the details under the selected card number
-            ResultSet results = st.executeQuery(r);
-            results.next();
-            return new Card(results.getString("cardName"), results.getString("cardNumber"), results.getString("expiryDate"), results.getString("cvv")); // Returns the card details
+            String cardQuery = "SELECT * FROM CardDetail WHERE cardNumber = ?";
+            try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
+                cardStatement.setString(1, cardNumber);
+                ResultSet results = cardStatement.executeQuery();
+                results.next();
+                return new Card(results.getString("cardName"), results.getString("cardNumber"), results.getString("expiryDate"), results.getString("cvv")); // Returns the card details
+            }
         } catch(Exception ex) {
             return null;
         }
@@ -219,10 +222,15 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM Address WHERE houseNumber = '"+houseNumber+"' AND postCode = '"+postCode+"'"; // Fetches the details under the selected house number and postcode
-            ResultSet results = st.executeQuery(r);
-            results.next();
-            return new Address(results.getString("houseNumber"), results.getString("streetName"), results.getString("city"), results.getString("postCode")); // Returns the address details
+            String addressQuery = "SELECT * FROM Address WHERE houseNumber = ? AND postCode = ?";
+            try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
+                addressStatement.setString(1, houseNumber);
+                addressStatement.setString(2, postCode);
+                ResultSet results = addressStatement.executeQuery();
+                results.next();
+                return new Address(results.getString("houseNumber"), results.getString("streetName"), results.getString("city"), results.getString("postCode")); // Returns the address details
+            }
+
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
@@ -233,10 +241,14 @@ public class DatabaseOperations {
         try {
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM Brand WHERE brandID = '"+brandID+"'"; // Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            results.next();
-            return results.getString("brandName");
+            // parameterise query
+            String brandQuery = "SELECT * FROM Brand WHERE brandID=?";
+            try (PreparedStatement brandStatement = connection.prepareStatement(brandQuery)) {
+                brandStatement.setString(1, brandID);
+                ResultSet results = brandStatement.executeQuery();
+                results.next();
+                return results.getString("brandName");
+            }
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
@@ -247,10 +259,16 @@ public class DatabaseOperations {
         try {
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM Stock WHERE productCode = '"+productCode+"'"; // Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            results.next();
-            return results.getInt("stockCount");
+            String stockQuery = "SELECT * FROM Stock WHERE productCode=?";
+            try (PreparedStatement stockStatement = connection.prepareStatement(stockQuery)) {
+                stockStatement.setString(1, productCode);
+                ResultSet results = stockStatement.executeQuery();
+                if (results.next()) {
+                    return results.getInt("stockCount");
+                } else {
+                    return 0;
+                }
+            }
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
@@ -260,19 +278,21 @@ public class DatabaseOperations {
     public static List<Product> getProductFromType(String m) {
         List<Product> allProducts = new ArrayList<>();
         try {
-            DatabaseConnectionHandler.openConnection(); // Opens connection
+            DatabaseConnectionHandler.openConnection();
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM Product WHERE productCode LIKE '"+m+"%'"; // Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            while(results.next()) {
-                allProducts.add(new Product(results.getString("productCode"),
-                        getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
-                        results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
-                        results.getString("description"), getProductStock(results.getString("productCode")))); // Stores the user details
+            String productQuery = "SELECT * FROM Product WHERE productType=?";
+            try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
+                productStatement.setString(1, m);
+                ResultSet results = productStatement.executeQuery();
+                while(results.next()) {
+                    allProducts.add(new Product(results.getString("productCode"),
+                            getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
+                            results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
+                            results.getString("description"), getProductStock(results.getString("productCode")))); // Stores the user details
+                }
+                return allProducts;
             }
-            DatabaseConnectionHandler.closeConnection();
-            return allProducts;
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
@@ -345,18 +365,17 @@ public class DatabaseOperations {
     }
 
     private static User getUserFromID(String userID) {
-        try {
-            DatabaseConnectionHandler.openConnection(); // Opens connection
+        try{
+            DatabaseConnectionHandler.openConnection();
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM User WHERE userID = '"+userID+"'";// Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            results.next();
-            return new User(results.getString("userID"),
-                    results.getString("forename"), results.getString("surname"),
-                    results.getString("email"), results.getString("passwordHash"),
-                    getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")),
-                    getCardDetailFromDB(results.getString("cardNumber")), Role.getRole(results.getInt("role"))); // Stores the user details
+            String userQuery = "SELECT * FROM User WHERE userID = ?";
+            try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                userStatement.setString(1, userID);
+                ResultSet results = userStatement.executeQuery();
+                results.next();
+                return new User(results.getString("userID"), results.getString("forename"), results.getString("surname"), results.getString("email"), results.getString("passwordHash"), getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")), getCardDetailFromDB(results.getString("cardNumber")), Role.getRole(results.getInt("userType"))); // Stores the user details
+            }
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
@@ -368,19 +387,24 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM OrderLines WHERE orderID = '"+orderID+"'"; // Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            List<String[]> orderLineList = new ArrayList<>();
-            while(results.next()) {
-                String[] orderLine = new String[4];
-                Product product = getProductFromCode(results.getString("productCode"));
-                orderLine[0] = results.getString("productCode");
-                orderLine[1] = product.getProductName();
-                orderLine[2] = String.valueOf(results.getInt("quantity"));
-                orderLineList.add(orderLine);
+            String orderLineQuery = "SELECT * FROM OrderLine WHERE orderID = ?";
+            try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                orderLineStatement.setInt(1, orderID);
+                ResultSet results = orderLineStatement.executeQuery();
+                List<String[]> orderLineList = new ArrayList<>();
+                while(results.next()) {
+                    String[] orderLine = new String[5];
+                    Product product = getProductFromCode(results.getString("productCode"));
+                    orderLine[0] = product.getProductCode();
+                    orderLine[1] = product.getProductName();
+                    orderLine[2] = product.getBrandName();
+                    orderLine[3] = String.valueOf(results.getInt("quantity"));
+                    orderLine[4] = String.valueOf(product.getPrice());
+                    orderLineList.add(orderLine);
+                }
+                DatabaseConnectionHandler.closeConnection();
+                return orderLineList.toArray(new String[0][0]);
             }
-            DatabaseConnectionHandler.closeConnection();
-            return orderLineList.toArray(new String[0][0]);
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
@@ -392,13 +416,16 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM Product WHERE productCode = '"+productCode+"'"; // Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            results.next();
-            return new Product(results.getString("productCode"),
-                    getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
-                    results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
-                    results.getString("description"), getProductStock(results.getString("productCode"))); // Stores the user details
+            String productQuery = "SELECT * FROM Product WHERE productCode = ?";
+            try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
+                productStatement.setString(1, productCode);
+                ResultSet results = productStatement.executeQuery();
+                results.next();
+                return new Product(results.getString("productCode"),
+                        getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
+                        results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
+                        results.getString("description"), getProductStock(results.getString("productCode"))); // Stores the user details
+            }
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }

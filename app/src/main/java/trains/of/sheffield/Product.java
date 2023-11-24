@@ -45,4 +45,10 @@ public class Product {
     public Integer getStock() {
         return stock;
     }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+}
 }
