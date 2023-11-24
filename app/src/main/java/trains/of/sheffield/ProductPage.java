@@ -46,7 +46,7 @@ public class ProductPage extends JFrame {
             }
         });
 
-        //hello testing xxx
+        //hello testing
 
         filterComboBox.addActionListener(new ActionListener() {
             @Override
