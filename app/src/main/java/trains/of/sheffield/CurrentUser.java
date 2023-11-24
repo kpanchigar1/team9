@@ -26,13 +26,12 @@ public class CurrentUser {
         }
         return user.getCardDetail();
     }
-<<<<<<< Updated upstream
     public static String getPasswordHash() {
         if (user == null) {
             return null;
         }
         return user.getPasswordHash();
-=======
+    }
 
     public static void setAddress(Address addressFromDB) {
         user.setAddress(addressFromDB);
@@ -52,6 +51,5 @@ public class CurrentUser {
 
     public static void setEmail(String email) {
         user.setEmail(email);
->>>>>>> Stashed changes
     }
 }

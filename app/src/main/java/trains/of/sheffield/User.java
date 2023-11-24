@@ -48,10 +48,10 @@ public class User {
         return address;
     }
 
-<<<<<<< Updated upstream
     public String getPasswordHash() {
         return password;
-=======
+    }
+
     public void setForename(String forename) {
         this.forename = forename;
     }
@@ -70,6 +70,5 @@ public class User {
 
     public void setCardDetail(Card cardDetail) {
         this.card = cardDetail;
->>>>>>> Stashed changes
     }
 }
