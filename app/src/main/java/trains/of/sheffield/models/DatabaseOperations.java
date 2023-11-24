@@ -88,9 +88,8 @@ public class DatabaseOperations {
             results.next();
             return new Card(results.getString("cardName"), results.getInt("cardNumber"), results.getInt("expiryDate"), results.getInt("cvv")); // Returns the card details
         } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+            return null;
         }
-        return null;
     }
 
     public static Address getAddressFromDB(String houseNumber, String postCode){
