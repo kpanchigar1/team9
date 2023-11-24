@@ -26,4 +26,10 @@ public class CurrentUser {
         }
         return user.getCardDetail();
     }
+    public static String getPasswordHash() {
+        if (user == null) {
+            return null;
+        }
+        return user.getPasswordHash();
+    }
 }

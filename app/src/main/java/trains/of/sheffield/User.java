@@ -47,4 +47,8 @@ public class User {
     public Address getAddress() {
         return address;
     }
+
+    public String getPasswordHash() {
+        return password;
+    }
 }

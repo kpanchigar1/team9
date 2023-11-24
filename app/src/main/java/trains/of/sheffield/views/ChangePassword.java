@@ -64,7 +64,6 @@ public class ChangePassword extends JFrame{
 		buttons.add(submit);
 		mainView.add(buttons);
 
-        fillDetails();
 		add(scroll);
 	}
 
@@ -76,19 +75,14 @@ public class ChangePassword extends JFrame{
 	}
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
-            String email = emailEnter.getText();
-            String firstName = firstNameEnter.getText();
-            String secondName = secondNameEnter.getText();
-            String houseNumber = houseEnter.getText();
-            String streetName = streetEnter.getText();
-            String city = cityEnter.getText();
-            String postCode = postCodeEnter.getText();
-            if (email.equals("") || firstName.equals("") || secondName.equals("") || houseNumber.equals("") || streetName.equals("") || city.equals("") || postCode.equals("")) {
-                GUILoader.alertWindow("Please fill out all fields");
+            if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {
+                if (DatabaseOperations.tryLogIn(CurrentUser.getCurrentUser().getEmail(), originalPasswordEnter.getPassword())) {
+                    DatabaseOperations.changePassword(CurrentUser.getCurrentUser().getEmail(), pwEnter1.getPassword());
+                    dispose();
+                    GUILoader.mainMenuWindow();
+                }
             } else {
-                DatabaseOperations.updateDetails(email, firstName, secondName, houseNumber, streetName, city, postCode);
-                dispose();
-                GUILoader.mainMenuWindow();
+                GUILoader.alertWindow("Error: Passwords do not match");
             }
 		}
 	}
