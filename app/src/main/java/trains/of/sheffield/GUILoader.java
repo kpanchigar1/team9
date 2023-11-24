@@ -69,4 +69,8 @@ public class GUILoader {
 		changeDetailsGUI.setTitle("Trains of Sheffield - Change Details");
 		changeDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
+
+	public static void orderLinesWindow(int orderID) {
+		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(orderID);
+	}
 }

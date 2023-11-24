@@ -316,16 +316,15 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String r = "SELECT * FROM OrderLine WHERE orderID = '"+orderID+"'"; // Fetches the details under the selected username
+            String r = "SELECT * FROM OrderLines WHERE orderID = '"+orderID+"'"; // Fetches the details under the selected username
             ResultSet results = st.executeQuery(r);
             List<String[]> orderLineList = new ArrayList<>();
             while(results.next()) {
                 String[] orderLine = new String[4];
                 Product product = getProductFromCode(results.getString("productCode"));
-                orderLine[0] = results.getString("orderLineID");
+                orderLine[0] = results.getString("orderID");
                 orderLine[1] = product.getProductName();
                 orderLine[2] = String.valueOf(results.getInt("quantity"));
-                orderLine[3] = String.valueOf(results.getDouble("price"));
                 orderLineList.add(orderLine);
             }
             DatabaseConnectionHandler.closeConnection();
