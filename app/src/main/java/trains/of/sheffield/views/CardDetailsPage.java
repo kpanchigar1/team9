@@ -1,11 +1,11 @@
 package trains.of.sheffield.views;
-
-
 import trains.of.sheffield.Card;
 import trains.of.sheffield.CurrentUser;
+import trains.of.sheffield.GUILoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 // TODO: Do database operations
 // TODO: add sample data
@@ -20,6 +20,7 @@ public class CardDetailsPage extends JFrame{
     private JTextField cardNameField, cardNumberField, monthField, yearField;
     private JPasswordField cvvField;
     private JButton submit, back;
+    private Card card = CurrentUser.getCardDetail();
     public CardDetailsPage (){
         super("Card Details");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,6 +59,8 @@ public class CardDetailsPage extends JFrame{
         panel.add(cvvField);
 
         back = new JButton("Back");
+        ReturnToMenu returnToMenu = new ReturnToMenu();
+        back.addActionListener(returnToMenu);
         submit = new JButton("Submit");
         panel.add(back);
         panel.add(submit);
@@ -69,12 +72,18 @@ public class CardDetailsPage extends JFrame{
 
     private void fillDetails() {
         if(!CurrentUser.getCardDetail().equals(null)) {
-            Card card = CurrentUser.getCardDetail();
             cardNameField.setText(card.getCardName());
             cardNumberField.setText(card.getCardNumber().toString());
             monthField.setText(card.getExpiryDate().toString().substring(0, 2));
             yearField.setText(card.getExpiryDate().toString().substring(2, 4));
             cvvField.setText(card.getCvv().toString());
+        }
+    }
+
+    public class ReturnToMenu implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+            GUILoader.mainMenuWindow();
         }
     }
 

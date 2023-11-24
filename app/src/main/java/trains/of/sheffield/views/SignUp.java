@@ -1,13 +1,11 @@
 package trains.of.sheffield.views;
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
+import java.util.Arrays;
 
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.models.DatabaseOperations;
-
-import java.awt.event.*;
-import java.sql.*;
-import java.util.Arrays;
 
 public class SignUp extends JFrame{
 	JLabel emailPrompt, pwPrompt1, pwPrompt2, intro, firstNamePrompt, secondNamePrompt, housePrompt, roadPrompt, cityPrompt, postCodePrompt, loginIntro, detailsIntro, addressIntro; // Creating variables
