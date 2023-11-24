@@ -90,4 +90,8 @@ public class GUILoader {
 	public static void staffConfirmedOrdersWindow() {
 		StaffConfirmedOrders staffConfirmedOrdersGUI = new StaffConfirmedOrders();
 	}
+
+	public static void addNewProductWindow(String productType) {
+		AddNewProduct addNewProductGUI = new AddNewProduct(productType);
+	}
 }

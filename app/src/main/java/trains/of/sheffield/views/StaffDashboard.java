@@ -130,7 +130,7 @@ public class StaffDashboard extends JFrame {
         });
         southButtonPanel.add(pendingOrdersButton);
 
-        previousOrdersButton = new JButton("Previous Orders");
+        previousOrdersButton = new JButton("View Previous Sales");
         previousOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

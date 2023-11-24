@@ -73,6 +73,15 @@ public class ProductStockPanel extends JFrame {
         });
         productStockPanel.add(confirmChangesButton);
 
+        // Edit product on double click, with option to delete
+
+        JButton addNewProductButton = new JButton("Add New Product");
+        addNewProductButton.addActionListener(e -> {
+            dispose();
+            GUILoader.addNewProductWindow(productType);
+        });
+        productStockPanel.add(addNewProductButton);
+
         backButton = new JButton("Back");
         productStockPanel.add(backButton);
 

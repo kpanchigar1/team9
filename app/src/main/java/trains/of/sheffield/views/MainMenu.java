@@ -16,7 +16,6 @@ public class MainMenu extends JFrame
 
     public MainMenu(Role role)
     {
-
         super("Trains of Sheffield");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = getContentPane();
@@ -31,7 +30,6 @@ public class MainMenu extends JFrame
         titleLabel = new JLabel("Welcome to Trains of Sheffield");
         titlePanel.add(titleLabel);
         contentPane.add(titlePanel, BorderLayout.NORTH);
-
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1, 3));
