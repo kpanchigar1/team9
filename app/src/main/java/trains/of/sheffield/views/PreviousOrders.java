@@ -49,10 +49,10 @@ public class PreviousOrders extends JFrame{
             }
         });
         contentPane.add(backButton, BorderLayout.SOUTH);
+        setVisible(true);
     }
 
     public static void main(String[] args) {
         PreviousOrders previousOrders = new PreviousOrders();
-        previousOrders.setVisible(true);
     }
 }

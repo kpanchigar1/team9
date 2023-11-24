@@ -25,7 +25,7 @@ CREATE TABLE Address (
 );
 
 CREATE TABLE CardDetail (
-  cardNumber int NOT NULL PRIMARY KEY,
+  cardNumber varchar(16) NOT NULL PRIMARY KEY,
   cardName varchar(45) NOT NULL,
   expiryDate int NOT NULL,
   CVV int NOT NULL
@@ -40,7 +40,7 @@ CREATE TABLE User (
   role int NOT NULL,
   houseNumber varchar(10) NOT NULL,
   postCode varchar(10) NOT NULL,
-  cardNumber int,
+  cardNumber varchar(16),
   FOREIGN KEY (houseNumber, postCode) REFERENCES Address(houseNumber, postCode),
   FOREIGN KEY (cardNumber) REFERENCES CardDetail(cardNumber)
 );
@@ -163,6 +163,8 @@ INSERT INTO TrackPacks VALUES ('R001', 1);
 INSERT INTO TrackPackTrainSetLink VALUES ('M001', 'R001');
 INSERT INTO Address VALUES ('498', 'Glossop Road', 'Sheffield', 'S10 2QA');
 INSERT INTO User VALUES ('d0f89dff-5293-49d6-8342-0cd9fc035b60', 'Gabriel', 'Plume', 'gplume02@gmail.com', '602557fd40b0dbffac5bf6efbd70652a459aa727ffad5788dff9f0e679e93c07', '2', '498', 'S10 2QA', NULL);
-INSERT INTO CardDetail VALUES (123456789, 'Gabriel Plume', 1234, 123);
-INSERT INTO Orders VALUES (1, '2020-04-01', 1, 'd0f89dff-5293-49d6-8342-0cd9fc035b60', 19.99);
+INSERT INTO CardDetail VALUES ('1234567891011121', 'Visa', 1234, 123);
+INSERT INTO Address VALUES ('46', 'Harefield Road', 'Sheffield', 'S11 8NU');
+INSERT INTO User VALUES ('46760aad-4326-4e9d-a824-1b8cb59347f9', 'Krish', 'Panchigar', 'krishpanchigar14@gmail.com', '1422616620215fe03b1994505eb303c860441455ef36f5fc127d3de90baabd2d', 0, '46', 'S11 8NU', 1234567891011121);
+INSERT INTO Orders VALUES (1, '2020-12-01', 2, '46760aad-4326-4e9d-a824-1b8cb59347f9', 19.99);
 INSERT INTO OrderLines VALUES (1, 'M001', 1);

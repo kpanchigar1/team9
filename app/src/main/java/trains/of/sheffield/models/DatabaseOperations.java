@@ -117,7 +117,7 @@ public class DatabaseOperations {
             }
         }
 
-        public static Card getCardDetailFromDB(int cardNumber){
+        public static Card getCardDetailFromDB(String cardNumber){
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
@@ -125,7 +125,7 @@ public class DatabaseOperations {
             String r = "SELECT * FROM CardDetail WHERE cardNumber = '"+cardNumber+"'"; // Fetches the details under the selected card number
             ResultSet results = st.executeQuery(r);
             results.next();
-            return new Card(results.getString("cardName"), results.getInt("cardNumber"), results.getInt("expiryDate"), results.getInt("cvv")); // Returns the card details
+            return new Card(results.getString("cardName"), results.getString("cardNumber"), results.getInt("expiryDate"), results.getInt("cvv")); // Returns the card details
         } catch(Exception ex) {
             return null;
         }
@@ -240,7 +240,7 @@ public class DatabaseOperations {
                 String[] order = new String[7];
                 User user = getUserFromID(results.getString("userID"));
                 order[0] = results.getString("orderID");
-                order[1] = results.getString("orderDate");
+                order[1] = results.getString("date");
                 order[2] = user.getForename() + " " + user.getSurname();
                 order[3] = user.getEmail();
                 order[4] = user.getAddress().toString();
@@ -268,32 +268,7 @@ public class DatabaseOperations {
                     results.getString("forename"), results.getString("surname"),
                     results.getString("email"), results.getString("passwordHash"),
                     getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")),
-                    getCardDetailFromDB(results.getInt("cardNumber")), Role.getRole(results.getInt("role"))); // Stores the user details
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
-        }
-        return null;
-    }
-
-    public static ArrayList<Order> getPreviousOrders2() {
-        try {
-            DatabaseConnectionHandler.openConnection(); // Opens connection
-            Connection connection = DatabaseConnectionHandler.getConnection();
-            Statement st = connection.createStatement();
-            String r = "SELECT * FROM Orders WHERE status = 2";
-            ResultSet results = st.executeQuery(r);
-            ArrayList<Order> orders = new ArrayList<>();
-            while(results.next()) {
-                List<OrderLine> orderLines = new ArrayList<>();
-                String orderLineQuery = "SELECT * FROM OrderLine WHERE orderID = '"+results.getString("orderID")+"'";
-                ResultSet orderLineResults = st.executeQuery(orderLineQuery);
-                while (orderLineResults.next()) {
-                    orderLines.add(new OrderLine(orderLineResults.getInt("productCode"), orderLineResults.getInt("quantity")));
-                }
-                orders.add(new Order(results.getInt("orderID"), results.getString("orderDate"), results.getInt("orderStatus"), orderLines)); // Stores the user details
-            }
-            DatabaseConnectionHandler.closeConnection();
-            return orders;
+                    getCardDetailFromDB(results.getString("cardNumber")), Role.getRole(results.getInt("role"))); // Stores the user details
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
