@@ -77,7 +77,7 @@ public class DatabaseOperations {
             }
         }
 
-        public static void tryCardDetails(String cardName, int cardNumber, int expiryDate, int cvv) {
+        public static void tryCardDetails(String cardName, String cardNumber, int expiryDate, int cvv) {
             try {
                 DatabaseConnectionHandler.openConnection(); // Opens connection
                 Connection connection = DatabaseConnectionHandler.getConnection();
@@ -85,7 +85,7 @@ public class DatabaseOperations {
                 String cardQuery = "INSERT INTO CardDetail VALUES (?, ?, ?, ?)";
                 try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
                     cardStatement.setString(1, cardName);
-                    cardStatement.setInt(2, cardNumber);
+                    cardStatement.setString(2, cardNumber);
                     cardStatement.setInt(3, expiryDate);
                     cardStatement.setInt(4, cvv);
                     cardStatement.executeUpdate();
@@ -97,17 +97,18 @@ public class DatabaseOperations {
             }
         }
 
-        public static void updateCardDetails(String cardName, int cardNumber, int expiryDate, int cvv) {
+        public static void updateCardDetails(String cardName, String cardNumber, int expiryDate, int cvv, String oldCardNumber) {
             try {
                 DatabaseConnectionHandler.openConnection(); // Opens connection
                 Connection connection = DatabaseConnectionHandler.getConnection();
                 // Update card details
-                String cardQuery = "UPDATE CardDetail SET cardName = ?, expiryDate = ?, cvv = ? WHERE cardNumber = ?";
+                String cardQuery = "UPDATE CardDetail SET cardName = ?, expiryDate = ?, cvv = ?, cardNumber = ? WHERE cardNumber = ?";
                 try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
                     cardStatement.setString(1, cardName);
                     cardStatement.setInt(2, expiryDate);
                     cardStatement.setInt(3, cvv);
-                    cardStatement.setInt(4, cardNumber);
+                    cardStatement.setString(4, cardNumber);
+                    cardStatement.setString(5, oldCardNumber);
                     cardStatement.executeUpdate();
                 }
                 DatabaseConnectionHandler.closeConnection(); // Ending connection

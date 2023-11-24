@@ -13,13 +13,12 @@ import java.awt.event.*;
 // TODO: add action listener to submit button
 // TODO: add back button
 // TODO: add action listener to back button
-// TODO: password hashing
+// TODO: turn cvv back to JPasswordField
 
 public class CardDetailsPage extends JFrame{
     private JPanel panel, expiryDatePanel;
     private JLabel cardNameLabel, cardNumberLabel, expiryDateLabel, cvvLabel, slash;
-    private JTextField cardNameField, cardNumberField, monthField, yearField;
-    private JPasswordField cvvField;
+    private JTextField cardNameField, cardNumberField, monthField, yearField, cvvField;
     private JButton submit, back;
     private Card card = CurrentUser.getCardDetail();
     public CardDetailsPage (){
@@ -93,13 +92,13 @@ public class CardDetailsPage extends JFrame{
     public class SubmitDetails implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String cardName = cardNameField.getText();
-            int cardNumber = Integer.parseInt(cardNumberField.getText());
+            String cardNumber = cardNumberField.getText();
             int expiryDate = Integer.parseInt(monthField.getText() + yearField.getText());
-            int cvv = Integer.parseInt(cvvField.getPassword().toString());
-            if(card != null) {
+            int cvv = Integer.parseInt(cvvField.getText().toString());
+            if(card == null) {
                 DatabaseOperations.tryCardDetails(cardName, cardNumber, expiryDate, cvv);
             } else {
-                DatabaseOperations.updateCardDetails(cardName, cardNumber, expiryDate, cvv);
+                DatabaseOperations.updateCardDetails(cardName, cardNumber, expiryDate, cvv, card.getCardNumber());
             }
             dispose();
         }
