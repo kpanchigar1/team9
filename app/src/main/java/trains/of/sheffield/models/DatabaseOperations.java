@@ -91,6 +91,8 @@ public class DatabaseOperations {
                     addressStatement.setString(5, CurrentUser.getCurrentUser().getAddress().getHouseNumber());
                     addressStatement.setString(6, CurrentUser.getCurrentUser().getAddress().getPostCode());
                     addressStatement.executeUpdate();
+                    // update current user address
+                    CurrentUser.setAddress(new Address(houseNumber, streetName, city, postCode));
                 }
 
                 // Update user
@@ -103,6 +105,10 @@ public class DatabaseOperations {
                     userStatement.setString(5, postCode);
                     userStatement.setString(6, CurrentUser.getCurrentUser().getId());
                     userStatement.executeUpdate();
+                    // update current user details
+                    CurrentUser.setForename(fName);
+                    CurrentUser.setSurname(sName);
+                    CurrentUser.setEmail(email);
                 }
 
                 DatabaseConnectionHandler.closeConnection(); // Ending connection

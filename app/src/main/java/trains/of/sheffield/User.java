@@ -48,7 +48,28 @@ public class User {
         return address;
     }
 
+<<<<<<< Updated upstream
     public String getPasswordHash() {
         return password;
+=======
+    public void setForename(String forename) {
+        this.forename = forename;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setCardDetail(Card cardDetail) {
+        this.card = cardDetail;
+>>>>>>> Stashed changes
     }
 }
