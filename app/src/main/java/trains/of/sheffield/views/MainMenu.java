@@ -1,4 +1,7 @@
-package trains.of.sheffield;
+package trains.of.sheffield.views;
+
+import trains.of.sheffield.GUILoader;
+import trains.of.sheffield.Role;
 
 import java.awt.*;
 import java.awt.event.*;

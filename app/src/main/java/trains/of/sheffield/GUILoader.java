@@ -1,4 +1,6 @@
 package trains.of.sheffield;
+import trains.of.sheffield.views.*;
+
 import javax.swing.*;
 
 public class GUILoader {
@@ -40,5 +42,9 @@ public class GUILoader {
 
 	public static void productStockPanelWindow(String productType) {
 		ProductStockPanel productStockPanelGUI = new ProductStockPanel(productType);
+	}
+
+	public static void previousOrdersWindow() {
+		PreviousOrders previousOrdersGUI = new PreviousOrders();
 	}
 }

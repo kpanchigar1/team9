@@ -1,4 +1,4 @@
-package trains.of.sheffield;
+package trains.of.sheffield.views;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

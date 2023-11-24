@@ -1,4 +1,8 @@
-package trains.of.sheffield;
+package trains.of.sheffield.views;
+
+import trains.of.sheffield.CurrentUser;
+import trains.of.sheffield.GUILoader;
+import trains.of.sheffield.Role;
 
 import javax.swing.*;
 import java.awt.*;
@@ -131,7 +135,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.previousOrdersWindow();
+                GUILoader.previousOrdersWindow();
             }
         });
         southButtonPanel.add(previousOrdersButton);

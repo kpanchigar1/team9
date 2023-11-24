@@ -1,7 +1,8 @@
-package trains.of.sheffield;
+package trains.of.sheffield.views;
 import java.awt.*;
 import javax.swing.*;
 
+import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.models.DatabaseOperations;
 
 import java.awt.event.*;

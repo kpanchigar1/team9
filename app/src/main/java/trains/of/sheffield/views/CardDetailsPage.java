@@ -1,5 +1,8 @@
-package trains.of.sheffield;
+package trains.of.sheffield.views;
 
+
+import trains.of.sheffield.Card;
+import trains.of.sheffield.CurrentUser;
 
 import javax.swing.*;
 import java.awt.*;
