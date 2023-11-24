@@ -1,6 +1,7 @@
 package trains.of.sheffield.views;
 
 import trains.of.sheffield.GUILoader;
+import trains.of.sheffield.Order;
 import trains.of.sheffield.Status;
 import trains.of.sheffield.models.DatabaseOperations;
 
@@ -10,19 +11,20 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class StaffOrdersPanel extends JFrame {
+public class PreviousOrdersPanel extends JFrame {
     private JPanel titlePanel;
     private Container contentPane;
     private JLabel titleLabel;
     private JButton backButton;
     private JTable orderTable;
 
-    public StaffOrdersPanel(Status status) {
+    public PreviousOrdersPanel() {
+        // TODO: edit column widths
         super("Trains of Sheffield - Previous Orders");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
-        setSize(800, 400);
+        setSize(1600, 400);
 
         JMenuBar menuBar = new MenuBarPanel();
         setJMenuBar(menuBar);
@@ -33,7 +35,7 @@ public class StaffOrdersPanel extends JFrame {
         contentPane.add(titlePanel, BorderLayout.NORTH);
 
         String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card"};
-        String[][] orderData = DatabaseOperations.getOrdersFromStatus(status);
+        String[][] orderData = DatabaseOperations.getOrdersFromStatus(Status.FULFILLED);
 
 
         // TODO: Make the table display the order lines when double clicked
@@ -59,8 +61,9 @@ public class StaffOrdersPanel extends JFrame {
                 if (e.getClickCount() == 2) { // Detect double-click
                     int selectedRow = orderTable.getSelectedRow();
                     int orderID = Integer.parseInt(orderTable.getValueAt(selectedRow, 0).toString());
+                    Order order = DatabaseOperations.getOrderFromId(orderID);
                     // Display order lines using the retrieved orderID
-                    GUILoader.orderLinesWindow(orderID);
+                    GUILoader.orderLinesWindow(order, null);
                 }
             }
         });
@@ -78,6 +81,6 @@ public class StaffOrdersPanel extends JFrame {
     }
 
     public static void main(String[] args) {
-        new StaffOrdersPanel(Status.FULFILLED);
+        new PreviousOrdersPanel();
     }
 }

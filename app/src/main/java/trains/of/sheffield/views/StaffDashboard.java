@@ -125,7 +125,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.pendingOrdersWindow();
+                GUILoader.pendingOrdersWindow();
             }
         });
         southButtonPanel.add(pendingOrdersButton);

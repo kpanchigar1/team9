@@ -6,6 +6,7 @@ import trains.of.sheffield.util.UniqueUserIDGenerator;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseOperations {
@@ -373,7 +374,7 @@ public class DatabaseOperations {
             while(results.next()) {
                 String[] orderLine = new String[4];
                 Product product = getProductFromCode(results.getString("productCode"));
-                orderLine[0] = results.getString("orderID");
+                orderLine[0] = results.getString("productCode");
                 orderLine[1] = product.getProductName();
                 orderLine[2] = String.valueOf(results.getInt("quantity"));
                 orderLineList.add(orderLine);
@@ -402,5 +403,57 @@ public class DatabaseOperations {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
         return null;
+    }
+
+    public static Order getOrderFromId(int orderID) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String orderQuery = "SELECT * FROM Orders WHERE orderID = ?"; // Fetches the details under the selected username
+            try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                ordersStatement.setInt(1, orderID);
+                ResultSet results = ordersStatement.executeQuery();
+                results.next();
+                ArrayList orderLines = new ArrayList();
+                for (String[] orderLine : getOrderLines(orderID)) {
+                    orderLines.add(orderLine);
+                }
+                return new Order(results.getInt("orderID"), results.getString("date"), results.getInt("status"), orderLines);
+            }
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
+
+    public static void updateOrderStatus(int orderID, Status status) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
+            try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                ordersStatement.setInt(1, status.getStatusID());
+                ordersStatement.setInt(2, orderID);
+                ordersStatement.executeUpdate();
+            }
+            DatabaseConnectionHandler.closeConnection();
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+    }
+
+    public static void deleteOrder(int orderID) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String orderQuery = "DELETE FROM Orders WHERE orderID = ?";
+            try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                ordersStatement.setInt(1, orderID);
+                ordersStatement.executeUpdate();
+            }
+            DatabaseConnectionHandler.closeConnection();
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
     }
 }

@@ -50,7 +50,7 @@ public class GUILoader {
 	}
 
 	public static void previousOrdersWindow() {
-		StaffOrdersPanel previousOrdersGUI = new StaffOrdersPanel(Status.FULFILLED);
+		PreviousOrdersPanel previousOrdersGUI = new PreviousOrdersPanel();
 	}
     public static void cardDetailsWindow() {
 		CardDetailsPage cardDetailsGUI = new CardDetailsPage();
@@ -70,8 +70,8 @@ public class GUILoader {
 		changeDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
-	public static void orderLinesWindow(int orderID) {
-		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(orderID);
+	public static void orderLinesWindow(Order order, StaffConfirmedOrders staffConfirmedOrders) {
+		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(order, staffConfirmedOrders);
 	}
 
 	public static void changePasswordWindow() {
@@ -84,6 +84,10 @@ public class GUILoader {
 	}
 
 	public static void pendingOrdersWindow() {
-		StaffPendingOrders pendingOrders = new StaffPendingOrders();
+		StaffConfirmedOrders pendingOrders = new StaffConfirmedOrders();
+	}
+
+	public static void staffConfirmedOrdersWindow() {
+		StaffConfirmedOrders staffConfirmedOrdersGUI = new StaffConfirmedOrders();
 	}
 }
