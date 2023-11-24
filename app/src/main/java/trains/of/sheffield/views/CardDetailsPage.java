@@ -93,8 +93,8 @@ public class CardDetailsPage extends JFrame{
         public void actionPerformed(ActionEvent e) {
             String cardName = cardNameField.getText();
             String cardNumber = cardNumberField.getText();
-            int expiryDate = Integer.parseInt(monthField.getText() + yearField.getText());
-            int cvv = Integer.parseInt(cvvField.getText().toString());
+            String expiryDate = monthField.getText() + yearField.getText();
+            String cvv = cvvField.getText();
             if(card == null) {
                 DatabaseOperations.tryCardDetails(cardName, cardNumber, expiryDate, cvv);
             } else {
