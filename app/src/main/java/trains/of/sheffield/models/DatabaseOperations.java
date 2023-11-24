@@ -151,6 +151,16 @@ public class DatabaseOperations {
                     cardStatement.setString(4, cvv);
                     cardStatement.executeUpdate();
                 }
+
+                // Update user
+                String userQuery = "UPDATE User SET cardNumber = ? WHERE userID = ?";
+                try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                    userStatement.setString(1, cardNumber);
+                    userStatement.setString(2, CurrentUser.getCurrentUser().getId());
+                    userStatement.executeUpdate();
+                    // update current user details
+                    CurrentUser.setCardDetail(new Card(cardName, cardNumber, Integer.parseInt(expiryDate), Integer.parseInt(cvv)));
+                }
                 DatabaseConnectionHandler.closeConnection(); // Ending connection
             } catch (SQLException ex) {
                 ex.printStackTrace(); // Log the exception for debugging purposes
@@ -171,6 +181,16 @@ public class DatabaseOperations {
                     cardStatement.setString(4, cardNumber);
                     cardStatement.setString(5, oldCardNumber);
                     cardStatement.executeUpdate();
+                }
+
+                // Update user
+                String userQuery = "UPDATE User SET cardNumber = ? WHERE userID = ?";
+                try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                    userStatement.setString(1, cardNumber);
+                    userStatement.setString(2, CurrentUser.getCurrentUser().getId());
+                    userStatement.executeUpdate();
+                    // update current user details
+                    CurrentUser.setCardDetail(new Card(cardName, cardNumber, Integer.parseInt(expiryDate), Integer.parseInt(cvv)));
                 }
                 DatabaseConnectionHandler.closeConnection(); // Ending connection
             } catch (SQLException ex) {

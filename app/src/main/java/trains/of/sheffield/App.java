@@ -3,9 +3,6 @@
  */
 package trains.of.sheffield;
 
-// TODO: Look into window disposal in edit details and password windows
-// TODO: Look into card number not being updated in user table
-
 public class App {
     // TODO: add JavaDocs to all classes
     // TODO: make all windows full screen
