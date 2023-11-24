@@ -60,4 +60,13 @@ public class GUILoader {
 		cardDetailsGUI.setTitle("Trains of Sheffield - Card Details");
 		cardDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
     }
+
+	public static void changeDetailsWindow() {
+		ChangeDetails changeDetailsGUI = new ChangeDetails();
+		changeDetailsGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		changeDetailsGUI.pack();
+		changeDetailsGUI.setVisible(true);
+		changeDetailsGUI.setTitle("Trains of Sheffield - Change Details");
+		changeDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
+	}
 }

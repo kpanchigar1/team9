@@ -40,7 +40,7 @@ public class DatabaseOperations {
         return false;
     }
 
-        public static boolean trySignUp(char[] pWord, String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode, String cardName) {
+        public static boolean trySignUp(char[] pWord, String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
             try {
                 DatabaseConnectionHandler.openConnection(); // Opens connection
                 Connection connection = DatabaseConnectionHandler.getConnection();
@@ -74,6 +74,41 @@ public class DatabaseOperations {
                 ex.printStackTrace(); // Log the exception for debugging purposes
                 GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
                 return false;
+            }
+        }
+
+        public static void updateDetails(String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
+            try {
+                DatabaseConnectionHandler.openConnection(); // Opens connection
+                Connection connection = DatabaseConnectionHandler.getConnection();
+                // Update address
+                String addressQuery = "UPDATE Address SET houseNumber = ?, streetName = ?, city = ?, postCode = ? WHERE houseNumber = ? AND postCode = ?";
+                try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
+                    addressStatement.setString(1, houseNumber);
+                    addressStatement.setString(2, streetName);
+                    addressStatement.setString(3, city);
+                    addressStatement.setString(4, postCode);
+                    addressStatement.setString(5, CurrentUser.getCurrentUser().getAddress().getHouseNumber());
+                    addressStatement.setString(6, CurrentUser.getCurrentUser().getAddress().getPostCode());
+                    addressStatement.executeUpdate();
+                }
+
+                // Update user
+                String userQuery = "UPDATE User SET forename = ?, surname = ?, email = ?, houseNumber = ?, postCode = ? WHERE userID = ?";
+                try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                    userStatement.setString(1, fName);
+                    userStatement.setString(2, sName);
+                    userStatement.setString(3, email);
+                    userStatement.setString(4, houseNumber);
+                    userStatement.setString(5, postCode);
+                    userStatement.setString(6, CurrentUser.getCurrentUser().getId());
+                    userStatement.executeUpdate();
+                }
+
+                DatabaseConnectionHandler.closeConnection(); // Ending connection
+            } catch (SQLException ex) {
+                ex.printStackTrace(); // Log the exception for debugging purposes
+                GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
             }
         }
 
