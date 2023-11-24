@@ -275,4 +275,47 @@ public class DatabaseOperations {
         }
         return null;
     }
+
+    public static String[][] getOrderLines(int orderID) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM OrderLine WHERE orderID = '"+orderID+"'"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            List<String[]> orderLineList = new ArrayList<>();
+            while(results.next()) {
+                String[] orderLine = new String[4];
+                Product product = getProductFromCode(results.getString("productCode"));
+                orderLine[0] = results.getString("orderLineID");
+                orderLine[1] = product.getProductName();
+                orderLine[2] = String.valueOf(results.getInt("quantity"));
+                orderLine[3] = String.valueOf(results.getDouble("price"));
+                orderLineList.add(orderLine);
+            }
+            DatabaseConnectionHandler.closeConnection();
+            return orderLineList.toArray(new String[0][0]);
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return new String[0][];
+    }
+
+    private static Product getProductFromCode(String productCode) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM Product WHERE productCode = '"+productCode+"'"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            results.next();
+            return new Product(results.getString("productCode"),
+                    getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
+                    results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
+                    results.getString("description"), getProductStock(results.getString("productCode"))); // Stores the user details
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
 }
