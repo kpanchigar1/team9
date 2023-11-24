@@ -96,7 +96,7 @@ CREATE TABLE LocomotiveTrainSetLink (
 CREATE TABLE Orders (
   orderID int NOT NULL PRIMARY KEY,
   `date` date NOT NULL,
-  `status` varchar(45) NOT NULL,
+  `status` int NOT NULL,
   userID VARCHAR(45) NOT NULL,
   totalPrice double NOT NULL,
   FOREIGN KEY (userID) REFERENCES User(userID)
@@ -161,3 +161,5 @@ INSERT INTO Stock VALUES ('M001', 10);
 INSERT INTO Stock VALUES ('P001', 10);
 INSERT INTO TrackPacks VALUES ('R001', 1);
 INSERT INTO TrackPackTrainSetLink VALUES ('M001', 'R001');
+INSERT INTO Address VALUES ('498', 'Glossop Road', 'Sheffield', 'S10 2QA');
+INSERT INTO User VALUES ('d0f89dff-5293-49d6-8342-0cd9fc035b60', 'Gabriel', 'Plume', 'gplume02@gmail.com', '602557fd40b0dbffac5bf6efbd70652a459aa727ffad5788dff9f0e679e93c07', '2', '498', 'S10 2QA', NULL);

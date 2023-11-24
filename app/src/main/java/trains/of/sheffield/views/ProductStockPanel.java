@@ -14,6 +14,9 @@ public class ProductStockPanel extends JFrame {
     private JPanel productStockPanel;
     private JButton backButton, confirmChangesButton;
     public ProductStockPanel(String productType) {
+        // TODO: add a new product
+        // TODO: edit product
+        // TODO: delete product
         super("Trains of Sheffield - Staff Stock");
         productStockPanel = new JPanel();
         setContentPane(productStockPanel);

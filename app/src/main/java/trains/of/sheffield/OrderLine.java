@@ -1,5 +1,8 @@
 package trains.of.sheffield;
 public class OrderLine {
-    private String orderCode;
-    private Integer quantity;
+    private int orderCode;
+    private int quantity;
+
+    public OrderLine(int productCode, int quantity) {
+    }
 }

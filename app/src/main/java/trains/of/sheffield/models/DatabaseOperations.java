@@ -22,11 +22,7 @@ public class DatabaseOperations {
                     results.next();
                     // Process the result set if needed
                     if(results.getString("passwordHash").equals(HashedPasswordGenerator.hashPassword(pWord))) { // If the entered passwords are the same, the details are entered
-                            CurrentUser.setUser(new User(results.getString("userID"),
-                            results.getString("forename"), results.getString("surname"), 
-                            results.getString("email"), results.getString("passwordHash"),
-                            getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")), 
-                            getCardDetailFromDB(results.getInt("cardNumber")), Role.getRole(results.getInt("role")))); // Stores the user details
+                            CurrentUser.setUser(getUserFromID(results.getString("userID"))); // Stores the user details
                         GUILoader.mainMenuWindow();
                         return true;
                     } else {
@@ -223,5 +219,79 @@ public class DatabaseOperations {
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
+    }
+
+    public static String[][] getPreviousOrders(){
+        // String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total"};
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM Orders WHERE status = 2"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            List<String[]> orderList = new ArrayList<>();
+            while(results.next()) {
+                String[] order = new String[7];
+                User user = getUserFromID(results.getString("userID"));
+                order[0] = results.getString("orderID");
+                order[1] = results.getString("orderDate");
+                //order[2] = getCustomerName(results.getString("userID"));
+                //order[3] = getCustomerEmail(results.getString("userID"));
+                //order[4] = getCustomerAddress(results.getString("userID"));
+                order[5] = Status.getStatus(results.getInt("status")).toString();
+                order[6] = String.valueOf(results.getDouble("totalPrice"));
+
+                orderList.add(order);
+            }
+            DatabaseConnectionHandler.closeConnection();
+            return orderList.toArray(new String[0][0]);
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return new String[0][];
+    }
+
+    private static User getUserFromID(String userID) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM User WHERE userID = '"+userID+"'"; // Fetches the details under the selected username
+            ResultSet results = st.executeQuery(r);
+            results.next();
+            return new User(results.getString("userID"),
+                    results.getString("forename"), results.getString("surname"),
+                    results.getString("email"), results.getString("passwordHash"),
+                    getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")),
+                    getCardDetailFromDB(results.getInt("cardNumber")), Role.getRole(results.getInt("role"))); // Stores the user details
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
+
+    public static ArrayList<Order> getPreviousOrders2() {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String r = "SELECT * FROM Orders WHERE status = 2";
+            ResultSet results = st.executeQuery(r);
+            ArrayList<Order> orders = new ArrayList<>();
+            while(results.next()) {
+                List<OrderLine> orderLines = new ArrayList<>();
+                String orderLineQuery = "SELECT * FROM OrderLine WHERE orderID = '"+results.getString("orderID")+"'";
+                ResultSet orderLineResults = st.executeQuery(orderLineQuery);
+                while (orderLineResults.next()) {
+                    orderLines.add(new OrderLine(orderLineResults.getInt("productCode"), orderLineResults.getInt("quantity")));
+                }
+                orders.add(new Order(results.getInt("orderID"), results.getString("orderDate"), results.getInt("orderStatus"), orderLines)); // Stores the user details
+            }
+            DatabaseConnectionHandler.closeConnection();
+            return orders;
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
     }
 }
