@@ -34,7 +34,11 @@ public class PreviousOrders extends JFrame{
 
         // add a JTable to display previous orders
         String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total"};
-        //ArrayList<Order> orderList = DatabaseOperations.getPreviousOrders();
+        String[][] orderData = DatabaseOperations.getPreviousOrders();
+
+        JTable orderTable = new JTable(orderData, columnNames);
+        JScrollPane scrollPane = new JScrollPane(orderTable);
+        contentPane.add(scrollPane, BorderLayout.CENTER);
 
         backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
@@ -45,5 +49,10 @@ public class PreviousOrders extends JFrame{
             }
         });
         contentPane.add(backButton, BorderLayout.SOUTH);
+    }
+
+    public static void main(String[] args) {
+        PreviousOrders previousOrders = new PreviousOrders();
+        previousOrders.setVisible(true);
     }
 }

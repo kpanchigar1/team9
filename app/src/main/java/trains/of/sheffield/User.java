@@ -27,4 +27,20 @@ public class User {
     public Card getCardDetail() {
         return card;
     }
+
+    public String getForename() {
+        return forename;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
 }

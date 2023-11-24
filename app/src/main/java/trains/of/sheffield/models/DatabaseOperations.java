@@ -108,38 +108,6 @@ public class DatabaseOperations {
         return null;
     }
 
-    private static boolean verifyPassword(char[] enteredPassword, String storedPasswordHash) {
-        try {
-            String hashedEnteredPassword = HashedPasswordGenerator.hashPassword(enteredPassword);
-            return hashedEnteredPassword.equals(storedPasswordHash);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static List<Product> getAllProducts(){
-        List<Product> allProducts = new ArrayList<>();
-        try {
-            DatabaseConnectionHandler.openConnection(); // Opens connection
-            Connection connection = DatabaseConnectionHandler.getConnection();
-            Statement st = connection.createStatement();
-            String r = "SELECT * FROM Product"; // Fetches the details under the selected username
-            ResultSet results = st.executeQuery(r);
-            while(results.next()) {
-                allProducts.add(new Product(results.getString("productCode"),
-                        getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
-                        results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
-                        results.getString("description"), getProductStock(results.getString("productCode")))); // Stores the user details
-            }
-            DatabaseConnectionHandler.closeConnection();
-            return allProducts;
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
-        }
-        return null;
-    }
-
     private static String getBrandNameFromID(String brandID) {
         try {
             Connection connection = DatabaseConnectionHandler.getConnection();
@@ -235,12 +203,11 @@ public class DatabaseOperations {
                 User user = getUserFromID(results.getString("userID"));
                 order[0] = results.getString("orderID");
                 order[1] = results.getString("orderDate");
-                //order[2] = getCustomerName(results.getString("userID"));
-                //order[3] = getCustomerEmail(results.getString("userID"));
-                //order[4] = getCustomerAddress(results.getString("userID"));
+                order[2] = user.getForename() + " " + user.getSurname();
+                order[3] = user.getEmail();
+                order[4] = user.getAddress().toString();
                 order[5] = Status.getStatus(results.getInt("status")).toString();
                 order[6] = String.valueOf(results.getDouble("totalPrice"));
-
                 orderList.add(order);
             }
             DatabaseConnectionHandler.closeConnection();

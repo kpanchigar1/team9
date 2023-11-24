@@ -11,4 +11,9 @@ public class Address {
         this.city = city;
         this.postCode = postCode;
     }
+
+    @Override
+    public String toString() {
+        return houseNumber + " " + streetName + ", " + city + ", " + postCode;
+    }
 }
