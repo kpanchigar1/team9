@@ -4,7 +4,6 @@
 package trains.of.sheffield;
 
 // TODO: Look into window disposal in edit details and password windows
-// TODO: Fix my record in the database
 // TODO: Look into card number not being updated in user table
 
 public class App {

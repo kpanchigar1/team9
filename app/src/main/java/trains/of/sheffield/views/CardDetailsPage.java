@@ -95,12 +95,16 @@ public class CardDetailsPage extends JFrame{
             String cardNumber = cardNumberField.getText();
             String expiryDate = monthField.getText() + yearField.getText();
             String cvv = cvvField.getText();
-            if(card == null) {
-                DatabaseOperations.tryCardDetails(cardName, cardNumber, expiryDate, cvv);
+            if(cardName.equals("") || cardNumber.equals("") || expiryDate.equals("") || cvv.equals("")) {
+                GUILoader.alertWindow("Error: Please fill in all fields");
             } else {
-                DatabaseOperations.updateCardDetails(cardName, cardNumber, expiryDate, cvv, card.getCardNumber());
+                if(card == null) {
+                    DatabaseOperations.tryCardDetails(cardName, cardNumber, expiryDate, cvv);
+                } else {
+                    DatabaseOperations.updateCardDetails(cardName, cardNumber, expiryDate, cvv, card.getCardNumber());
+                }
+                dispose();
             }
-            dispose();
         }
     }
 

@@ -116,7 +116,6 @@ public class ChangeDetails extends JFrame{
 	public class ActionCancel implements ActionListener {
 		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
 			dispose();
-			GUILoader.mainMenuWindow();
 		}
 	}
 	public class ActionSubmit implements ActionListener {
@@ -133,7 +132,6 @@ public class ChangeDetails extends JFrame{
             } else {
                 DatabaseOperations.updateDetails(firstName, secondName, email, houseNumber, streetName, city, postCode);
                 dispose();
-                GUILoader.mainMenuWindow();
             }
 		}
 	}

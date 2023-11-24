@@ -71,7 +71,6 @@ public class ChangePassword extends JFrame{
 	public class ActionCancel implements ActionListener {
 		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
 			dispose();
-			GUILoader.mainMenuWindow();
 		}
 	}
 	public class ActionSubmit implements ActionListener {
@@ -81,7 +80,6 @@ public class ChangePassword extends JFrame{
                     if (DatabaseOperations.tryLogIn(CurrentUser.getCurrentUser().getEmail(), originalPasswordEnter.getPassword())) {
                         DatabaseOperations.updatePassword(pwEnter1.getPassword());
                         dispose();
-                        GUILoader.mainMenuWindow();
                     }
                 } else {
                     GUILoader.alertWindow("Error: Passwords do not match");
