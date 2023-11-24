@@ -6,25 +6,73 @@ public class User {
     private String email;
     private String password;
     private Address address;
-    private CardDetail cardDetail;
+    private Card card;
     private Role role;
 
-    public User(String id2, String forename, String surname, String email, String passwordHash, Address address2, CardDetail cardDetail2, Role role2) {
-        this.id = id2;
+    public User(String id, String forename, String surname, String email, String passwordHash, Address address, Card cardDetail, Role role) {
+        this.id = id;
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.password = password;
-        this.address = address2;
-        this.cardDetail = cardDetail2;
-        this.role = role2;
+        this.password = passwordHash;
+        this.address = address;
+        this.card = cardDetail;
+        this.role = role;
     }
 
-    public User(String string, String string2, String string3, String string4, String string5, int int1,
-            Address addressFromDB, CardDetail cardDetailFromDB) {
+    public String getId() {
+        return id;
     }
 
     public Role getRole() {
         return role;
+    }
+
+    public Card getCardDetail() {
+        return card;
+    }
+
+    public String getForename() {
+        return forename;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public String getPasswordHash() {
+        return password;
+    }
+
+    public void setForename(String forename) {
+        this.forename = forename;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setCardDetail(Card cardDetail) {
+        this.card = cardDetail;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.password = passwordHash;
     }
 }

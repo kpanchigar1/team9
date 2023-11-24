@@ -4,6 +4,8 @@
 package trains.of.sheffield;
 
 public class App {
+    // TODO: add JavaDocs to all classes
+    // TODO: make all windows full screen
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window
     }

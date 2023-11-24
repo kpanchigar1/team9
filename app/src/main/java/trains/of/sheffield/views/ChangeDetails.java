@@ -1,21 +1,21 @@
-package trains.of.sheffield;
+package trains.of.sheffield.views;
 import java.awt.*;
 import javax.swing.*;
-
-import trains.of.sheffield.models.DatabaseOperations;
-
 import java.awt.event.*;
-import java.sql.*;
 import java.util.Arrays;
 
-public class SignUp extends JFrame{
-	JLabel emailPrompt, pwPrompt1, pwPrompt2, intro, firstNamePrompt, secondNamePrompt, housePrompt, roadPrompt, cityPrompt, postCodePrompt, loginIntro, detailsIntro, addressIntro; // Creating variables
-	JTextField emailEnter, firstNameEnter, secondNameEnter, houseEnter, roadEnter, cityEnter, postCodeEnter;
-	JPasswordField pwEnter1, pwEnter2;
+import trains.of.sheffield.CurrentUser;
+import trains.of.sheffield.GUILoader;
+import trains.of.sheffield.User;
+import trains.of.sheffield.models.DatabaseOperations;
+
+public class ChangeDetails extends JFrame{
+	JLabel emailPrompt, intro, firstNamePrompt, secondNamePrompt, housePrompt, streetPrompt, cityPrompt, postCodePrompt, loginIntro, detailsIntro, addressIntro; // Creating variables
+	JTextField emailEnter, firstNameEnter, secondNameEnter, houseEnter, streetEnter, cityEnter, postCodeEnter;
 	JButton cancel, submit;
 	JPanel mainView, introPanel, loginDetails, loginFields, personalDetails, personalFields, address, addressFields, buttons;
 	JScrollPane scroll;
-	public SignUp() {
+	public ChangeDetails() {
 		setLayout(new FlowLayout()); // Sets the layout of the window
 		mainView = new JPanel(); // A panel to hold the main view
 		mainView.setLayout(new GridLayout(5,1));
@@ -34,19 +34,11 @@ public class SignUp extends JFrame{
 		loginIntro = new JLabel ("Login Details", SwingConstants.CENTER);
 		loginDetails.add(loginIntro);
 		loginFields = new JPanel(); // A panel to hold the login details entry fields
-		loginFields.setLayout(new GridLayout(3,2));
+		loginFields.setLayout(new GridLayout(1,2));
 		emailPrompt = new JLabel("Enter an email address:  ", SwingConstants.RIGHT); // Shows user where to enter their user name
 		loginFields.add(emailPrompt);
 		emailEnter = new JTextField("", 50); // Where to enter the user name
 		loginFields.add(emailEnter);
-		pwPrompt1 = new JLabel("Enter a new password:  ",SwingConstants.RIGHT); // Shows user where to enter their password
-		loginFields.add(pwPrompt1);
-		pwEnter1 = new JPasswordField("", 256); // Where to enter the password
-		loginFields.add(pwEnter1);
-		pwPrompt2 = new JLabel("Re-enter your password:  ",SwingConstants.RIGHT); // Shows user where to retype their password
-		loginFields.add(pwPrompt2);
-		pwEnter2 = new JPasswordField("", 256); // Where to retype the password	
-		loginFields.add(pwEnter2);
 		loginDetails.add(loginFields);
 		mainView.add(loginDetails);
 
@@ -77,10 +69,10 @@ public class SignUp extends JFrame{
 		addressFields.add(housePrompt);
 		houseEnter = new JTextField("", 5); // Where to enter the house number
 		addressFields.add(houseEnter);
-		roadPrompt = new JLabel("Enter your road name:  ", SwingConstants.RIGHT); // Shows user where to enter their road name
-		addressFields.add(roadPrompt);
-		roadEnter = new JTextField("", 100); // Where to enter the road name
-		addressFields.add(roadEnter);
+		streetPrompt = new JLabel("Enter your street name:  ", SwingConstants.RIGHT); // Shows user where to enter their street name
+		addressFields.add(streetPrompt);
+		streetEnter = new JTextField("", 100); // Where to enter the street name
+		addressFields.add(streetEnter);
 		cityPrompt = new JLabel("Enter your city:  ", SwingConstants.RIGHT); // Shows user where to enter their city
 		addressFields.add(cityPrompt);
 		cityEnter = new JTextField("", 100); // Where to enter the city
@@ -106,26 +98,41 @@ public class SignUp extends JFrame{
 		buttons.add(submit);
 		mainView.add(buttons);
 
-
+        fillDetails();
 		add(scroll);
 	}
+
+    private void fillDetails() {
+        User user = CurrentUser.getCurrentUser();
+        emailEnter.setText(user.getEmail());
+        firstNameEnter.setText(user.getForename());
+        secondNameEnter.setText(user.getSurname());
+        houseEnter.setText(user.getAddress().getHouseNumber());
+        streetEnter.setText(user.getAddress().getStreetName());
+        cityEnter.setText(user.getAddress().getCity());
+        postCodeEnter.setText(user.getAddress().getPostCode());
+    }
+
 	public class ActionCancel implements ActionListener {
 		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
 			dispose();
-			GUILoader.loginWindow();
 		}
 	}
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
-			if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {
-				boolean signedUp = DatabaseOperations.trySignUp(pwEnter1.getPassword(), firstNameEnter.getText(), secondNameEnter.getText(), emailEnter.getText(), houseEnter.getText(), roadEnter.getText(), cityEnter.getText(), postCodeEnter.getText(), "cardName");
-				if (signedUp) {
-					dispose();
-					GUILoader.loginWindow();
-				}
-			} else {
-				GUILoader.alertWindow("Error: Passwords do not match");
-			}
+            String email = emailEnter.getText();
+            String firstName = firstNameEnter.getText();
+            String secondName = secondNameEnter.getText();
+            String houseNumber = houseEnter.getText();
+            String streetName = streetEnter.getText();
+            String city = cityEnter.getText();
+            String postCode = postCodeEnter.getText();
+            if (email.equals("") || firstName.equals("") || secondName.equals("") || houseNumber.equals("") || streetName.equals("") || city.equals("") || postCode.equals("")) {
+                GUILoader.alertWindow("Please fill out all fields");
+            } else {
+                DatabaseOperations.updateDetails(firstName, secondName, email, houseNumber, streetName, city, postCode);
+                dispose();
+            }
 		}
 	}
 }

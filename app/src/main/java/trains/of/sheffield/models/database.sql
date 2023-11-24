@@ -25,10 +25,10 @@ CREATE TABLE Address (
 );
 
 CREATE TABLE CardDetail (
-  cardNumber int NOT NULL PRIMARY KEY,
   cardName varchar(45) NOT NULL,
-  expiryDate int NOT NULL,
-  CVV int NOT NULL
+  cardNumber varchar(16) NOT NULL PRIMARY KEY,
+  expiryDate varchar(4) NOT NULL,
+  CVV varchar(4) NOT NULL
 );
 
 CREATE TABLE User (
@@ -40,7 +40,7 @@ CREATE TABLE User (
   role int NOT NULL,
   houseNumber varchar(10) NOT NULL,
   postCode varchar(10) NOT NULL,
-  cardNumber int,
+  cardNumber varchar(16),
   FOREIGN KEY (houseNumber, postCode) REFERENCES Address(houseNumber, postCode),
   FOREIGN KEY (cardNumber) REFERENCES CardDetail(cardNumber)
 );
@@ -94,10 +94,11 @@ CREATE TABLE LocomotiveTrainSetLink (
 );
 
 CREATE TABLE Orders (
-  orderID int NOT NULL PRIMARY KEY,
+  orderID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `date` date NOT NULL,
-  `status` varchar(45) NOT NULL,
+  `status` int NOT NULL,
   userID VARCHAR(45) NOT NULL,
+  totalPrice double NOT NULL,
   FOREIGN KEY (userID) REFERENCES User(userID)
 );
 
@@ -144,17 +145,26 @@ INSERT INTO Product VALUES ('R001', 1, 'Track1', 1.99, 'OO', 'Track1 Description
 INSERT INTO Product VALUES ('L001', 1, 'Locomotive1', 5.99, 'OO', 'Locomotive1 Description');
 INSERT INTO Product VALUES ('S001', 1, 'RollingStock1', 10.99, 'OO', 'RollingStock1 Description');
 INSERT INTO Product VALUES ('C001', 1, 'Controller1', 4.99, 'OO', 'Controller1 Description');
-INSERT INTO Product VALUES ('T001', 1, 'TrainSet1', 19.99, 'OO', 'TrainSet1 Description');
+INSERT INTO Product VALUES ('M001', 1, 'TrainSet1', 19.99, 'OO', 'TrainSet1 Description');
+INSERT INTO Product VALUES ('P001', 1, 'TrackPack1', 9.99, 'OO', 'TrackPack1 Description');
 INSERT INTO ControllerTable VALUES ('C001', 1);
-INSERT INTO ControllerTrainSetLink VALUES ('T001', 'C001');
+INSERT INTO ControllerTrainSetLink VALUES ('M001', 'C001');
 INSERT INTO DccCode VALUES ('L001', 'DCC');
 INSERT INTO EraLink VALUES ('L001', 'Era 1');
-INSERT INTO LocomotiveTrainSetLink VALUES ('T001', 'L001');
-INSERT INTO RollingStockTrainSetLink VALUES ('T001', 'S001');
+INSERT INTO LocomotiveTrainSetLink VALUES ('M001', 'L001');
+INSERT INTO RollingStockTrainSetLink VALUES ('M001', 'S001');
 INSERT INTO Stock VALUES ('R001', 10);
 INSERT INTO Stock VALUES ('L001', 10);
 INSERT INTO Stock VALUES ('S001', 10);
 INSERT INTO Stock VALUES ('C001', 10);
-INSERT INTO Stock VALUES ('T001', 10);
+INSERT INTO Stock VALUES ('M001', 10);
+INSERT INTO Stock VALUES ('P001', 10);
 INSERT INTO TrackPacks VALUES ('R001', 1);
-INSERT INTO TrackPackTrainSetLink VALUES ('T001', 'R001');
+INSERT INTO TrackPackTrainSetLink VALUES ('M001', 'R001');
+INSERT INTO Address VALUES ('498', 'Glossop Road', 'Sheffield', 'S10 2QA');
+INSERT INTO User VALUES ('d0f89dff-5293-49d6-8342-0cd9fc035b60', 'Gabriel', 'Plume', 'gplume02@gmail.com', '602557fd40b0dbffac5bf6efbd70652a459aa727ffad5788dff9f0e679e93c07', '2', '498', 'S10 2QA', NULL);
+INSERT INTO CardDetail VALUES ('Visa', '1234567891011121', 1234, 123);
+INSERT INTO Address VALUES ('46', 'Harefield Road', 'Sheffield', 'S11 8NU');
+INSERT INTO User VALUES ('46760aad-4326-4e9d-a824-1b8cb59347f9', 'Krish', 'Panchigar', 'krishpanchigar14@gmail.com', '1422616620215fe03b1994505eb303c860441455ef36f5fc127d3de90baabd2d', 0, '46', 'S11 8NU', 1234567891011121);
+INSERT INTO Orders VALUES (1, '2020-12-01', 2, '46760aad-4326-4e9d-a824-1b8cb59347f9', 19.99);
+INSERT INTO OrderLines VALUES (1, 'M001', 1);

@@ -1,7 +1,7 @@
 package trains.of.sheffield;
+import trains.of.sheffield.views.*;
+
 import javax.swing.*;
-import java.awt.*;
-import java.sql.SQLException;
 
 public class GUILoader {
     public static void loginWindow() {
@@ -30,6 +30,11 @@ public class GUILoader {
 
 	public static void mainMenuWindow() {
 		MainMenu mainMenuGUI = new MainMenu(CurrentUser.getRole());
+		mainMenuGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainMenuGUI.pack();
+		mainMenuGUI.setVisible(true);
+		mainMenuGUI.setTitle("Trains of Sheffield - Main Menu");
+		mainMenuGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
 	// public static void customerDashboardWindow() {
@@ -40,7 +45,49 @@ public class GUILoader {
 		StaffDashboard staffDashboardGUI = new StaffDashboard();
 	}
 
-	public static void staffStockWindow() throws SQLException {
-		StaffStock staffStockGUI = new StaffStock();
+	public static void productStockPanelWindow(String productType) {
+		ProductStockPanel productStockPanelGUI = new ProductStockPanel(productType);
+	}
+
+	public static void previousOrdersWindow() {
+		PreviousOrdersPanel previousOrdersGUI = new PreviousOrdersPanel();
+	}
+    public static void cardDetailsWindow() {
+		CardDetailsPage cardDetailsGUI = new CardDetailsPage();
+		cardDetailsGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		cardDetailsGUI.pack();
+		cardDetailsGUI.setVisible(true);
+		cardDetailsGUI.setTitle("Trains of Sheffield - Card Details");
+		cardDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
+    }
+
+	public static void changeDetailsWindow() {
+		ChangeDetails changeDetailsGUI = new ChangeDetails();
+		changeDetailsGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		changeDetailsGUI.pack();
+		changeDetailsGUI.setVisible(true);
+		changeDetailsGUI.setTitle("Trains of Sheffield - Change Details");
+		changeDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
+	}
+
+	public static void orderLinesWindow(Order order, StaffConfirmedOrders staffConfirmedOrders) {
+		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(order, staffConfirmedOrders);
+	}
+
+	public static void changePasswordWindow() {
+		ChangePassword changePasswordGUI = new ChangePassword();
+		changePasswordGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		changePasswordGUI.pack();
+		changePasswordGUI.setVisible(true);
+		changePasswordGUI.setTitle("Trains of Sheffield - Change Password");
+		changePasswordGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
+	}
+
+	public static void pendingOrdersWindow() {
+		StaffConfirmedOrders pendingOrders = new StaffConfirmedOrders();
+	}
+
+	public static void staffConfirmedOrdersWindow() {
+		StaffConfirmedOrders staffConfirmedOrdersGUI = new StaffConfirmedOrders();
 	}
 }
