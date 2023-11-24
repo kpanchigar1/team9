@@ -77,6 +77,45 @@ public class DatabaseOperations {
             }
         }
 
+        public static void tryCardDetails(String cardName, int cardNumber, int expiryDate, int cvv) {
+            try {
+                DatabaseConnectionHandler.openConnection(); // Opens connection
+                Connection connection = DatabaseConnectionHandler.getConnection();
+                // Insert card details
+                String cardQuery = "INSERT INTO CardDetail VALUES (?, ?, ?, ?)";
+                try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
+                    cardStatement.setString(1, cardName);
+                    cardStatement.setInt(2, cardNumber);
+                    cardStatement.setInt(3, expiryDate);
+                    cardStatement.setInt(4, cvv);
+                    cardStatement.executeUpdate();
+                }
+                DatabaseConnectionHandler.closeConnection(); // Ending connection
+            } catch (SQLException ex) {
+                ex.printStackTrace(); // Log the exception for debugging purposes
+                GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+            }
+        }
+
+        public static void updateCardDetails(String cardName, int cardNumber, int expiryDate, int cvv) {
+            try {
+                DatabaseConnectionHandler.openConnection(); // Opens connection
+                Connection connection = DatabaseConnectionHandler.getConnection();
+                // Update card details
+                String cardQuery = "UPDATE CardDetail SET cardName = ?, expiryDate = ?, cvv = ? WHERE cardNumber = ?";
+                try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
+                    cardStatement.setString(1, cardName);
+                    cardStatement.setInt(2, expiryDate);
+                    cardStatement.setInt(3, cvv);
+                    cardStatement.setInt(4, cardNumber);
+                    cardStatement.executeUpdate();
+                }
+                DatabaseConnectionHandler.closeConnection(); // Ending connection
+            } catch (SQLException ex) {
+                ex.printStackTrace(); // Log the exception for debugging purposes
+                GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+            }
+        }
 
         public static Card getCardDetailFromDB(int cardNumber){
         try {

@@ -2,6 +2,7 @@ package trains.of.sheffield.views;
 import trains.of.sheffield.Card;
 import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
+import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,6 +66,8 @@ public class CardDetailsPage extends JFrame{
         ReturnToMenu returnToMenu = new ReturnToMenu();
         back.addActionListener(returnToMenu);
         submit = new JButton("Submit");
+        SubmitDetails submitDetails = new SubmitDetails();
+        submit.addActionListener(submitDetails);
         panel.add(back);
         panel.add(submit);
 
@@ -83,6 +86,21 @@ public class CardDetailsPage extends JFrame{
 
     public class ReturnToMenu implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            dispose();
+        }
+    }
+
+    public class SubmitDetails implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String cardName = cardNameField.getText();
+            int cardNumber = Integer.parseInt(cardNumberField.getText());
+            int expiryDate = Integer.parseInt(monthField.getText() + yearField.getText());
+            int cvv = Integer.parseInt(cvvField.getPassword().toString());
+            if(card != null) {
+                DatabaseOperations.tryCardDetails(cardName, cardNumber, expiryDate, cvv);
+            } else {
+                DatabaseOperations.updateCardDetails(cardName, cardNumber, expiryDate, cvv);
+            }
             dispose();
         }
     }
