@@ -72,7 +72,6 @@ public class ViewBasket extends JFrame{
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             dispose();
-            GUILoader.staffDashboardWindow();
         });
         contentPane.add(backButton, BorderLayout.SOUTH);
     }

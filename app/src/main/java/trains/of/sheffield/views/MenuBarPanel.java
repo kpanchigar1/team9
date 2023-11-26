@@ -60,7 +60,6 @@ public class MenuBarPanel extends JMenuBar {
                 GUILoader.viewBasketWindow();
             }
         });
-
         orders.add(viewOrders);
 
         exitMenu = new JMenu("Exit");
