@@ -330,7 +330,7 @@ public class DatabaseOperations {
         }
     }
 
-    public static String[][] getOrdersFromStatus(Status status){
+    public static String[][] getOrdersFromStatus(Status status, boolean justCustomer){
         // String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total"};
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -343,17 +343,19 @@ public class DatabaseOperations {
                 while(results.next()) {
                     String[] order = new String[9];
                     User user = getUserFromID(results.getString("userID"));
-                    order[0] = results.getString("orderID");
-                    order[1] = results.getString("date");
-                    order[2] = user.getForename() + " " + user.getSurname();
-                    order[3] = user.getEmail();
-                    order[4] = user.getAddress().toString();
-                    order[5] = Status.getStatus(results.getInt("status")).toString();
-                    order[6] = String.valueOf(results.getDouble("totalPrice"));
-                    if(status.equals(Status.FULFILLED)){
-                        order[7] = "True";
+                    if (justCustomer && !user.getId().equals(CurrentUser.getCurrentUser().getId()) || !justCustomer) {
+                        order[0] = results.getString("orderID");
+                        order[1] = results.getString("date");
+                        order[2] = user.getForename() + " " + user.getSurname();
+                        order[3] = user.getEmail();
+                        order[4] = user.getAddress().toString();
+                        order[5] = Status.getStatus(results.getInt("status")).toString();
+                        order[6] = String.valueOf(results.getDouble("totalPrice"));
+                        if(status.equals(Status.FULFILLED)){
+                            order[7] = "True";
+                        }
+                        orderList.add(order);
                     }
-                    orderList.add(order);
                 }
                 DatabaseConnectionHandler.closeConnection();
                 return orderList.toArray(new String[0][0]);

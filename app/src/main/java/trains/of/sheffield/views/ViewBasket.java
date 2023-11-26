@@ -16,13 +16,14 @@ public class ViewBasket extends JFrame{
     private JButton backButton;
     private JTable orderTable;
     private JMenuBar menuBar;
+    private JScrollPane scrollPane;
 
     public ViewBasket() {
         // TODO: edit column widths
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        menubar = new MenuBarPanel();
+        menuBar = new MenuBarPanel();
         setJMenuBar(menuBar);
 
         titlePanel = new JPanel();
@@ -31,7 +32,7 @@ public class ViewBasket extends JFrame{
         contentPane.add(titlePanel, BorderLayout.NORTH);
 
         String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card", "Order Lines"};
-        String[][] orderData = DatabaseOperations.getOrdersFromStatus(Status.FULFILLED);
+        String[][] orderData = DatabaseOperations.getOrdersFromStatus(Status.PENDING, true);
         for (int i = 0; i < orderData.length; i++) {
             orderData[i][8] = "<html><a>View Order Lines</a></html>";
         }
@@ -47,7 +48,7 @@ public class ViewBasket extends JFrame{
         };
 
         orderTable = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(orderTable);
+        scrollPane = new JScrollPane(orderTable);
 
 
         contentPane.add(scrollPane, BorderLayout.CENTER);
