@@ -8,21 +8,31 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.util.List;
 
 public class ProductStockPanel extends JFrame {
-    private JPanel productStockPanel;
-    private JButton backButton, confirmChangesButton;
+    private JPanel productStockPanel, buttonPanel;
+    private JButton backButton, confirmChangesButton, addNewProductButton;
     public ProductStockPanel(String productType) {
         // TODO: add a new product
         // TODO: edit product
         // TODO: delete product
+        // TODO: fix back button layout
         super("Trains of Sheffield - Staff Stock");
-        productStockPanel = new JPanel();
+        productStockPanel = new JPanel(new GridBagLayout());
         setContentPane(productStockPanel);
         setSize(800, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        List<Product> allProducts = DatabaseOperations.getProductFromType(productType);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+
+
+
+        List<Product> allProducts = DatabaseOperations.getProductsFromType(productType);
 
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new Object[]{"Product Code", "Product Name", "Stock Level"});
@@ -49,7 +59,14 @@ public class ProductStockPanel extends JFrame {
 
         JScrollPane stockTableScrollPane = new JScrollPane(stockTable);
         stockTableScrollPane.setBounds(0, 0, 800, 300);
-        productStockPanel.add(stockTableScrollPane);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+        productStockPanel.add(stockTableScrollPane, gbc);
+
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         confirmChangesButton = new JButton("Confirm Changes");
         confirmChangesButton.addActionListener(e -> {
@@ -71,26 +88,35 @@ public class ProductStockPanel extends JFrame {
                 }
             }
         });
-        productStockPanel.add(confirmChangesButton);
+        buttonPanel.add(confirmChangesButton);
 
         // Edit product on double click, with option to delete
 
-        JButton addNewProductButton = new JButton("Add New Product");
+        addNewProductButton = new JButton("Add New Product");
         addNewProductButton.addActionListener(e -> {
             dispose();
             GUILoader.addNewProductWindow(productType);
         });
-        productStockPanel.add(addNewProductButton);
+        buttonPanel.add(addNewProductButton);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        productStockPanel.add(buttonPanel, gbc);
 
         backButton = new JButton("Back");
-        productStockPanel.add(backButton);
 
         backButton.addActionListener(e -> {
             dispose();
             GUILoader.staffDashboardWindow();
         });
 
-        //TODO: add confirm changes button
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        productStockPanel.add(backButton, gbc);
 
         setVisible(true);
 

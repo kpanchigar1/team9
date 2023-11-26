@@ -6,7 +6,6 @@ import trains.of.sheffield.util.UniqueUserIDGenerator;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseOperations {
@@ -275,15 +274,16 @@ public class DatabaseOperations {
         return null;
     }
 
-    public static List<Product> getProductFromType(String m) {
+    public static List<Product> getProductsFromType(String m) {
         List<Product> allProducts = new ArrayList<>();
         try {
             DatabaseConnectionHandler.openConnection();
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String productQuery = "SELECT * FROM Product WHERE productType=?";
+            // String r = "SELECT * FROM Product WHERE productCode LIKE '"+m+"%'"
+            String productQuery = "SELECT * FROM Product WHERE productCode LIKE ?";
             try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
-                productStatement.setString(1, m);
+                productStatement.setString(1, m+"%");
                 ResultSet results = productStatement.executeQuery();
                 while(results.next()) {
                     allProducts.add(new Product(results.getString("productCode"),
@@ -341,7 +341,7 @@ public class DatabaseOperations {
                 ResultSet results = ordersStatement.executeQuery();
                 List<String[]> orderList = new ArrayList<>();
                 while(results.next()) {
-                    String[] order = new String[8];
+                    String[] order = new String[9];
                     User user = getUserFromID(results.getString("userID"));
                     order[0] = results.getString("orderID");
                     order[1] = results.getString("date");
@@ -354,9 +354,9 @@ public class DatabaseOperations {
                         order[7] = "True";
                     }
                     orderList.add(order);
-                    DatabaseConnectionHandler.closeConnection();
-                    return orderList.toArray(new String[0][0]);
                 }
+                DatabaseConnectionHandler.closeConnection();
+                return orderList.toArray(new String[0][0]);
             }
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
@@ -374,7 +374,7 @@ public class DatabaseOperations {
                 userStatement.setString(1, userID);
                 ResultSet results = userStatement.executeQuery();
                 results.next();
-                return new User(results.getString("userID"), results.getString("forename"), results.getString("surname"), results.getString("email"), results.getString("passwordHash"), getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")), getCardDetailFromDB(results.getString("cardNumber")), Role.getRole(results.getInt("userType"))); // Stores the user details
+                return new User(results.getString("userID"), results.getString("forename"), results.getString("surname"), results.getString("email"), results.getString("passwordHash"), getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")), getCardDetailFromDB(results.getString("cardNumber")), Role.getRole(results.getInt("role"))); // Stores the user details
             }
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
@@ -387,7 +387,7 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
-            String orderLineQuery = "SELECT * FROM OrderLine WHERE orderID = ?";
+            String orderLineQuery = "SELECT * FROM OrderLines WHERE orderID = ?";
             try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
                 orderLineStatement.setInt(1, orderID);
                 ResultSet results = orderLineStatement.executeQuery();
@@ -397,9 +397,8 @@ public class DatabaseOperations {
                     Product product = getProductFromCode(results.getString("productCode"));
                     orderLine[0] = product.getProductCode();
                     orderLine[1] = product.getProductName();
-                    orderLine[2] = product.getBrandName();
-                    orderLine[3] = String.valueOf(results.getInt("quantity"));
-                    orderLine[4] = String.valueOf(product.getPrice());
+                    orderLine[2] = String.valueOf(results.getInt("quantity"));
+                    orderLine[3] = String.valueOf(product.getPrice());
                     orderLineList.add(orderLine);
                 }
                 DatabaseConnectionHandler.closeConnection();

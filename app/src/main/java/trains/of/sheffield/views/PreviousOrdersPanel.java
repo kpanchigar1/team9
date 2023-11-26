@@ -6,10 +6,16 @@ import trains.of.sheffield.Status;
 import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class PreviousOrdersPanel extends JFrame {
     private JPanel titlePanel;
@@ -34,8 +40,11 @@ public class PreviousOrdersPanel extends JFrame {
         titlePanel.add(titleLabel);
         contentPane.add(titlePanel, BorderLayout.NORTH);
 
-        String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card"};
+        String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card", "Order Lines"};
         String[][] orderData = DatabaseOperations.getOrdersFromStatus(Status.FULFILLED);
+        for (int i = 0; i < orderData.length; i++) {
+            orderData[i][8] = "<html><a>View Order Lines</a></html>";
+        }
 
 
         // TODO: Make the table display the order lines when double clicked
@@ -49,8 +58,6 @@ public class PreviousOrdersPanel extends JFrame {
 
         orderTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(orderTable);
-
-        //  TODO: Make the table non editable
 
 
         contentPane.add(scrollPane, BorderLayout.CENTER);
@@ -78,6 +85,19 @@ public class PreviousOrdersPanel extends JFrame {
         });
         contentPane.add(backButton, BorderLayout.SOUTH);
         setVisible(true);
+    }
+
+    private static class HyperlinkCellRenderer extends DefaultTableCellRenderer {
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                       boolean hasFocus, int row, int column) {
+            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            label.setText("<html><u>" + value + "</u></html>");
+            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+
+            return label;
+        }
     }
 
     public static void main(String[] args) {
