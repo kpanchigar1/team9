@@ -48,8 +48,6 @@ public class ProductPage extends JFrame {
             }
         });
 
-        //hello testing
-
         filterComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
