@@ -51,6 +51,20 @@ public class GUILoader {
 
 	public static void previousOrdersWindow() {
 		PreviousOrdersPanel previousOrdersGUI = new PreviousOrdersPanel();
+		previousOrdersGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		previousOrdersGUI.pack();
+		previousOrdersGUI.setVisible(true);
+		previousOrdersGUI.setTitle("Trains of Sheffield - Previous Orders");
+		previousOrdersGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
+	}
+
+	public static void viewBasketWindow() {
+		ViewBasket viewBasketGUI = new ViewBasket();
+		viewBasketGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		viewBasketGUI.pack();
+		viewBasketGUI.setVisible(true);
+		viewBasketGUI.setTitle("Trains of Sheffield - View Basket");
+		viewBasketGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
     public static void cardDetailsWindow() {
 		CardDetailsPage cardDetailsGUI = new CardDetailsPage();

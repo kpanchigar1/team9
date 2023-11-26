@@ -1,35 +1,28 @@
 package trains.of.sheffield.views;
 
-import trains.of.sheffield.GUILoader;
-import trains.of.sheffield.Order;
-import trains.of.sheffield.Status;
+import trains.of.sheffield.*;
 import trains.of.sheffield.models.DatabaseOperations;
-
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-public class PreviousOrdersPanel extends JFrame {
+public class ViewBasket extends JFrame{
+
     private JPanel titlePanel;
     private Container contentPane;
     private JLabel titleLabel;
     private JButton backButton;
     private JTable orderTable;
+    private JMenuBar menuBar;
 
-    public PreviousOrdersPanel() {
+    public ViewBasket() {
         // TODO: edit column widths
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        JMenuBar menuBar = new MenuBarPanel();
+        menubar = new MenuBarPanel();
         setJMenuBar(menuBar);
 
         titlePanel = new JPanel();
@@ -99,4 +92,5 @@ public class PreviousOrdersPanel extends JFrame {
     public static void main(String[] args) {
         new PreviousOrdersPanel();
     }
+    
 }
