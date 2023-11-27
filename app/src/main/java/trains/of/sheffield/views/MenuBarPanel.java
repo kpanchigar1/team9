@@ -54,7 +54,12 @@ public class MenuBarPanel extends JMenuBar {
 
         orders = new JMenu("Orders");
         viewOrders = new JMenuItem("View Orders");
-
+        viewOrders.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUILoader.viewBasketWindow();
+            }
+        });
         orders.add(viewOrders);
 
         exitMenu = new JMenu("Exit");

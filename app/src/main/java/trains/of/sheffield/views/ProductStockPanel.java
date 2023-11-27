@@ -8,29 +8,49 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ProductStockPanel extends JFrame {
-    private JPanel productStockPanel;
-    private JButton backButton, confirmChangesButton;
+    private JPanel productStockPanel, buttonPanel;
+    private JButton backButton, confirmChangesButton, addNewProductButton;
     public ProductStockPanel(String productType) {
         // TODO: add a new product
         // TODO: edit product
         // TODO: delete product
+        // TODO: fix back button layout
         super("Trains of Sheffield - Staff Stock");
-        productStockPanel = new JPanel();
+        productStockPanel = new JPanel(new GridBagLayout());
         setContentPane(productStockPanel);
-        setSize(800, 400);
+        setSize(1200, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        List<Product> allProducts = DatabaseOperations.getProductFromType(productType);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
 
-        DefaultTableModel model = new DefaultTableModel();
-        model.setColumnIdentifiers(new Object[]{"Product Code", "Product Name", "Stock Level"});
+
+
+        List<Product> allProducts = DatabaseOperations.getProductsFromType(productType);
+
+        DefaultTableModel model = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column) {
+                if(column == 2){
+                    return true;
+                }
+                return false;
+            }
+        };
+        model.setColumnIdentifiers(new Object[]{"Product Code", "Product Name", "Stock Level", "Edit Product", "Delete Product"});
+
 
         for (Product product : allProducts) {
             Integer stock = product.getStock();
             JSpinner spinner = new JSpinner(new SpinnerNumberModel(stock - 0, stock - 0, Integer.MAX_VALUE, 1));
-            model.addRow(new Object[]{product.getProductCode(), product.getProductName(), stock});
+            model.addRow(new Object[]{product.getProductCode(), product.getProductName(), stock, "<html><u>Edit Product</u></html>", "<html><u>Delete Product</u></html>"});
         }
 
         // Create a JTable with the DefaultTableModel
@@ -49,7 +69,42 @@ public class ProductStockPanel extends JFrame {
 
         JScrollPane stockTableScrollPane = new JScrollPane(stockTable);
         stockTableScrollPane.setBounds(0, 0, 800, 300);
-        productStockPanel.add(stockTableScrollPane);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+
+        stockTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) { // Detect double click
+                    int row = stockTable.rowAtPoint(e.getPoint());
+                    int column = stockTable.columnAtPoint(e.getPoint());
+
+                    if (column == 4) { // Assuming "Delete Product" is at column index 4
+                        // Perform delete product action here
+                        String productCode = (String) model.getValueAt(row, 0);
+                        int option = JOptionPane.showConfirmDialog(
+                                ProductStockPanel.this,
+                                "Are you sure you want to delete this product?",
+                                "Confirm Deletion",
+                                JOptionPane.YES_NO_OPTION);
+
+                        if (option == JOptionPane.YES_OPTION) {
+                            // Perform the deletion action
+                            System.out.println("Deleting product " + productCode);
+                            DatabaseOperations.deleteProduct(productCode);
+                            model.removeRow(row);
+                        }
+                    }
+                }
+            }
+        });
+
+        productStockPanel.add(stockTableScrollPane, gbc);
+
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         confirmChangesButton = new JButton("Confirm Changes");
         confirmChangesButton.addActionListener(e -> {
@@ -71,17 +126,35 @@ public class ProductStockPanel extends JFrame {
                 }
             }
         });
-        productStockPanel.add(confirmChangesButton);
+        buttonPanel.add(confirmChangesButton);
+
+        // Edit product on double click, with option to delete
+
+        addNewProductButton = new JButton("Add New Product");
+        addNewProductButton.addActionListener(e -> {
+            dispose();
+            GUILoader.addNewProductWindow(productType);
+        });
+        buttonPanel.add(addNewProductButton);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        productStockPanel.add(buttonPanel, gbc);
 
         backButton = new JButton("Back");
-        productStockPanel.add(backButton);
 
         backButton.addActionListener(e -> {
             dispose();
             GUILoader.staffDashboardWindow();
         });
 
-        //TODO: add confirm changes button
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        productStockPanel.add(backButton, gbc);
 
         setVisible(true);
 

@@ -1,4 +1,4 @@
-0package trains.of.sheffield;
+package trains.of.sheffield;
 public enum Gauge {
     OO, TT, N
 }
