@@ -84,8 +84,12 @@ public class GUILoader {
 		changeDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
-	public static void orderLinesWindow(Order order, StaffConfirmedOrders staffConfirmedOrders) {
-		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(order, staffConfirmedOrders);
+	public static void orderLinesWindow(Order order, StaffConfirmedOrders staffConfirmedOrders, boolean fromBasket) {
+		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(order, staffConfirmedOrders, fromBasket);
+		orderLinesGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		orderLinesGUI.pack();
+		orderLinesGUI.setVisible(true);
+		orderLinesGUI.setTitle("Order Lines");
 	}
 
 	public static void changePasswordWindow() {

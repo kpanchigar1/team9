@@ -74,7 +74,7 @@ public class StaffConfirmedOrders extends JFrame {
                     int orderID = Integer.parseInt(orderTable.getValueAt(selectedRow, 0).toString());
                     if (orderID == firstOrderID) {
                         Order order = DatabaseOperations.getOrderFromId(orderID);
-                        GUILoader.orderLinesWindow(order, StaffConfirmedOrders.this);
+                        GUILoader.orderLinesWindow(order, StaffConfirmedOrders.this, false);
                     }
 
                 }

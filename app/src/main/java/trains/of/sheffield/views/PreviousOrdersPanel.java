@@ -63,7 +63,7 @@ public class PreviousOrdersPanel extends JFrame {
                     int orderID = Integer.parseInt(orderTable.getValueAt(selectedRow, 0).toString());
                     Order order = DatabaseOperations.getOrderFromId(orderID);
                     // Display order lines using the retrieved orderID
-                    GUILoader.orderLinesWindow(order, null);
+                    GUILoader.orderLinesWindow(order, null, false);
                 }
             }
         });

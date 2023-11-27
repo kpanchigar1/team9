@@ -10,11 +10,9 @@ import java.awt.*;
 
 public class OrderLinesWindow extends JFrame {
     private StaffConfirmedOrders parent;
-    public OrderLinesWindow(Order order, StaffConfirmedOrders parent) {
-        super("Order Lines");
+    public OrderLinesWindow(Order order, StaffConfirmedOrders parent, boolean fromBasket) {
         this.parent = parent;
 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Container contentPane = getContentPane();
         String[] columnNames = {"Product ID", "Product Name", "Quantity"};
         String[][] orderData = DatabaseOperations.getOrderLines(order.getOrderID());
@@ -38,14 +36,17 @@ public class OrderLinesWindow extends JFrame {
 
         });
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1, 2));
-        buttonPanel.add(markAsFulfilled);
-        buttonPanel.add(deleteOrder);
+        JPanel buttonPanel1 = new JPanel();
+        buttonPanel1.setLayout(new GridLayout(1, 2));
+        buttonPanel1.add(markAsFulfilled);
+        buttonPanel1.add(deleteOrder);
         System.out.println(order.getStatus());
-        if(order.getStatus().equals(Status.CONFIRMED)) {
-            contentPane.add(buttonPanel, BorderLayout.SOUTH);
+        if(order.getStatus().equals(Status.CONFIRMED) && !fromBasket) {
+            contentPane.add(buttonPanel1, BorderLayout.SOUTH);
         }
+
+        JPanel buttonPanel2 = new JPanel();
+        if (order.getStatus().equals(Status.BLOCKED))
 
         contentPane.add(scrollPane, BorderLayout.CENTER);
         setSize(400, 400);
