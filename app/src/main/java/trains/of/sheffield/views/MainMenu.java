@@ -117,4 +117,17 @@ public class MainMenu extends JFrame
     {
         MainMenu mainMenu = new MainMenu(Role.STAFF);
     }
+
+    /*trainSetButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ProductPage().setVisible(true);
+                dispose(); // Close the MainMenu
+            }
+        });
+    }
+});*/
+
 }

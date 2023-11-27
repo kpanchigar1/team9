@@ -3,6 +3,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+private void updateProductTable(Object[][] data) {
+        productTable.setModel(new DefaultTableModel(data, columnNames));
+        }
+
 public class ProductPage extends JFrame {
     private JTextField searchField;
     private JButton searchButton;
@@ -11,26 +15,26 @@ public class ProductPage extends JFrame {
 
     public ProductPage() {
         setTitle("Product Page");
-        setSize(800, 600);
+        setSize(800,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Search Panel
+        // The search Panel
         JPanel searchPanel = new JPanel();
         searchField = new JTextField(20);
         searchButton = new JButton("Search");
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
-        // Filter Panel
+        // The filter Panel
         JPanel filterPanel = new JPanel();
-        filterComboBox = new JComboBox<>(new String[]{"?"}); // not sure about this
+        filterComboBox = new JComboBox<>(new String[]{"All Categories", "Train Sets", "Locomotives", "Carriages", "Tracks"}); // not sure about this
         filterPanel.add(new JLabel("Filter by:"));
         filterPanel.add(filterComboBox);
 
-        // Product Table
+        // The product Table
         String[] columnNames = {"Product Code", "Product Name", "Retail Price", "Gauge"};
-        Object[][] data = {}; // Populate with product data
+        Object[][] data = {};
         productTable = new JTable(data, columnNames);
 
         // Adding components to the frame
@@ -38,20 +42,21 @@ public class ProductPage extends JFrame {
         add(filterPanel, BorderLayout.SOUTH);
         add(new JScrollPane(productTable), BorderLayout.CENTER);
 
-        // Event Handling
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement search functionality
+                String searchTerm = searchField.getText();
+                String filter = filterComboBox.getSelectedItem().toString();
+                updateProductTable(searchProducts(searchTerm, filter));
             }
         });
-
-        //hello testing
 
         filterComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement filter functionality
+                String searchTerm = searchField.getText();
+                String filter = filterComboBox.getSelectedItem().toString();
+                updateProductTable(searchProducts(searchTerm, filter));
             }
         });
     }
