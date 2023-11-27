@@ -2,12 +2,12 @@ package trains.of.sheffield.views;
 
 import trains.of.sheffield.Gauge;
 import trains.of.sheffield.Product;
+import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ProductDetailsPage extends JFrame {
-    // TODO: display product code, name, scale, price, description, stock (if from staff dashboard), and other fields based on product type
     // TODO: populate fields with data from database if editing
     // TODO: make fields uneditable if not from staff dashboard
     // TODO: add a add to basket button if from customer dashboard
@@ -48,7 +48,6 @@ public class ProductDetailsPage extends JFrame {
         rollingStockField = new JTextField();
         trackPackField = new JTextField();
 
-
         addToBasketButton = new JButton("Add to Basket");
 
         add(productCodeLabel);
@@ -63,12 +62,6 @@ public class ProductDetailsPage extends JFrame {
         add(descriptionField);
         add(stockLabel);
         add(stockField);
-
-
-        // Era - only for train sets, locomotives, rolling stock
-        // isAnalogue - only for controllers
-        // isExtensionPack - only for track packs
-        // Train set - Locomotive, rolling stock, track pack, controller
 
         String productCode = product.getProductCode();
 
@@ -102,7 +95,6 @@ public class ProductDetailsPage extends JFrame {
         // Add components to the JFrame
 
         // Set fields as uneditable (if not from staff dashboard)
-        // You should replace this condition with your actual logic
 
         productCodeField.setEditable(false);
         nameField.setEditable(false);
@@ -110,22 +102,44 @@ public class ProductDetailsPage extends JFrame {
         priceField.setEditable(false);
         descriptionField.setEditable(false);
         stockField.setEditable(false);
+
+        populateFields(product);
         setVisible(true);
     }
 
     // Example method to set data from the database if editing
-    public void populateFieldsFromDatabase() {
+    public void populateFields(Product product) {
         // Replace this with your actual database logic
-        productCodeField.setText("M12345");
-        nameField.setText("Product Name");
-        scaleField.setText("1:24");
-        priceField.setText("$49.99");
-        descriptionField.setText("Product description...");
-        stockField.setText("10");
+        productCodeField.setText(product.getProductCode());
+        nameField.setText(product.getProductName());
+        scaleField.setText(product.getGauge().toString());
+        priceField.setText(String.valueOf(product.getPrice()));
+        descriptionField.setText(product.getDescription());
+        stockField.setText(String.valueOf(product.getStock()));
+
+        if(product.getProductCode().charAt(0) == 'M' || product.getProductCode().charAt(0) == 'L' || product.getProductCode().charAt(0) == 'S') {
+            eraField.setText(DatabaseOperations.getProductEra(product.getProductCode()));
+        }
+        if(product.getProductCode().charAt(0) == 'C') {
+            // Controller
+            isAnalogueField.setText(DatabaseOperations.getProductAnalogue(product.getProductCode()));
+        }
+        if(product.getProductCode().charAt(0) == 'P') {
+            // Track pack
+            // trackPackField.setText(String.valueOf(product.getTrackPack()));
+        }
+        if(product.getProductCode().charAt(0) == 'M') {
+            // Train set
+            String[] trainSetData = DatabaseOperations.getTrainSetData("M001");
+            locomotiveField.setText(trainSetData[0]);
+            rollingStockField.setText(trainSetData[1]);
+            controllerField.setText(trainSetData[2]);
+            trackPackField.setText(trainSetData[3]);
+        }
     }
 
     public static void main(String[] args) {
-        Product product = new Product("M12345", "Product Name", "1:24", 49.99, Gauge.OO, "Product desc..", 10);
+        Product product = new Product("M001", "Product Name", "TrainSet1", 49.99, Gauge.OO, "Product desc..", 10);
         ProductDetailsPage productDetailsPage = new ProductDetailsPage(product, false);
 
     }

@@ -522,4 +522,102 @@ public class DatabaseOperations {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
     }
-}
+
+
+    public static String getProductEra(String productCode) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String productQuery = "SELECT * FROM EraLink WHERE productCode = ?";
+            try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
+                productStatement.setString(1, productCode);
+                ResultSet results = productStatement.executeQuery();
+                results.next();
+                return results.getString("era");
+            }
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
+
+
+    public static String getProductAnalogue(String productCode) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+            String productQuery = "SELECT * FROM ControllerTable WHERE productCode = ?";
+            try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
+                productStatement.setString(1, productCode);
+                ResultSet results = productStatement.executeQuery();
+                results.next();
+                if (results.getBoolean("analogue")) {
+                    return "Analogue";
+                } else {
+                    return "Digital";
+                }
+            }
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+    }
+
+    public static String[] getTrainSetData(String productCode) {
+        String trainSetData[] = new String[4];
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            Statement st = connection.createStatement();
+
+            String locomotiveQuery = "SELECT productName FROM Product WHERE productCode = (SELECT locomotiveCode FROM LocomotiveTrainSetLink WHERE trainSetCode = ?)";
+            try (PreparedStatement productStatement = connection.prepareStatement(locomotiveQuery)) {
+                productStatement.setString(1, productCode);
+                try (ResultSet results = productStatement.executeQuery()) {
+                    if (results.next()) {
+                        trainSetData[0] = results.getString("productName");
+                    }
+                }
+            }
+
+            String rollingStockQuery = "SELECT productName FROM Product WHERE productCode = (SELECT rollingStockCode FROM RollingStockTrainSetLink WHERE trainSetCode = ?)";
+            try (PreparedStatement productStatement = connection.prepareStatement(rollingStockQuery)) {
+                productStatement.setString(1, productCode);
+                try (ResultSet results = productStatement.executeQuery()) {
+                    if (results.next()) {
+                        trainSetData[1] = results.getString("productName");
+                    }
+                }
+            }
+
+            String controllerQuery = "SELECT productName FROM Product WHERE productCode = (SELECT controllerCode FROM ControllerTrainSetLink WHERE trainSetCode = ?)";
+            try (PreparedStatement productStatement = connection.prepareStatement(controllerQuery)) {
+                productStatement.setString(1, productCode);
+                try (ResultSet results = productStatement.executeQuery()) {
+                    if (results.next()) {
+                        trainSetData[2] = results.getString("productName");
+                    }
+                }
+            }
+
+            String trackPackQuery = "SELECT productName FROM Product WHERE productCode = (SELECT trackPackCode FROM TrackPackTrainSetLink WHERE trainSetCode = ?)";
+            try (PreparedStatement productStatement = connection.prepareStatement(trackPackQuery)) {
+                productStatement.setString(1, productCode);
+                try (ResultSet results = productStatement.executeQuery()) {
+                    if (results.next()) {
+                        trainSetData[3] = results.getString("productName");
+                    }
+                }
+            }
+            DatabaseConnectionHandler.closeConnection();
+            return trainSetData;
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return null;
+        }
+    }
+
+
