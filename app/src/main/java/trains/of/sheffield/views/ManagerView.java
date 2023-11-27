@@ -40,10 +40,20 @@ public class ManagerView extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String staffEmail = staffEmailField.getText();
-                // Implement logic to add staff
-                listModel.addElement(staffEmail); 
-                staffEmailField.setText(""); // Clear input field
+                String staffEmail = JOptionPane.showInputDialog(ManagerView.this, 
+                                                                "Enter Staff Member's Email:", 
+                                                                "Add Staff", 
+                                                                JOptionPane.PLAIN_MESSAGE);
+                if (staffEmail != null && !staffEmail.trim().isEmpty()) {
+                    // Implement logic to add staff with the given email
+                    listModel.addElement(staffEmail); // Update UI list
+                } else {
+                    // Handle case where no email was entered or dialog was cancelled
+                    JOptionPane.showMessageDialog(ManagerView.this, 
+                                                  "No email entered. Staff member not added.", 
+                                                  "Info", 
+                                                  JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
 
