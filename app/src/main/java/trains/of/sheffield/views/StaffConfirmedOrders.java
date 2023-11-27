@@ -6,16 +6,11 @@ import trains.of.sheffield.Status;
 import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 
 public class StaffConfirmedOrders extends JFrame {
@@ -76,7 +71,6 @@ public class StaffConfirmedOrders extends JFrame {
                         Order order = DatabaseOperations.getOrderFromId(orderID);
                         GUILoader.orderLinesWindow(order, StaffConfirmedOrders.this);
                     }
-
                 }
             }
         });

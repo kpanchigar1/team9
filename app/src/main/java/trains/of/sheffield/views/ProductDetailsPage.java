@@ -1,5 +1,6 @@
 package trains.of.sheffield.views;
 
+import trains.of.sheffield.Gauge;
 import trains.of.sheffield.Product;
 
 import javax.swing.*;
@@ -16,9 +17,9 @@ public class ProductDetailsPage extends JFrame {
     private JButton addToBasketButton, confirmChangesButton;
     public ProductDetailsPage(Product product, boolean fromStaffDashboard) {
         setTitle("Product Details Page");
-        setSize(800, 800);
+        setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(7, 2)); // Adjust the layout based on your needs
+        setLayout(new GridLayout(12, 2)); // Adjust the layout based on your needs
 
         // Initialize components
         productCodeLabel = new JLabel("Product Code:");
@@ -27,6 +28,12 @@ public class ProductDetailsPage extends JFrame {
         priceLabel = new JLabel("Price:");
         descriptionLabel = new JLabel("Description:");
         stockLabel = new JLabel("Stock:");
+        eraLabel = new JLabel("Era:");
+        isAnalogueLabel = new JLabel("Analogue:");
+        controllerLabel = new JLabel("Controller:");
+        locomotiveLabel = new JLabel("Locomotive:");
+        rollingStockLabel = new JLabel("Rolling Stock:");
+        trackPackLabel = new JLabel("Track Pack:");
 
         productCodeField = new JTextField();
         nameField = new JTextField();
@@ -34,10 +41,16 @@ public class ProductDetailsPage extends JFrame {
         priceField = new JTextField();
         descriptionField = new JTextField();
         stockField = new JTextField();
+        eraField = new JTextField();
+        isAnalogueField = new JTextField();
+        controllerField = new JTextField();
+        locomotiveField = new JTextField();
+        rollingStockField = new JTextField();
+        trackPackField = new JTextField();
+
 
         addToBasketButton = new JButton("Add to Basket");
 
-        // Add components to the JFrame
         add(productCodeLabel);
         add(productCodeField);
         add(nameLabel);
@@ -50,8 +63,43 @@ public class ProductDetailsPage extends JFrame {
         add(descriptionField);
         add(stockLabel);
         add(stockField);
+
+
+        // Era - only for train sets, locomotives, rolling stock
+        // isAnalogue - only for controllers
+        // isExtensionPack - only for track packs
+        // Train set - Locomotive, rolling stock, track pack, controller
+
+        String productCode = product.getProductCode();
+
+        if(productCode.charAt(0) == 'M' || productCode.charAt(0) == 'L' || productCode.charAt(0) == 'S') {
+            add(eraLabel);
+            add(eraField);
+        }
+        if(productCode.charAt(0) == 'C') {
+            // Controller
+            add(isAnalogueLabel);
+            add(isAnalogueField);
+        }
+        if(productCode.charAt(0) == 'P') {
+            // Track pack
+            add(trackPackLabel);
+            add(trackPackField);
+        }
+        if(productCode.charAt(0) == 'M') {
+            // Train set
+            add(locomotiveLabel);
+            add(locomotiveField);
+            add(rollingStockLabel);
+            add(rollingStockField);
+            add(controllerLabel);
+            add(controllerField);
+        }
+
         add(new JLabel()); // Empty label as a placeholder
         add(addToBasketButton);
+
+        // Add components to the JFrame
 
         // Set fields as uneditable (if not from staff dashboard)
         // You should replace this condition with your actual logic
@@ -68,7 +116,7 @@ public class ProductDetailsPage extends JFrame {
     // Example method to set data from the database if editing
     public void populateFieldsFromDatabase() {
         // Replace this with your actual database logic
-        productCodeField.setText("12345"); // Example data
+        productCodeField.setText("M12345");
         nameField.setText("Product Name");
         scaleField.setText("1:24");
         priceField.setText("$49.99");
@@ -77,7 +125,8 @@ public class ProductDetailsPage extends JFrame {
     }
 
     public static void main(String[] args) {
-        ProductDetailsPage productDetailsPage = new ProductDetailsPage(null, false);
-        productDetailsPage.populateFieldsFromDatabase();
+        Product product = new Product("M12345", "Product Name", "1:24", 49.99, Gauge.OO, "Product desc..", 10);
+        ProductDetailsPage productDetailsPage = new ProductDetailsPage(product, false);
+
     }
 }

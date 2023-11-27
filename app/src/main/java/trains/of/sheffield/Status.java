@@ -1,6 +1,6 @@
 package trains.of.sheffield;
 public enum Status {
-    PENDING (0), CONFIRMED (1), FULFILLED (2);
+    PENDING (0), CONFIRMED (1), FULFILLED (2), BLOCKED (3);
 
     private final int statusID;
 
