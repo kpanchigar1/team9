@@ -1,5 +1,6 @@
 package trains.of.sheffield.views;
 
+import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.Order;
 import trains.of.sheffield.Status;
@@ -35,6 +36,22 @@ public class OrderLinesWindow extends JFrame {
 
 
         });
+        JButton checkout = new JButton("Checkout");
+        checkout.addActionListener(e -> {
+            if (CurrentUser.getCardDetail() != null) {
+                DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.CONFIRMED);
+                dispose();
+                parent.dispose();
+                GUILoader.mainMenuWindow();
+                GUILoader.alertWindow("Order confirmed");
+            } else {
+                dispose();
+                parent.dispose();
+                GUILoader.cardDetailsWindow();
+                GUILoader.alertWindow("You must add a card to your account before you can checkout");
+            }
+            
+        });
 
         JPanel buttonPanel1 = new JPanel();
         buttonPanel1.setLayout(new GridLayout(1, 2));
@@ -46,7 +63,19 @@ public class OrderLinesWindow extends JFrame {
         }
 
         JPanel buttonPanel2 = new JPanel();
-        if (order.getStatus().equals(Status.BLOCKED))
+        buttonPanel2.setLayout(new GridLayout(1, 1));
+        buttonPanel2.add(deleteOrder);
+        if (order.getStatus().equals(Status.BLOCKED) && !fromBasket) {
+            contentPane.add(buttonPanel2, BorderLayout.SOUTH);
+        }
+
+        JPanel buttonPanel3 = new JPanel();
+        buttonPanel3.setLayout(new GridLayout(1, 2));
+        buttonPanel3.add(deleteOrder);
+        buttonPanel3.add(checkout);
+        if (order.getStatus().equals(Status.PENDING) && !fromBasket) {
+            contentPane.add(buttonPanel3, BorderLayout.SOUTH);
+        }
 
         contentPane.add(scrollPane, BorderLayout.CENTER);
         setSize(400, 400);

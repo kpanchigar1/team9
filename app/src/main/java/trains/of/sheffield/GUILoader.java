@@ -22,7 +22,7 @@ public class GUILoader {
 	}
     public static void alertWindow(String message) {
 		Alert alertWindowGUI = new Alert(message);
-		alertWindowGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // Doesn't close the program, just closes the window 
+		alertWindowGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Doesn't close the program, just closes the window 
 		alertWindowGUI.pack();
 		alertWindowGUI.setVisible(true);
 		alertWindowGUI.setTitle("ALERT");
@@ -60,7 +60,7 @@ public class GUILoader {
 
 	public static void viewBasketWindow() {
 		ViewOrders viewBasketGUI = new ViewOrders();
-		viewBasketGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		viewBasketGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewBasketGUI.pack();
 		viewBasketGUI.setVisible(true);
 		viewBasketGUI.setTitle("Trains of Sheffield - View Basket");
@@ -68,7 +68,7 @@ public class GUILoader {
 	}
     public static void cardDetailsWindow() {
 		CardDetailsPage cardDetailsGUI = new CardDetailsPage();
-		cardDetailsGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		cardDetailsGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		cardDetailsGUI.pack();
 		cardDetailsGUI.setVisible(true);
 		cardDetailsGUI.setTitle("Trains of Sheffield - Card Details");
@@ -77,7 +77,7 @@ public class GUILoader {
 
 	public static void changeDetailsWindow() {
 		ChangeDetails changeDetailsGUI = new ChangeDetails();
-		changeDetailsGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		changeDetailsGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		changeDetailsGUI.pack();
 		changeDetailsGUI.setVisible(true);
 		changeDetailsGUI.setTitle("Trains of Sheffield - Change Details");
@@ -86,7 +86,7 @@ public class GUILoader {
 
 	public static void orderLinesWindow(Order order, StaffConfirmedOrders staffConfirmedOrders, boolean fromBasket) {
 		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(order, staffConfirmedOrders, fromBasket);
-		orderLinesGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		orderLinesGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		orderLinesGUI.pack();
 		orderLinesGUI.setVisible(true);
 		orderLinesGUI.setTitle("Order Lines");
@@ -94,7 +94,7 @@ public class GUILoader {
 
 	public static void changePasswordWindow() {
 		ChangePassword changePasswordGUI = new ChangePassword();
-		changePasswordGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		changePasswordGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		changePasswordGUI.pack();
 		changePasswordGUI.setVisible(true);
 		changePasswordGUI.setTitle("Trains of Sheffield - Change Password");
