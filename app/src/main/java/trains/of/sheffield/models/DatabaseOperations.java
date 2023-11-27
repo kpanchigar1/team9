@@ -343,7 +343,7 @@ public class DatabaseOperations {
                 while(results.next()) {
                     String[] order = new String[9];
                     User user = getUserFromID(results.getString("userID"));
-                    if (justCustomer && !user.getId().equals(CurrentUser.getCurrentUser().getId()) || !justCustomer) {
+                    if (justCustomer && user.getId().equals(CurrentUser.getCurrentUser().getId()) || !justCustomer) {
                         order[0] = results.getString("orderID");
                         order[1] = results.getString("date");
                         order[2] = user.getForename() + " " + user.getSurname();

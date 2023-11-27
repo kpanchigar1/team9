@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.awt.*;
 
-public class ViewBasket extends JFrame{
+public class ViewOrders extends JFrame{
 
     private JPanel titlePanel;
     private Container contentPane;
@@ -18,7 +18,7 @@ public class ViewBasket extends JFrame{
     private JMenuBar menuBar;
     private JScrollPane scrollPane;
 
-    public ViewBasket() {
+    public ViewOrders() {
         // TODO: edit column widths
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());

@@ -59,7 +59,7 @@ public class GUILoader {
 	}
 
 	public static void viewBasketWindow() {
-		ViewBasket viewBasketGUI = new ViewBasket();
+		ViewOrders viewBasketGUI = new ViewOrders();
 		viewBasketGUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		viewBasketGUI.pack();
 		viewBasketGUI.setVisible(true);
