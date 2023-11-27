@@ -54,7 +54,6 @@ public class ManagerView extends JFrame {
                 }
             }
         });
-        
 
         // Remove Button
         removeButton.addActionListener(new ActionListener() {
