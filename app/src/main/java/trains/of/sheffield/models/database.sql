@@ -63,34 +63,35 @@ CREATE TABLE Product (
 CREATE TABLE ControllerTable (
   productCode varchar(5) NOT NULL PRIMARY KEY,
   isAnalogue boolean NOT NULL,
-  FOREIGN KEY (productCode) REFERENCES Product(productCode)
+  FOREIGN KEY (productCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE ControllerTrainSetLink (
-  trainSetCode varchar(5) NOT NULL PRIMARY KEY,
-  controllerCode varchar(5) NOT NULL,
-  FOREIGN KEY (trainSetCode) REFERENCES Product(productCode),
-  FOREIGN KEY (trainSetCode) REFERENCES Product(productCode)
+trainSetCode varchar(5) NOT NULL,
+controllerCode varchar(5) NOT NULL,
+PRIMARY KEY (trainSetCode, controllerCode),
+FOREIGN KEY (trainSetCode) REFERENCES Product(productCode) ON DELETE CASCADE,
+FOREIGN KEY (controllerCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE DccCode (
   productCode varchar(5) NOT NULL PRIMARY KEY,
   dccCode varchar(45) NOT NULL,
-  FOREIGN KEY (productCode) REFERENCES Product(productCode)
+  FOREIGN KEY (productCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE EraLink (
   productCode varchar(5) NOT NULL PRIMARY KEY,
   era varchar(45) NOT NULL,
-  FOREIGN KEY (productCode) REFERENCES Product(productCode)
+  FOREIGN KEY (productCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE LocomotiveTrainSetLink (
   trainSetCode varchar(5) NOT NULL,
   locomotiveCode varchar(5) NOT NULL,
   PRIMARY KEY (trainSetCode, locomotiveCode),
-  FOREIGN KEY (trainSetCode) REFERENCES Product(productCode),
-  FOREIGN KEY (locomotiveCode) REFERENCES Product(productCode)
+  FOREIGN KEY (trainSetCode) REFERENCES Product(productCode) ON DELETE CASCADE,
+  FOREIGN KEY (locomotiveCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE Orders (
@@ -116,7 +117,7 @@ CREATE TABLE RollingStockTrainSetLink (
   rollingStockCode varchar(5) NOT NULL,
   PRIMARY KEY (trainSetCode, rollingStockCode),
   FOREIGN KEY (trainSetCode) REFERENCES Product(productCode),
-  FOREIGN KEY (rollingStockCode) REFERENCES Product(productCode)
+  FOREIGN KEY (rollingStockCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE Stock (
@@ -128,15 +129,15 @@ CREATE TABLE Stock (
 CREATE TABLE TrackPacks (
   productCode varchar(5) NOT NULL PRIMARY KEY,
   isExtensionPack boolean NOT NULL,
-  FOREIGN KEY (productCode) REFERENCES Product(productCode)
+  FOREIGN KEY (productCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE TrackPackTrainSetLink (
   trainSetCode varchar(5) NOT NULL,
   trackPackCode varchar(5) NOT NULL,
   PRIMARY KEY (trainSetCode, trackPackCode),
-  FOREIGN KEY (trainSetCode) REFERENCES Product(productCode),
-  FOREIGN KEY (trackPackCode) REFERENCES Product(productCode)
+  FOREIGN KEY (trainSetCode) REFERENCES Product(productCode) ON DELETE CASCADE,
+  FOREIGN KEY (trackPackCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 -- add test data

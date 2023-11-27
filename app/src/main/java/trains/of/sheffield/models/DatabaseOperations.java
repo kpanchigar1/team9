@@ -484,4 +484,22 @@ public class DatabaseOperations {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
     }
+
+    public static void deleteProduct(String productCode) {
+        // TODO: deleting products may cause errors since they exist in past orders
+        // one option is to remove the relationship between products and order lines
+
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String productQuery = "DELETE FROM Product WHERE productCode = ?";
+            try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
+                productStatement.setString(1, productCode);
+                productStatement.executeUpdate();
+            }
+            DatabaseConnectionHandler.closeConnection();
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+    }
 }

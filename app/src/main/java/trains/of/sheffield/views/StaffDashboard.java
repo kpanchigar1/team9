@@ -16,8 +16,7 @@ public class StaffDashboard extends JFrame {
             controllerButton, managerButton, pendingOrdersButton, previousOrdersButton;
     private JLabel titleLabel;
 
-    // TODO: add a pending orders button
-    // TODO: add a previous orders button
+    // TODO: make one page for add new products and edit products and make it so that it populates the fields with the data from the database if its being edited
     public StaffDashboard() {
         super("Trains of Sheffield - Staff Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
