@@ -17,6 +17,7 @@ public class StaffDashboard extends JFrame {
     private JLabel titleLabel;
 
     // TODO: make one page for add new products and edit products and make it so that it populates the fields with the data from the database if its being edited
+    // TODO: make fullscreen
     public StaffDashboard() {
         super("Trains of Sheffield - Staff Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,8 +34,6 @@ public class StaffDashboard extends JFrame {
         menuBar.add(staffMenu);
 
         setJMenuBar(menuBar);
-
-        // TODO: display all categories of products like the main menu
 
         titlePanel = new JPanel();
         titleLabel = new JLabel("Trains of Sheffield - Staff Dashboard");

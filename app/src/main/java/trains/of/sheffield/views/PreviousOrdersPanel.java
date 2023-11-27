@@ -42,10 +42,6 @@ public class PreviousOrdersPanel extends JFrame {
         for (int i = 0; i < orderData.length; i++) {
             orderData[i][8] = "<html><a>View Order Lines</a></html>";
         }
-
-
-        // TODO: Make the table display the order lines when double clicked
-        // TODO: Make the order id column look like a hyperlink
         DefaultTableModel tableModel = new DefaultTableModel(orderData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {

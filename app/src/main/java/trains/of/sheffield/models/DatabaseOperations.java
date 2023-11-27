@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseOperations {
-    //TODO: parameterise all queries
+    // TODO: Check for unsafe operations
     public static boolean tryLogIn(String email, char[] pWord) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -496,6 +496,26 @@ public class DatabaseOperations {
             try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
                 productStatement.setString(1, productCode);
                 productStatement.executeUpdate();
+            }
+            DatabaseConnectionHandler.closeConnection();
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+    }
+
+    public static void decreaseStockLevels(String[][] orderData) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            for (String[] orderLine : orderData) {
+                String productCode = orderLine[0];
+                int quantity = Integer.parseInt(orderLine[2]);
+                String stockQuery = "UPDATE Stock SET stockCount = stockCount - ? WHERE productCode = ?";
+                try (PreparedStatement stockStatement = connection.prepareStatement(stockQuery)) {
+                    stockStatement.setInt(1, quantity);
+                    stockStatement.setString(2, productCode);
+                    stockStatement.executeUpdate();
+                }
             }
             DatabaseConnectionHandler.closeConnection();
         } catch(Exception ex) {

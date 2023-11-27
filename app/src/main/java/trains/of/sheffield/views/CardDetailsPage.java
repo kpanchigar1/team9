@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 // TODO: Do database operations
-// TODO: add sample data
 // TODO: add action listener to submit button
 // TODO: add back button
 // TODO: add action listener to back button

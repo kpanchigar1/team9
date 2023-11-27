@@ -5,9 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-private void updateProductTable(Object[][] data) {
-        productTable.setModel(new DefaultTableModel(data, columnNames));
-        }
+
 
 public class ProductPage extends JFrame {
     private JTextField searchField;
@@ -49,7 +47,7 @@ public class ProductPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String searchTerm = searchField.getText();
                 String filter = filterComboBox.getSelectedItem().toString();
-                updateProductTable(searchProducts(searchTerm, filter));
+                // updateProductTable(searchProducts(searchTerm, filter));
             }
         });
 
@@ -58,8 +56,13 @@ public class ProductPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String searchTerm = searchField.getText();
                 String filter = filterComboBox.getSelectedItem().toString();
-                updateProductTable(searchProducts(searchTerm, filter));
+                // updateProductTable(searchProducts(searchTerm, filter));
             }
         });
-    }}
+    }
+
+    private void updateProductTable(Object[][] data) {
+        // productTable.setModel(new DefaultTableModel(data, columnNames));
+    }
+}
 

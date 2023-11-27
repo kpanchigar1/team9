@@ -49,7 +49,6 @@ public class StaffConfirmedOrders extends JFrame {
             firstOrderID = Integer.parseInt(orderData[0][0]);
         }
 
-        // TODO: decrease stock levels when an order is fulfilled
         // TODO: sort the orders by date
         // TODO: make the order id of the first order look like a hyperlink
 
