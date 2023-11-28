@@ -8,12 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-// TODO: Do database operations
-// TODO: add action listener to submit button
-// TODO: add back button
-// TODO: add action listener to back button
-// TODO: turn cvv back to JPasswordField
-
 public class CardDetailsPage extends JFrame{
     private JPanel panel, expiryDatePanel;
     private JLabel cardNameLabel, cardNumberLabel, expiryDateLabel, cvvLabel, slash;

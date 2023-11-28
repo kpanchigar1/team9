@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-// TODO: add search and filter functionality
 public class CustomerProductsPage extends JFrame {
     private JTable productsTable;
     private JButton backButton;

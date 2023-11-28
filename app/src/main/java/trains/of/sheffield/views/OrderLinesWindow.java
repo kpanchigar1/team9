@@ -46,10 +46,8 @@ public class OrderLinesWindow extends JFrame {
                 quantityColumn.setCellRenderer(new GenericSpinnerRenderer<>());
 
                 for (int row = 0; row < tableModel.getRowCount(); row++) {
-                    System.out.println(tableModel.getValueAt(row, 2));
-                    System.out.println(tableModel.getValueAt(row, 2).toString());
                     int originalValue = Integer.parseInt(tableModel.getValueAt(row, 2).toString());
-                    quantityColumn.setCellEditor(new GenericSpinnerEditor<>(originalValue, new SpinnerNumberModel(originalValue, 0, Integer.MAX_VALUE, 1)));
+                    quantityColumn.setCellEditor(new GenericSpinnerEditor<>(originalValue, new SpinnerNumberModel(originalValue, 0, Integer.MAX_VALUE, 1), false));
                 }
             }
         }

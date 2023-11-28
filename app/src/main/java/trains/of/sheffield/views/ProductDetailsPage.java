@@ -9,8 +9,6 @@ import java.awt.*;
 import java.util.Objects;
 
 public class ProductDetailsPage extends JFrame {
-    // TODO: add action listeners to buttons
-    // TOOD: display train set Locomotive, RollingStock, Controller data as Name(Code) - e.g. Locomotive(LO001)
 
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;

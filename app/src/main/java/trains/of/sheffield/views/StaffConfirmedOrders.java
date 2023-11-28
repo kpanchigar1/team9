@@ -44,7 +44,6 @@ public class StaffConfirmedOrders extends JFrame {
             firstOrderID = Integer.parseInt(orderData[0][0]);
         }
 
-        // TODO: sort the orders by date
         // TODO: make the order id of the first order look like a hyperlink
 
         DefaultTableModel tableModel = new DefaultTableModel(orderData, columnNames) {

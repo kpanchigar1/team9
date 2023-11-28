@@ -19,7 +19,6 @@ public class ViewOrders extends JFrame{
     private JScrollPane scrollPane;
 
     public ViewOrders() {
-        // TODO: edit column widths
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
@@ -37,9 +36,6 @@ public class ViewOrders extends JFrame{
             orderData[i][8] = "<html><a>View Order Lines</a></html>";
         }
 
-
-        // TODO: Make the table display the order lines when double clicked
-        // TODO: Make the order id column look like a hyperlink
         DefaultTableModel tableModel = new DefaultTableModel(orderData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
