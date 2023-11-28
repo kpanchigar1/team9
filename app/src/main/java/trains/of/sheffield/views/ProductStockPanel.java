@@ -59,7 +59,7 @@ public class ProductStockPanel extends JFrame {
 
         for (int row = 0; row < model.getRowCount(); row++) {
             int originalValue = (int) model.getValueAt(row, 2);
-            stockColumn.setCellEditor(new GenericSpinnerEditor<>(originalValue, new SpinnerNumberModel(originalValue, 0, Integer.MAX_VALUE, 1)));
+            stockColumn.setCellEditor(new GenericSpinnerEditor<>(originalValue, new SpinnerNumberModel(originalValue, 0, Integer.MAX_VALUE, 1), true));
         }
 
 

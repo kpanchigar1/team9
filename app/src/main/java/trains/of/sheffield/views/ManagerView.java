@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List; // Make sure to import List
 
+// TODO: make slightly prettier
+
 public class ManagerView extends JFrame {
     private JTextField staffEmailField;
     private JButton addButton, removeButton;

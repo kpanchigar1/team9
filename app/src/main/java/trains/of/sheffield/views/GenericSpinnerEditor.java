@@ -11,7 +11,7 @@ public class GenericSpinnerEditor<T> extends AbstractCellEditor implements Table
     private final JSpinner spinner;
     private final int originalValue;
 
-    public GenericSpinnerEditor(int originalValue, SpinnerNumberModel model) {
+    public GenericSpinnerEditor(int originalValue, SpinnerNumberModel model, boolean isStockPage) {
         this.originalValue = originalValue;
 
         spinner = new JSpinner(model);
@@ -23,7 +23,7 @@ public class GenericSpinnerEditor<T> extends AbstractCellEditor implements Table
             @Override
             public void stateChanged(ChangeEvent e) {
                 int currentValue = (int) spinner.getValue();
-                if (currentValue < originalValue) {
+                if (currentValue < originalValue && isStockPage){
                     spinner.setValue(originalValue);
                 }
             }
