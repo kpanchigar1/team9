@@ -522,6 +522,7 @@ public class DatabaseOperations {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
     }
+<<<<<<< Updated upstream
 
 
     public static String getProductEra(String productCode) {
@@ -619,5 +620,51 @@ public class DatabaseOperations {
         return null;
         }
     }
+=======
+}
+
+
+// Method to add a staff member
+public static boolean addStaffMember(String email) {
+    try {
+        DatabaseConnectionHandler.openConnection();
+        Connection connection = DatabaseConnectionHandler.getConnection();
+        String query = "UPDATE User SET role = ? WHERE email = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, Role.STAFF.getRoleId()); // Assuming a specific role ID for staff
+            statement.setString(2, email);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0; // True if the user was updated
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        GUILoader.alertWindow("Error: " + ex.getMessage());
+        return false;
+    } finally {
+        DatabaseConnectionHandler.closeConnection();
+    }
+}
+
+// Method to remove a staff member
+public static boolean removeStaffMember(String email) {
+    try {
+        DatabaseConnectionHandler.openConnection();
+        Connection connection = DatabaseConnectionHandler.getConnection();
+        String query = "UPDATE User SET role = ? WHERE email = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, Role.DEFAULT.getRoleId()); // Assuming a default role for non-staff
+            statement.setString(2, email);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0; // True if the user was updated
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        GUILoader.alertWindow("Error: " + ex.getMessage());
+        return false;
+    } finally {
+        DatabaseConnectionHandler.closeConnection();
+    }
+}
+>>>>>>> Stashed changes
 
 

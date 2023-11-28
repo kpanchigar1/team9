@@ -1,9 +1,13 @@
 package trains.of.sheffield.views;
 
 import javax.swing.*;
+
+import trains.of.sheffield.models.DatabaseOperations;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List; // Make sure to import List
 
 public class ManagerView extends JFrame {
     private JTextField staffEmailField;
@@ -17,12 +21,10 @@ public class ManagerView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Panel for staff list
         listModel = new DefaultListModel<>();
         staffList = new JList<>(listModel);
         JScrollPane listScrollPane = new JScrollPane(staffList);
 
-        // Adding/removing staff panel 
         JPanel inputPanel = new JPanel(new GridLayout(1, 3));
         staffEmailField = new JTextField();
         addButton = new JButton("Add Staff");
@@ -32,42 +34,67 @@ public class ManagerView extends JFrame {
         inputPanel.add(addButton);
         inputPanel.add(removeButton);
 
-        // Adding components to the frame
         add(listScrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.SOUTH);
 
-        // Add button
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String staffEmail = JOptionPane.showInputDialog(ManagerView.this, 
-                                                                "Enter Staff Member's Email:", 
-                                                                "Add Staff", 
-                                                                JOptionPane.PLAIN_MESSAGE);
-                if (staffEmail != null && !staffEmail.trim().isEmpty()) {
-                    // Implement logic to add staff with the given email
-                    listModel.addElement(staffEmail); // Update UI list
-                } else {
-                    // Handle case where no email was entered or dialog was cancelled
-                    JOptionPane.showMessageDialog(ManagerView.this, 
-                                                  "No email entered. Staff member not added.", 
-                                                  "Info", 
-                                                  JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-        });
+        updateStaffList(); // Populate the list with current staff
+        
 
-        // Remove Button
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedStaff = staffList.getSelectedValue();
-                if (selectedStaff != null) {
-                    // Implement logic to remove selected staff
-                    listModel.removeElement(selectedStaff); // Update UI list
-                }
+        // Add button listener
+addButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String staffEmail = JOptionPane.showInputDialog(ManagerView.this, 
+                                                        "Enter Staff Member's Email:", 
+                                                        "Add Staff", 
+                                                        JOptionPane.PLAIN_MESSAGE);
+        if (staffEmail != null && !staffEmail.trim().isEmpty()) {
+            if (DatabaseOperations.addStaffMember(staffEmail)) {
+                updateStaffList(); // Refresh the list after successful addition
+                JOptionPane.showMessageDialog(ManagerView.this, 
+                                              "Staff member added successfully.", 
+                                              "Success", 
+                                              JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(ManagerView.this, 
+                                              "Failed to add staff member.", 
+                                              "Error", 
+                                              JOptionPane.ERROR_MESSAGE);
             }
-        });
+        }
+    }
+});
+
+// Remove button listener
+removeButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String selectedStaff = staffList.getSelectedValue();
+        if (selectedStaff != null) {
+            if (DatabaseOperations.removeStaffMember(selectedStaff)) {
+                updateStaffList(); // Refresh the list after successful removal
+                JOptionPane.showMessageDialog(ManagerView.this, 
+                                              "Staff member removed successfully.", 
+                                              "Success", 
+                                              JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(ManagerView.this, 
+                                              "Failed to remove staff member.", 
+                                              "Error", 
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+});
+
+    }
+
+    private void updateStaffList() {
+        List<String> staffMembers = DatabaseOperations.getStaffMembers();
+        listModel.clear(); 
+        for (String email : staffMembers) {
+            listModel.addElement(email);
+        }
     }
 
     public static void main(String[] args) {
