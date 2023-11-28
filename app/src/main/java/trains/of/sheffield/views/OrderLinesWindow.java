@@ -16,6 +16,7 @@ public class OrderLinesWindow extends JFrame {
     private StaffConfirmedOrders parent;
     public OrderLinesWindow(Order order, StaffConfirmedOrders parent, boolean fromBasket) {
         this.parent = parent;
+        // TODO: spinner is not storing values properly
 
         Container contentPane = getContentPane();
         String[] columnNames = {"Product ID", "Product Name", "Quantity"};
@@ -103,10 +104,6 @@ public class OrderLinesWindow extends JFrame {
 
                 DatabaseOperations.updateOrderLines(order.getOrderID(), productCode, stock);
                 }
-            }
-            dispose();
-            GUILoader.alertWindow("Basket updated");
-        });
 
         JPanel buttonPanel1 = new JPanel();
         buttonPanel1.setLayout(new GridLayout(1, 2));
@@ -136,5 +133,7 @@ public class OrderLinesWindow extends JFrame {
         setSize(400, 400);
         setVisible(true);
 
+        }
+    });
     }
 }

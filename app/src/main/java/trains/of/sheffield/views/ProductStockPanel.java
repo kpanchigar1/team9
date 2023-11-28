@@ -19,7 +19,7 @@ public class ProductStockPanel extends JFrame {
     public ProductStockPanel(String productType) {
 
         // TODO: delete product
-        // TODO: fix back button layout
+
         super("Trains of Sheffield - Staff Stock");
         productStockPanel = new JPanel(new GridBagLayout());
         setContentPane(productStockPanel);
@@ -47,23 +47,12 @@ public class ProductStockPanel extends JFrame {
 
         for (Product product : allProducts) {
             Integer stock = product.getStock();
-            JSpinner spinner = new JSpinner(new SpinnerNumberModel(stock - 0, stock - 0, Integer.MAX_VALUE, 1));
             model.addRow(new Object[]{product.getProductCode(), product.getProductName(), stock, "<html><u>Edit Product</u></html>", "<html><u>Delete Product</u></html>"});
         }
 
         // Create a JTable with the DefaultTableModel
         JTable stockTable = new JTable(model);
 
-        TableColumn stockColumn = stockTable.getColumnModel().getColumn(2);
-        stockColumn.setCellRenderer(new GenericSpinnerRenderer<>());
-
-        for (int row = 0; row < model.getRowCount(); row++) {
-            int originalValue = (int) model.getValueAt(row, 2);
-            stockColumn.setCellEditor(new GenericSpinnerEditor<>(originalValue, new SpinnerNumberModel(originalValue, 0, Integer.MAX_VALUE, 1), true));
-        }
-
-
-        // Create a custom TableCellEditor with a JSpinner
 
         JScrollPane stockTableScrollPane = new JScrollPane(stockTable);
         stockTableScrollPane.setBounds(0, 0, 800, 300);
@@ -110,28 +99,6 @@ public class ProductStockPanel extends JFrame {
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-
-        confirmChangesButton = new JButton("Confirm Changes");
-        confirmChangesButton.addActionListener(e -> {
-            for (int row = 0; row < model.getRowCount(); row++) {
-                String productCode = (String) model.getValueAt(row, 0);
-                // get spinner value
-                int stock = 0;
-                TableCellEditor editor = stockTable.getCellEditor(row, 2);
-                if (editor instanceof GenericSpinnerEditor) {
-                    JSpinner spinner = ((GenericSpinnerEditor<?>) editor).getSpinner();
-                    stock = (int) spinner.getValue();
-
-                    // Now you have the product code and the current stock value
-
-                DatabaseOperations.updateStock(productCode, stock);
-
-                dispose();
-                GUILoader.productStockPanelWindow(productType);
-                }
-            }
-        });
-        buttonPanel.add(confirmChangesButton);
 
         // Edit product on double click, with option to delete
 

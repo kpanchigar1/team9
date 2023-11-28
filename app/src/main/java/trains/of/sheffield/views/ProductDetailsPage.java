@@ -11,6 +11,8 @@ import java.util.Objects;
 
 public class ProductDetailsPage extends JFrame {
 
+    // TODO: product name and brand is swapped somewhere
+
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
     private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;
     private JButton addToBasketButton, confirmChangesButton;
