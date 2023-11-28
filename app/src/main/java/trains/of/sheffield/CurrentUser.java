@@ -9,8 +9,16 @@ public class CurrentUser {
     public static void setUser(User newUser) {
         user = newUser;
     }
+
     public static void clearUser() {
         user = null;
+    }
+
+    public static String getId() {
+        if (user == null) {
+            return null;
+        }
+        return user.getId();
     }
 
     public static Role getRole() {
@@ -26,6 +34,7 @@ public class CurrentUser {
         }
         return user.getCardDetail();
     }
+
     public static String getPasswordHash() {
         if (user == null) {
             return null;

@@ -366,6 +366,35 @@ public class DatabaseOperations {
         return new String[0][];
     }
 
+    public static String[][] getOrdersFromUser(String id) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String orderQuery = "SELECT * FROM Orders WHERE userID = ?"; // Fetches the details under the selected username
+            try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                ordersStatement.setString(1, id);
+                ResultSet results = ordersStatement.executeQuery();
+                List<String[]> orderList = new ArrayList<>();
+                while(results.next()) {
+                    String[] order = new String[9];
+                    User user = getUserFromID(results.getString("userID"));
+                    order[0] = results.getString("orderID");
+                    order[1] = results.getString("date");
+                    order[2] = user.getForename() + " " + user.getSurname();
+                    order[3] = user.getEmail();
+                    order[4] = user.getAddress().toString();
+                    order[5] = Status.getStatus(results.getInt("status")).toString();
+                    order[6] = String.valueOf(results.getDouble("totalPrice"));
+                    orderList.add(order);
+                }
+                DatabaseConnectionHandler.closeConnection();
+                return orderList.toArray(new String[0][0]);
+            }
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return new String[0][];
+    }
     private static User getUserFromID(String userID) {
         try {
             DatabaseConnectionHandler.openConnection();
