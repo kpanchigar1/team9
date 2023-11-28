@@ -6,20 +6,21 @@ import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class ProductDetailsPage extends JFrame {
     // TODO: populate fields with data from database if editing
-    // TODO: make fields uneditable if not from staff dashboard
     // TODO: add a add to basket button if from customer dashboard
     // TODO: add a confirm changes button if from staff dashboard
     // TODO: add a cancel changes button if from staff dashboard
-    // TODO: fix smth for trackpacks
+    // TODO: fix smth for track packs
 
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
     private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;
     private JButton addToBasketButton, confirmChangesButton;
-    public ProductDetailsPage(Product product, boolean fromStaffDashboard) {
+
+    public ProductDetailsPage(Product product, boolean fromStaffDashboard, String productType) {
         setTitle("Product Details Page");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,23 +72,26 @@ public class ProductDetailsPage extends JFrame {
         add(stockLabel);
         add(stockField);
 
-        String productCode = product.getProductCode();
+        if(product != null){
+            productType = product.getProductCode().substring(0, 1);
 
-        if(productCode.charAt(0) == 'M' || productCode.charAt(0) == 'L' || productCode.charAt(0) == 'S') {
+        }
+
+        if(Objects.equals(productType, "M") || Objects.equals(productType, "L") || Objects.equals(productType, "S")) {
             add(eraLabel);
             add(eraField);
         }
-        if(productCode.charAt(0) == 'C') {
+        if(Objects.equals(productType, "C")) {
             // Controller
             add(isAnalogueLabel);
             add(isAnalogueField);
         }
-        if(productCode.charAt(0) == 'P') {
+        if(Objects.equals(productType, "P")) {
             // Track pack
             add(trackPackLabel);
             add(trackPackField);
         }
-        if(productCode.charAt(0) == 'M') {
+        if(Objects.equals(productType, "M")) {
             // Train set
             add(locomotiveLabel);
             add(locomotiveField);
@@ -107,8 +111,8 @@ public class ProductDetailsPage extends JFrame {
 
         if(!fromStaffDashboard) {
             add(addToBasketButton);
-            addToBasketButton.setVisible(false);
-            confirmChangesButton.setVisible(true);
+            addToBasketButton.setVisible(true);  // Set addToBasketButton visible
+            confirmChangesButton.setVisible(false);
             productCodeField.setEditable(false);
             nameField.setEditable(false);
             brandField.setEditable(false);
@@ -122,7 +126,8 @@ public class ProductDetailsPage extends JFrame {
             locomotiveField.setEditable(false);
             rollingStockField.setEditable(false);
             trackPackField.setEditable(false);
-        } else {
+        }
+        else {
             add(confirmChangesButton);
             addToBasketButton.setVisible(false);
             confirmChangesButton.setVisible(true);
@@ -141,8 +146,9 @@ public class ProductDetailsPage extends JFrame {
             trackPackField.setEditable(true);
         }
 
-
-        populateFields(product);
+        if(product != null) {
+            populateFields(product);
+        }
         setVisible(true);
     }
 
@@ -180,7 +186,6 @@ public class ProductDetailsPage extends JFrame {
 
     public static void main(String[] args) {
         Product product = new Product("M001", "Product Name", "TrainSet1", 49.99, Gauge.OO, "Product desc..", 10);
-        ProductDetailsPage productDetailsPage = new ProductDetailsPage(product, false);
-
+        ProductDetailsPage productDetailsPage = new ProductDetailsPage(null, true, "M");
     }
 }
