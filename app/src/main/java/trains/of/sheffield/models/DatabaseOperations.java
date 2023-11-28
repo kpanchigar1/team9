@@ -7,6 +7,7 @@ import trains.of.sheffield.util.UniqueUserIDGenerator;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class DatabaseOperations {
     // TODO: Check for unsafe operations
@@ -492,6 +493,37 @@ public class DatabaseOperations {
                 ordersStatement.setInt(1, status.getStatusID());
                 ordersStatement.setInt(2, orderID);
                 ordersStatement.executeUpdate();
+            }
+            DatabaseConnectionHandler.closeConnection();
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
+        }
+    }
+
+    public static void updateOrderLines(int orderID, DefaultTableModel tableModel) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String productCode = tableModel.getValueAt(i, 0).toString();
+                int quantity = Integer.parseInt(tableModel.getValueAt(i, 2).toString());
+                if (quantity == 0) {
+                    String orderLineQuery = "DELETE FROM OrderLines WHERE orderID = ? AND productCode = ?";
+                    try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                        orderLineStatement.setInt(1, orderID);
+                        orderLineStatement.setString(2, productCode);
+                        orderLineStatement.executeUpdate();
+                    }
+                } else {
+                    String orderLineQuery = "UPDATE OrderLines SET quantity = ? WHERE orderID = ? AND productCode = ?";
+                    try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                        orderLineStatement.setInt(1, quantity);
+                        orderLineStatement.setInt(2, orderID);
+                        orderLineStatement.setString(3, productCode);
+                        orderLineStatement.executeUpdate();
+                        System.out.println("Debug");
+                    }
+                }
             }
             DatabaseConnectionHandler.closeConnection();
         } catch (Exception ex) {

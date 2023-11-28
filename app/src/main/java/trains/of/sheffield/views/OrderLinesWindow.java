@@ -88,6 +88,13 @@ public class OrderLinesWindow extends JFrame {
             
         });
 
+        JButton confirmChanges = new JButton("Confirm changes");
+        confirmChanges.addActionListener(e -> {
+            DatabaseOperations.updateOrderLines(order.getOrderID(), tableModel);
+            dispose();
+            GUILoader.alertWindow("Order updated");
+        });
+
         JPanel buttonPanel1 = new JPanel();
         buttonPanel1.setLayout(new GridLayout(1, 2));
         buttonPanel1.add(markAsFulfilled);
@@ -104,8 +111,9 @@ public class OrderLinesWindow extends JFrame {
         }
 
         JPanel buttonPanel3 = new JPanel();
-        buttonPanel3.setLayout(new GridLayout(1, 2));
+        buttonPanel3.setLayout(new GridLayout(1, 3));
         buttonPanel3.add(deleteOrder);
+        buttonPanel3.add(confirmChanges);
         buttonPanel3.add(checkout);
         if (order.getStatus().equals(Status.PENDING) && fromBasket) {
             contentPane.add(buttonPanel3, BorderLayout.SOUTH);
