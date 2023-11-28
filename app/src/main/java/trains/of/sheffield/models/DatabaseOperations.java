@@ -21,8 +21,8 @@ public class DatabaseOperations {
                 try (ResultSet results = preparedStatement.executeQuery()) {
                     results.next();
                     // Process the result set if needed
-                    if(results.getString("passwordHash").equals(HashedPasswordGenerator.hashPassword(pWord))) { // If the entered passwords are the same, the details are entered
-                            CurrentUser.setUser(getUserFromID(results.getString("userID"))); // Stores the user details
+                    if (results.getString("passwordHash").equals(HashedPasswordGenerator.hashPassword(pWord))) { // If the entered passwords are the same, the details are entered
+                        CurrentUser.setUser(getUserFromID(results.getString("userID"))); // Stores the user details
                         GUILoader.mainMenuWindow();
                         return true;
                     } else {
@@ -34,172 +34,172 @@ public class DatabaseOperations {
                 GUILoader.alertWindow("Error: Could not execute query " + ex.getMessage());
             }
             connection.close(); // Ending connection
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return false;
     }
 
-        public static boolean trySignUp(char[] pWord, String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
-            try {
-                DatabaseConnectionHandler.openConnection(); // Opens connection
-                Connection connection = DatabaseConnectionHandler.getConnection();
-                // TODO: check if address already exists
-                // Insert address
-                String addressQuery = "INSERT INTO Address VALUES (?, ?, ?, ?)";
-                try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
-                    addressStatement.setString(1, houseNumber);
-                    addressStatement.setString(2, streetName);
-                    addressStatement.setString(3, city);
-                    addressStatement.setString(4, postCode);
-                    addressStatement.executeUpdate();
-                } // Missing closing brace for the inner try block
+    public static boolean trySignUp(char[] pWord, String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            // TODO: check if address already exists
+            // Insert address
+            String addressQuery = "INSERT INTO Address VALUES (?, ?, ?, ?)";
+            try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
+                addressStatement.setString(1, houseNumber);
+                addressStatement.setString(2, streetName);
+                addressStatement.setString(3, city);
+                addressStatement.setString(4, postCode);
+                addressStatement.executeUpdate();
+            } // Missing closing brace for the inner try block
 
-                // Insert user
-                String userQuery = "INSERT INTO User VALUES (?, ?, ?, ?, ?, 2, ?, ?, NULL)";
-                try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
-                    userStatement.setString(1, UniqueUserIDGenerator.generateUniqueUserID());
-                    userStatement.setString(2, fName);
-                    userStatement.setString(3, sName);
-                    userStatement.setString(4, email);
-                    userStatement.setString(5, HashedPasswordGenerator.hashPassword(pWord));
-                    userStatement.setString(6, houseNumber);
-                    userStatement.setString(7, postCode);
-                    userStatement.executeUpdate();
-                }
-
-                DatabaseConnectionHandler.closeConnection(); // Ending connection
-                return true;
-            } catch (SQLException ex) {
-                ex.printStackTrace(); // Log the exception for debugging purposes
-                GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
-                return false;
+            // Insert user
+            String userQuery = "INSERT INTO User VALUES (?, ?, ?, ?, ?, 2, ?, ?, NULL)";
+            try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                userStatement.setString(1, UniqueUserIDGenerator.generateUniqueUserID());
+                userStatement.setString(2, fName);
+                userStatement.setString(3, sName);
+                userStatement.setString(4, email);
+                userStatement.setString(5, HashedPasswordGenerator.hashPassword(pWord));
+                userStatement.setString(6, houseNumber);
+                userStatement.setString(7, postCode);
+                userStatement.executeUpdate();
             }
+
+            DatabaseConnectionHandler.closeConnection(); // Ending connection
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log the exception for debugging purposes
+            GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+            return false;
         }
+    }
 
-        public static void updateDetails(String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
-            try {
-                DatabaseConnectionHandler.openConnection(); // Opens connection
-                Connection connection = DatabaseConnectionHandler.getConnection();
-                // Update address
-                String addressQuery = "UPDATE Address SET houseNumber = ?, streetName = ?, city = ?, postCode = ? WHERE houseNumber = ? AND postCode = ?";
-                try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
-                    addressStatement.setString(1, houseNumber);
-                    addressStatement.setString(2, streetName);
-                    addressStatement.setString(3, city);
-                    addressStatement.setString(4, postCode);
-                    addressStatement.setString(5, CurrentUser.getCurrentUser().getAddress().getHouseNumber());
-                    addressStatement.setString(6, CurrentUser.getCurrentUser().getAddress().getPostCode());
-                    addressStatement.executeUpdate();
-                    // update current user address
-                    CurrentUser.setAddress(new Address(houseNumber, streetName, city, postCode));
-                }
-
-                // Update user
-                String userQuery = "UPDATE User SET forename = ?, surname = ?, email = ?, houseNumber = ?, postCode = ? WHERE userID = ?";
-                try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
-                    userStatement.setString(1, fName);
-                    userStatement.setString(2, sName);
-                    userStatement.setString(3, email);
-                    userStatement.setString(4, houseNumber);
-                    userStatement.setString(5, postCode);
-                    userStatement.setString(6, CurrentUser.getCurrentUser().getId());
-                    userStatement.executeUpdate();
-                    // update current user details
-                    CurrentUser.setForename(fName);
-                    CurrentUser.setSurname(sName);
-                    CurrentUser.setEmail(email);
-                }
-
-                DatabaseConnectionHandler.closeConnection(); // Ending connection
-            } catch (SQLException ex) {
-                ex.printStackTrace(); // Log the exception for debugging purposes
-                GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+    public static void updateDetails(String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            // Update address
+            String addressQuery = "UPDATE Address SET houseNumber = ?, streetName = ?, city = ?, postCode = ? WHERE houseNumber = ? AND postCode = ?";
+            try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
+                addressStatement.setString(1, houseNumber);
+                addressStatement.setString(2, streetName);
+                addressStatement.setString(3, city);
+                addressStatement.setString(4, postCode);
+                addressStatement.setString(5, CurrentUser.getCurrentUser().getAddress().getHouseNumber());
+                addressStatement.setString(6, CurrentUser.getCurrentUser().getAddress().getPostCode());
+                addressStatement.executeUpdate();
+                // update current user address
+                CurrentUser.setAddress(new Address(houseNumber, streetName, city, postCode));
             }
-        }
 
-        public static void updatePassword(char[] pWord) {
-            try {
-                DatabaseConnectionHandler.openConnection(); // Opens connection
-                Connection connection = DatabaseConnectionHandler.getConnection();
-                // Update user
-                String userQuery = "UPDATE User SET passwordHash = ? WHERE userID = ?";
-                try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
-                    userStatement.setString(1, HashedPasswordGenerator.hashPassword(pWord));
-                    userStatement.setString(2, CurrentUser.getCurrentUser().getId());
-                    userStatement.executeUpdate();
-                    // update current user details
-                    CurrentUser.setPasswordHash(HashedPasswordGenerator.hashPassword(pWord));
-                }
-                DatabaseConnectionHandler.closeConnection(); // Ending connection
-            } catch (SQLException ex) {
-                ex.printStackTrace(); // Log the exception for debugging purposes
-                GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+            // Update user
+            String userQuery = "UPDATE User SET forename = ?, surname = ?, email = ?, houseNumber = ?, postCode = ? WHERE userID = ?";
+            try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                userStatement.setString(1, fName);
+                userStatement.setString(2, sName);
+                userStatement.setString(3, email);
+                userStatement.setString(4, houseNumber);
+                userStatement.setString(5, postCode);
+                userStatement.setString(6, CurrentUser.getCurrentUser().getId());
+                userStatement.executeUpdate();
+                // update current user details
+                CurrentUser.setForename(fName);
+                CurrentUser.setSurname(sName);
+                CurrentUser.setEmail(email);
             }
+
+            DatabaseConnectionHandler.closeConnection(); // Ending connection
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log the exception for debugging purposes
+            GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
         }
+    }
 
-        public static void tryCardDetails(String cardName, String cardNumber, String expiryDate, String cvv) {
-            try {
-                DatabaseConnectionHandler.openConnection(); // Opens connection
-                Connection connection = DatabaseConnectionHandler.getConnection();
-                // Insert card details
-                String cardQuery = "INSERT INTO CardDetail VALUES (?, ?, ?, ?)";
-                try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
-                    cardStatement.setString(1, cardName);
-                    cardStatement.setString(2, cardNumber);
-                    cardStatement.setString(3, expiryDate);
-                    cardStatement.setString(4, cvv);
-                    cardStatement.executeUpdate();
-                }
-
-                // Update user
-                String userQuery = "UPDATE User SET cardNumber = ? WHERE userID = ?";
-                try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
-                    userStatement.setString(1, cardNumber);
-                    userStatement.setString(2, CurrentUser.getCurrentUser().getId());
-                    userStatement.executeUpdate();
-                    // update current user details
-                    CurrentUser.setCardDetail(new Card(cardName, cardNumber, expiryDate, cvv));
-                }
-                DatabaseConnectionHandler.closeConnection(); // Ending connection
-            } catch (SQLException ex) {
-                ex.printStackTrace(); // Log the exception for debugging purposes
-                GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+    public static void updatePassword(char[] pWord) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            // Update user
+            String userQuery = "UPDATE User SET passwordHash = ? WHERE userID = ?";
+            try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                userStatement.setString(1, HashedPasswordGenerator.hashPassword(pWord));
+                userStatement.setString(2, CurrentUser.getCurrentUser().getId());
+                userStatement.executeUpdate();
+                // update current user details
+                CurrentUser.setPasswordHash(HashedPasswordGenerator.hashPassword(pWord));
             }
+            DatabaseConnectionHandler.closeConnection(); // Ending connection
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log the exception for debugging purposes
+            GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
         }
+    }
 
-        public static void updateCardDetails(String cardName, String cardNumber, String expiryDate, String cvv, String oldCardNumber) {
-            try {
-                DatabaseConnectionHandler.openConnection(); // Opens connection
-                Connection connection = DatabaseConnectionHandler.getConnection();
-                // Update card details
-                String cardQuery = "UPDATE CardDetail SET cardName = ?, expiryDate = ?, cvv = ?, cardNumber = ? WHERE cardNumber = ?";
-                try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
-                    cardStatement.setString(1, cardName);
-                    cardStatement.setString(2, expiryDate);
-                    cardStatement.setString(3, cvv);
-                    cardStatement.setString(4, cardNumber);
-                    cardStatement.setString(5, oldCardNumber);
-                    cardStatement.executeUpdate();
-                }
-
-                // Update user
-                String userQuery = "UPDATE User SET cardNumber = ? WHERE userID = ?";
-                try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
-                    userStatement.setString(1, cardNumber);
-                    userStatement.setString(2, CurrentUser.getCurrentUser().getId());
-                    userStatement.executeUpdate();
-                    // update current user details
-                    CurrentUser.setCardDetail(new Card(cardName, cardNumber, expiryDate, cvv));
-                }
-                DatabaseConnectionHandler.closeConnection(); // Ending connection
-            } catch (SQLException ex) {
-                ex.printStackTrace(); // Log the exception for debugging purposes
-                GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+    public static void tryCardDetails(String cardName, String cardNumber, String expiryDate, String cvv) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            // Insert card details
+            String cardQuery = "INSERT INTO CardDetail VALUES (?, ?, ?, ?)";
+            try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
+                cardStatement.setString(1, cardName);
+                cardStatement.setString(2, cardNumber);
+                cardStatement.setString(3, expiryDate);
+                cardStatement.setString(4, cvv);
+                cardStatement.executeUpdate();
             }
-        }
 
-        public static Card getCardDetailFromDB(String cardNumber){
+            // Update user
+            String userQuery = "UPDATE User SET cardNumber = ? WHERE userID = ?";
+            try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                userStatement.setString(1, cardNumber);
+                userStatement.setString(2, CurrentUser.getCurrentUser().getId());
+                userStatement.executeUpdate();
+                // update current user details
+                CurrentUser.setCardDetail(new Card(cardName, cardNumber, expiryDate, cvv));
+            }
+            DatabaseConnectionHandler.closeConnection(); // Ending connection
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log the exception for debugging purposes
+            GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+        }
+    }
+
+    public static void updateCardDetails(String cardName, String cardNumber, String expiryDate, String cvv, String oldCardNumber) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            // Update card details
+            String cardQuery = "UPDATE CardDetail SET cardName = ?, expiryDate = ?, cvv = ?, cardNumber = ? WHERE cardNumber = ?";
+            try (PreparedStatement cardStatement = connection.prepareStatement(cardQuery)) {
+                cardStatement.setString(1, cardName);
+                cardStatement.setString(2, expiryDate);
+                cardStatement.setString(3, cvv);
+                cardStatement.setString(4, cardNumber);
+                cardStatement.setString(5, oldCardNumber);
+                cardStatement.executeUpdate();
+            }
+
+            // Update user
+            String userQuery = "UPDATE User SET cardNumber = ? WHERE userID = ?";
+            try (PreparedStatement userStatement = connection.prepareStatement(userQuery)) {
+                userStatement.setString(1, cardNumber);
+                userStatement.setString(2, CurrentUser.getCurrentUser().getId());
+                userStatement.executeUpdate();
+                // update current user details
+                CurrentUser.setCardDetail(new Card(cardName, cardNumber, expiryDate, cvv));
+            }
+            DatabaseConnectionHandler.closeConnection(); // Ending connection
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log the exception for debugging purposes
+            GUILoader.alertWindow("Error: Could not connect " + ex.getMessage()); // Outputs error message
+        }
+    }
+
+    public static Card getCardDetailFromDB(String cardNumber) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
@@ -211,12 +211,12 @@ public class DatabaseOperations {
                 results.next();
                 return new Card(results.getString("cardName"), results.getString("cardNumber"), results.getString("expiryDate"), results.getString("cvv")); // Returns the card details
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return null;
         }
     }
 
-    public static Address getAddressFromDB(String houseNumber, String postCode){
+    public static Address getAddressFromDB(String houseNumber, String postCode) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
@@ -230,8 +230,8 @@ public class DatabaseOperations {
                 return new Address(results.getString("houseNumber"), results.getString("streetName"), results.getString("city"), results.getString("postCode")); // Returns the address details
             }
 
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -248,8 +248,8 @@ public class DatabaseOperations {
                 results.next();
                 return results.getString("brandName");
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -268,8 +268,8 @@ public class DatabaseOperations {
                     return 0;
                 }
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -283,9 +283,9 @@ public class DatabaseOperations {
             // String r = "SELECT * FROM Product WHERE productCode LIKE '"+m+"%'"
             String productQuery = "SELECT * FROM Product WHERE productCode LIKE ?";
             try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
-                productStatement.setString(1, m+"%");
+                productStatement.setString(1, m + "%");
                 ResultSet results = productStatement.executeQuery();
-                while(results.next()) {
+                while (results.next()) {
                     allProducts.add(new Product(results.getString("productCode"),
                             getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
                             results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
@@ -293,8 +293,8 @@ public class DatabaseOperations {
                 }
                 return allProducts;
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -305,7 +305,7 @@ public class DatabaseOperations {
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
             // check if stock is present, if yes then update else insert
-            String r = "SELECT * FROM Stock WHERE productCode = '"+productCode+"'"; // Fetches the details under the selected username
+            String r = "SELECT * FROM Stock WHERE productCode = '" + productCode + "'"; // Fetches the details under the selected username
             ResultSet results = st.executeQuery(r);
             if (results.next()) {
                 // update
@@ -325,12 +325,12 @@ public class DatabaseOperations {
                 }
             }
             DatabaseConnectionHandler.closeConnection();
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
     }
 
-    public static String[][] getOrdersFromStatus(Status status, boolean justCustomer){
+    public static String[][] getOrdersFromStatus(Status status, boolean justCustomer) {
         // String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total"};
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -340,7 +340,7 @@ public class DatabaseOperations {
                 ordersStatement.setInt(1, status.getStatusID());
                 ResultSet results = ordersStatement.executeQuery();
                 List<String[]> orderList = new ArrayList<>();
-                while(results.next()) {
+                while (results.next()) {
                     String[] order = new String[9];
                     User user = getUserFromID(results.getString("userID"));
                     if (justCustomer && user.getId().equals(CurrentUser.getCurrentUser().getId()) || !justCustomer) {
@@ -351,7 +351,7 @@ public class DatabaseOperations {
                         order[4] = user.getAddress().toString();
                         order[5] = Status.getStatus(results.getInt("status")).toString();
                         order[6] = String.valueOf(results.getDouble("totalPrice"));
-                        if(status.equals(Status.FULFILLED)){
+                        if (status.equals(Status.FULFILLED)) {
                             order[7] = "True";
                         }
                         orderList.add(order);
@@ -360,14 +360,14 @@ public class DatabaseOperations {
                 DatabaseConnectionHandler.closeConnection();
                 return orderList.toArray(new String[0][0]);
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return new String[0][];
     }
 
     private static User getUserFromID(String userID) {
-        try{
+        try {
             DatabaseConnectionHandler.openConnection();
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
@@ -378,8 +378,8 @@ public class DatabaseOperations {
                 results.next();
                 return new User(results.getString("userID"), results.getString("forename"), results.getString("surname"), results.getString("email"), results.getString("passwordHash"), getAddressFromDB(results.getString("houseNumber"), results.getString("postCode")), getCardDetailFromDB(results.getString("cardNumber")), Role.getRole(results.getInt("role"))); // Stores the user details
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -394,7 +394,7 @@ public class DatabaseOperations {
                 orderLineStatement.setInt(1, orderID);
                 ResultSet results = orderLineStatement.executeQuery();
                 List<String[]> orderLineList = new ArrayList<>();
-                while(results.next()) {
+                while (results.next()) {
                     String[] orderLine = new String[5];
                     Product product = getProductFromCode(results.getString("productCode"));
                     orderLine[0] = product.getProductCode();
@@ -406,8 +406,8 @@ public class DatabaseOperations {
                 DatabaseConnectionHandler.closeConnection();
                 return orderLineList.toArray(new String[0][0]);
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return new String[0][];
     }
@@ -427,8 +427,8 @@ public class DatabaseOperations {
                         results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
                         results.getString("description"), getProductStock(results.getString("productCode"))); // Stores the user details
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -448,8 +448,8 @@ public class DatabaseOperations {
                 }
                 return new Order(results.getInt("orderID"), results.getString("date"), results.getInt("status"), orderLines);
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -465,8 +465,8 @@ public class DatabaseOperations {
                 ordersStatement.executeUpdate();
             }
             DatabaseConnectionHandler.closeConnection();
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
     }
 
@@ -480,8 +480,8 @@ public class DatabaseOperations {
                 ordersStatement.executeUpdate();
             }
             DatabaseConnectionHandler.closeConnection();
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
     }
 
@@ -498,8 +498,8 @@ public class DatabaseOperations {
                 productStatement.executeUpdate();
             }
             DatabaseConnectionHandler.closeConnection();
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
     }
 
@@ -518,11 +518,10 @@ public class DatabaseOperations {
                 }
             }
             DatabaseConnectionHandler.closeConnection();
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
     }
-<<<<<<< Updated upstream
 
 
     public static String getProductEra(String productCode) {
@@ -537,8 +536,8 @@ public class DatabaseOperations {
                 results.next();
                 return results.getString("era");
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -560,8 +559,8 @@ public class DatabaseOperations {
                     return "Digital";
                 }
             }
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
     }
@@ -614,57 +613,77 @@ public class DatabaseOperations {
             }
             DatabaseConnectionHandler.closeConnection();
             return trainSetData;
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return null;
-        }
     }
-=======
-}
 
 
-// Method to add a staff member
-public static boolean addStaffMember(String email) {
-    try {
-        DatabaseConnectionHandler.openConnection();
-        Connection connection = DatabaseConnectionHandler.getConnection();
-        String query = "UPDATE User SET role = ? WHERE email = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, Role.STAFF.getRoleId()); // Assuming a specific role ID for staff
-            statement.setString(2, email);
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0; // True if the user was updated
+    // Method to add a staff member
+    public static boolean addStaffMember(String email) {
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "UPDATE User SET role = ? WHERE email = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, Role.STAFF.getRoleID()); // Assuming a specific role ID for staff
+                statement.setString(2, email);
+                int rowsAffected = statement.executeUpdate();
+                return rowsAffected > 0; // True if the user was updated
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+            return false;
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        GUILoader.alertWindow("Error: " + ex.getMessage());
-        return false;
-    } finally {
-        DatabaseConnectionHandler.closeConnection();
     }
-}
 
-// Method to remove a staff member
-public static boolean removeStaffMember(String email) {
-    try {
-        DatabaseConnectionHandler.openConnection();
-        Connection connection = DatabaseConnectionHandler.getConnection();
-        String query = "UPDATE User SET role = ? WHERE email = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, Role.DEFAULT.getRoleId()); // Assuming a default role for non-staff
-            statement.setString(2, email);
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0; // True if the user was updated
+    // Method to remove a staff member
+    public static boolean removeStaffMember(String email) {
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "UPDATE User SET role = ? WHERE email = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, 2); // Assuming a default role for non-staff
+                statement.setString(2, email);
+                int rowsAffected = statement.executeUpdate();
+                return rowsAffected > 0; // True if the user was updated
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+            return false;
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        GUILoader.alertWindow("Error: " + ex.getMessage());
-        return false;
-    } finally {
-        DatabaseConnectionHandler.closeConnection();
+    }
+
+    public static List<String> getStaffMembers() {
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT email FROM User WHERE role = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, Role.STAFF.getRoleID()); // Assuming a specific role ID for staff
+                ResultSet results = statement.executeQuery();
+                List<String> staffMembers = new ArrayList<>();
+                while (results.next()) {
+                    staffMembers.add(results.getString("email"));
+                }
+                return staffMembers;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+            return null;
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
     }
 }
->>>>>>> Stashed changes
 
 
