@@ -39,7 +39,7 @@ public class MainMenu extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.trainSetWindow();
+                GUILoader.customerProductPageWindow("M");
             }
         });
         buttonPanel.add(trainSetButton);
@@ -49,7 +49,7 @@ public class MainMenu extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.trackPackWindow();
+                GUILoader.customerProductPageWindow("P");
             }
         });
         buttonPanel.add(trackPackButton);
@@ -59,7 +59,7 @@ public class MainMenu extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.locomotiveWindow();
+                GUILoader.customerProductPageWindow("L");
             }
         });
         buttonPanel.add(locomotiveButton);
@@ -69,7 +69,7 @@ public class MainMenu extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.rollingStockWindow();
+                GUILoader.customerProductPageWindow("S");
             }
         });
         buttonPanel.add(rollingStockButton);
@@ -79,7 +79,7 @@ public class MainMenu extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.trackWindow();
+                GUILoader.customerProductPageWindow("T");
             }
         });
         buttonPanel.add(trackButton);
@@ -89,7 +89,7 @@ public class MainMenu extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.controllerWindow();
+                GUILoader.customerProductPageWindow("C");
             }
         });
         buttonPanel.add(controllerButton);

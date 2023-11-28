@@ -116,4 +116,8 @@ public class GUILoader {
 	public static void productDetailsPageWindow(Product product, boolean isStaffPage, String productType) {
 		ProductDetailsPage productDetailsPageGUI = new ProductDetailsPage(product, isStaffPage, productType);
 	}
+
+	public static void customerProductPageWindow(String productType) {
+		CustomerProductsPage customerProductsPageGUI = new CustomerProductsPage(productType);
+	}
 }
