@@ -8,6 +8,9 @@ import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 
 public class OrderLinesWindow extends JFrame {
     private StaffConfirmedOrders parent;
@@ -18,7 +21,44 @@ public class OrderLinesWindow extends JFrame {
         String[] columnNames = {"Product ID", "Product Name", "Quantity"};
         String[][] orderData = DatabaseOperations.getOrderLines(order.getOrderID());
 
-        JTable orderLinesTable = new JTable(orderData, columnNames);
+        DefaultTableModel tableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column == 2 && order.getStatus().equals(Status.PENDING) && fromBasket) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        };
+
+        tableModel.setColumnIdentifiers(columnNames);
+        JTable orderLinesTable = new JTable(tableModel);
+
+        if (order.getStatus().equals(Status.PENDING) && fromBasket) {
+            for (int i = 0; i < orderData.length; i++) {
+                int quantity = Integer.parseInt(orderData[i][2]);
+                JSpinner spinner = new JSpinner(new SpinnerNumberModel(quantity, 0, Integer.MAX_VALUE, 1));
+                tableModel.addRow(new Object[]{orderData[i][0], orderData[i][1], quantity});
+
+                TableColumn quantityColumn = orderLinesTable.getColumnModel().getColumn(2);
+                quantityColumn.setCellRenderer(new GenericSpinnerRenderer<>());
+
+                for (int row = 0; row < tableModel.getRowCount(); row++) {
+                    System.out.println(tableModel.getValueAt(row, 2));
+                    System.out.println(tableModel.getValueAt(row, 2).toString());
+                    int originalValue = Integer.parseInt(tableModel.getValueAt(row, 2).toString());
+                    quantityColumn.setCellEditor(new GenericSpinnerEditor<>(originalValue, new SpinnerNumberModel(originalValue, 0, Integer.MAX_VALUE, 1)));
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < orderData.length; i++) {
+                tableModel.addRow(new Object[]{orderData[i][0], orderData[i][1], orderData[i][2]});
+            }
+        }
+
         JScrollPane scrollPane = new JScrollPane(orderLinesTable);
 
         JButton markAsFulfilled = new JButton("Mark as fulfilled");
@@ -41,7 +81,6 @@ public class OrderLinesWindow extends JFrame {
             if (CurrentUser.getCardDetail() != null) {
                 DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.CONFIRMED);
                 dispose();
-                GUILoader.mainMenuWindow();
                 GUILoader.alertWindow("Order confirmed");
             } else {
                 dispose();
