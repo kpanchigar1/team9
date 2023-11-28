@@ -6,8 +6,6 @@ import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -34,11 +32,8 @@ public class ProductStockPanel extends JFrame {
 
         List<Product> allProducts = DatabaseOperations.getProductsFromType(productType);
 
-        DefaultTableModel model = new DefaultTableModel(){
+        DefaultTableModel model = new DefaultTableModel() {
             public boolean isCellEditable(int row, int column) {
-                if(column == 2){
-                    return true;
-                }
                 return false;
             }
         };
