@@ -80,8 +80,8 @@ public class CustomerProductsPage extends JFrame {
 
                 // If the user clicked on the "Add to Basket" cell
                 if (text.equals("<html><u>Add to Basket</u></html>")) {
-                    // TODO: add product to basket
-
+                    DatabaseOperations.addProductToOrder(DatabaseOperations.getProductFromID(productCode));
+                    GUILoader.alertWindow("Product added to basket");
                 }
             }
         });

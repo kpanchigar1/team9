@@ -1,5 +1,6 @@
 package trains.of.sheffield.views;
 
+import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.Gauge;
 import trains.of.sheffield.Product;
 import trains.of.sheffield.models.DatabaseOperations;
@@ -144,7 +145,9 @@ public class ProductDetailsPage extends JFrame {
 
         // Add action listeners to buttons
         addToBasketButton.addActionListener(e -> {
-            // TODO: add to basket
+            DatabaseOperations.addProductToOrder(product);
+            dispose();
+            GUILoader.alertWindow("Product added to basket");
         });
 
         String finalProductType = productType;

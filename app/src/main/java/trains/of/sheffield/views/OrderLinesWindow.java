@@ -98,8 +98,8 @@ public class OrderLinesWindow extends JFrame {
                 if (editor instanceof GenericSpinnerEditor) {
                     JSpinner spinner = ((GenericSpinnerEditor<?>) editor).getSpinner();
                     stock = (int) spinner.getValue();
-
-                    // Now you have the product code and the current stock value
+                    System.out.println(stock);
+                    // Now you have the product code and the current quantity value
 
                 DatabaseOperations.updateOrderLines(order.getOrderID(), productCode, stock);
                 }

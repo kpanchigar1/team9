@@ -7,7 +7,6 @@ import trains.of.sheffield.util.UniqueUserIDGenerator;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.table.DefaultTableModel;
 
 public class DatabaseOperations {
     // TODO: Check for unsafe operations
@@ -365,6 +364,81 @@ public class DatabaseOperations {
             GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
         return new String[0][];
+    }
+
+    public static void addProductToOrder(Product product) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            // Check if User has a pending order
+            String orderQuery = "SELECT * FROM Orders WHERE userID = ? AND status = ?";
+            try (PreparedStatement orderStatement = connection.prepareStatement(orderQuery)) {
+                orderStatement.setString(1, CurrentUser.getCurrentUser().getId());
+                orderStatement.setInt(2, Status.PENDING.getStatusID());
+                ResultSet results = orderStatement.executeQuery();
+                if (results.next()) {
+                    // User has a pending order
+                    // Check if product is already in order
+                    String orderLineQuery = "SELECT * FROM OrderLines WHERE orderID = ? AND productCode = ?";
+                    try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                        orderLineStatement.setInt(1, results.getInt("orderID"));
+                        orderLineStatement.setString(2, product.getProductCode());
+                        ResultSet orderLineResults = orderLineStatement.executeQuery();
+                        if (orderLineResults.next()) {
+                            // Product is already in order
+                            // Update quantity
+                            String updateQuery = "UPDATE OrderLines SET quantity = ? WHERE orderID = ? AND productCode = ?";
+                            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                                updateStatement.setInt(1, orderLineResults.getInt("quantity") + 1);
+                                updateStatement.setInt(2, results.getInt("orderID"));
+                                updateStatement.setString(3, product.getProductCode());
+                                updateStatement.executeUpdate();
+                            }
+                        } else {
+                            // Product is not in order
+                            // Add product to order
+                            String insertQuery = "INSERT INTO OrderLines VALUES (?, ?, ?)";
+                            try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                                insertStatement.setInt(1, results.getInt("orderID"));
+                                insertStatement.setString(2, product.getProductCode());
+                                insertStatement.setInt(3, 1);
+                                insertStatement.executeUpdate();
+                            }
+                        }
+                    }
+                } else {
+                    // User does not have a pending order
+                    // Create new order
+                    String insertQuery = "INSERT INTO Orders VALUES (?, ?, ?, ?)";
+                    Date utilDate = new Date(System.currentTimeMillis());
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setDate(1, new java.sql.Date(utilDate.getTime()));
+                        insertStatement.setInt(2, 0);
+                        insertStatement.setString(3, CurrentUser.getCurrentUser().getId());
+                        insertStatement.setDouble(4, product.getPrice());
+                        insertStatement.executeUpdate();
+                    }
+                    // Get orderID
+                    String orderIDQuery = "SELECT * FROM Orders WHERE userID = ? AND status = ?";
+                    try (PreparedStatement orderIDStatement = connection.prepareStatement(orderIDQuery)) {
+                        orderIDStatement.setString(1, CurrentUser.getCurrentUser().getId());
+                        orderIDStatement.setInt(2, Status.PENDING.getStatusID());
+                        ResultSet orderIDResults = orderIDStatement.executeQuery();
+                        orderIDResults.next();
+                        // Add product to order
+                        String insertQuery2 = "INSERT INTO OrderLines VALUES (?, ?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery2)) {
+                            insertStatement.setInt(1, orderIDResults.getInt("orderID"));
+                            insertStatement.setString(2, product.getProductCode());
+                            insertStatement.setInt(3, 1);
+                            insertStatement.executeUpdate();
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
+        }
     }
 
     public static String[][] getOrdersFromUser(String id) {
