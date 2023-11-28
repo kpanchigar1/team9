@@ -17,6 +17,7 @@ public class ProductStockPanel extends JFrame {
     private JPanel productStockPanel, buttonPanel;
     private JButton backButton, confirmChangesButton, addNewProductButton;
     public ProductStockPanel(String productType) {
+
         // TODO: delete product
         // TODO: fix back button layout
         super("Trains of Sheffield - Staff Stock");
@@ -29,7 +30,6 @@ public class ProductStockPanel extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
         gbc.weighty = 1;
-
 
 
         List<Product> allProducts = DatabaseOperations.getProductsFromType(productType);
