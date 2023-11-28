@@ -90,9 +90,22 @@ public class OrderLinesWindow extends JFrame {
 
         JButton confirmChanges = new JButton("Confirm changes");
         confirmChanges.addActionListener(e -> {
-            DatabaseOperations.updateOrderLines(order.getOrderID(), tableModel);
+            for (int row = 0; row < tableModel.getRowCount(); row++) {
+                String productCode = (String) tableModel.getValueAt(row, 0);
+                // get spinner value
+                int stock = 0;
+                TableCellEditor editor = orderLinesTable.getCellEditor(row, 2);
+                if (editor instanceof GenericSpinnerEditor) {
+                    JSpinner spinner = ((GenericSpinnerEditor<?>) editor).getSpinner();
+                    stock = (int) spinner.getValue();
+
+                    // Now you have the product code and the current stock value
+
+                DatabaseOperations.updateOrderLines(order.getOrderID(), productCode, stock);
+                }
+            }
             dispose();
-            GUILoader.alertWindow("Order updated");
+            GUILoader.alertWindow("Basket updated");
         });
 
         JPanel buttonPanel1 = new JPanel();

@@ -500,29 +500,25 @@ public class DatabaseOperations {
         }
     }
 
-    public static void updateOrderLines(int orderID, DefaultTableModel tableModel) {
+    public static void updateOrderLines(int orderID, String productCode, int quantity) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                String productCode = tableModel.getValueAt(i, 0).toString();
-                int quantity = Integer.parseInt(tableModel.getValueAt(i, 2).toString());
-                if (quantity == 0) {
-                    String orderLineQuery = "DELETE FROM OrderLines WHERE orderID = ? AND productCode = ?";
-                    try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
-                        orderLineStatement.setInt(1, orderID);
-                        orderLineStatement.setString(2, productCode);
-                        orderLineStatement.executeUpdate();
-                    }
-                } else {
-                    String orderLineQuery = "UPDATE OrderLines SET quantity = ? WHERE orderID = ? AND productCode = ?";
-                    try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
-                        orderLineStatement.setInt(1, quantity);
-                        orderLineStatement.setInt(2, orderID);
-                        orderLineStatement.setString(3, productCode);
-                        orderLineStatement.executeUpdate();
-                        System.out.println("Debug");
-                    }
+            if (quantity == 0) {
+                String orderLineQuery = "DELETE FROM OrderLines WHERE orderID = ? AND productCode = ?";
+                try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                    orderLineStatement.setInt(1, orderID);
+                    orderLineStatement.setString(2, productCode);
+                    orderLineStatement.executeUpdate();
+                }
+            } else {
+                String orderLineQuery = "UPDATE OrderLines SET quantity = ? WHERE orderID = ? AND productCode = ?";
+                try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                    orderLineStatement.setInt(1, quantity);
+                    orderLineStatement.setInt(2, orderID);
+                    orderLineStatement.setString(3, productCode);
+                    orderLineStatement.executeUpdate();
+                    System.out.println(productCode + " " + quantity);
                 }
             }
             DatabaseConnectionHandler.closeConnection();
