@@ -601,42 +601,42 @@ public class DatabaseOperations {
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
 
-            String locomotiveQuery = "SELECT productName FROM Product WHERE productCode = (SELECT locomotiveCode FROM LocomotiveTrainSetLink WHERE trainSetCode = ?)";
+            String locomotiveQuery = "SELECT productName, productCode FROM Product WHERE productCode = (SELECT locomotiveCode FROM LocomotiveTrainSetLink WHERE trainSetCode = ?)";
             try (PreparedStatement productStatement = connection.prepareStatement(locomotiveQuery)) {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
                     if (results.next()) {
-                        trainSetData[0] = results.getString("productName");
+                        trainSetData[0] = results.getString("productName") + " (" + results.getString("productCode") + ")";
                     }
                 }
             }
 
-            String rollingStockQuery = "SELECT productName FROM Product WHERE productCode = (SELECT rollingStockCode FROM RollingStockTrainSetLink WHERE trainSetCode = ?)";
+            String rollingStockQuery = "SELECT productName, productCode FROM Product WHERE productCode = (SELECT rollingStockCode FROM RollingStockTrainSetLink WHERE trainSetCode = ?)";
             try (PreparedStatement productStatement = connection.prepareStatement(rollingStockQuery)) {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
                     if (results.next()) {
-                        trainSetData[1] = results.getString("productName");
+                        trainSetData[1] = results.getString("productName") + " (" + results.getString("productCode") + ")";
                     }
                 }
             }
 
-            String controllerQuery = "SELECT productName FROM Product WHERE productCode = (SELECT controllerCode FROM ControllerTrainSetLink WHERE trainSetCode = ?)";
+            String controllerQuery = "SELECT productName, productCode FROM Product WHERE productCode = (SELECT controllerCode FROM ControllerTrainSetLink WHERE trainSetCode = ?)";
             try (PreparedStatement productStatement = connection.prepareStatement(controllerQuery)) {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
                     if (results.next()) {
-                        trainSetData[2] = results.getString("productName");
+                        trainSetData[2] = results.getString("productName") + " (" + results.getString("productCode") + ")";
                     }
                 }
             }
 
-            String trackPackQuery = "SELECT productName FROM Product WHERE productCode = (SELECT trackPackCode FROM TrackPackTrainSetLink WHERE trainSetCode = ?)";
+            String trackPackQuery = "SELECT productName, productCode FROM Product WHERE productCode = (SELECT trackPackCode FROM TrackPackTrainSetLink WHERE trainSetCode = ?)";
             try (PreparedStatement productStatement = connection.prepareStatement(trackPackQuery)) {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
                     if (results.next()) {
-                        trainSetData[3] = results.getString("productName");
+                        trainSetData[3] = results.getString("productName") + " (" + results.getString("productCode") + ")";
                     }
                 }
             }
@@ -713,6 +713,307 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.closeConnection();
         }
     }
+
+    public static void updateProduct(Product product) {
+        // check if product exists, if yes then update, else insert
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT * FROM Product WHERE productCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, product.getProductCode());
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // update
+                    String updateQuery = "UPDATE Product SET brandID = ?, productName = ?, retailPrice = ?, gauge = ?, description = ? WHERE productCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setInt(1, getBrandIDFromName(product.getBrandName()));
+                        updateStatement.setString(2, product.getProductName());
+                        updateStatement.setDouble(3, product.getPrice());
+                        updateStatement.setString(4, product.getGauge().toString());
+                        updateStatement.setString(5, product.getDescription());
+                        updateStatement.setString(6, product.getProductCode());
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, product.getProductCode());
+                        insertStatement.setString(2, product.getBrandName());
+                        insertStatement.setString(3, product.getProductName());
+                        insertStatement.setDouble(4, product.getPrice());
+                        insertStatement.setString(5, product.getGauge().toString());
+                        insertStatement.setString(6, product.getDescription());
+                        insertStatement.setInt(7, product.getStock());
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
+
+    private static int getBrandIDFromName(String brandName) {
+        // check if brand exists, if yes then return ID, else insert and return ID
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT * FROM Brand WHERE brandName = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, brandName);
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // return ID
+                    return results.getInt("brandID");
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO Brand VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setInt(1, getNewBrandID());
+                        insertStatement.setString(2, brandName);
+                        insertStatement.executeUpdate();
+                        return getBrandIDFromName(brandName);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+            return -1;
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
+
+    private static int getNewBrandID() {
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT MAX(brandID) FROM Brand";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                ResultSet results = statement.executeQuery();
+                results.next();
+                return results.getInt(1) + 1;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+            return -1;
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
+
+
+    public static void updateProductEra(String productCode, String era) {
+        // check if product exists, if yes then update, else insert
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT * FROM EraLink WHERE productCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, productCode);
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // update
+                    String updateQuery = "UPDATE EraLink SET era = ? WHERE productCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, era);
+                        updateStatement.setString(2, productCode);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO EraLink VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, productCode);
+                        insertStatement.setString(2, era);
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
+
+
+    public static void updateProductAnalogue(String productCode, String isAnalogue) {
+        if (isAnalogue.equals("Analogue")) {
+            isAnalogue = "true";
+        } else {
+            isAnalogue = "false";
+        }
+        // check if product exists, if yes then update, else insert
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT * FROM ControllerTable WHERE productCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, productCode);
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // update
+                    String updateQuery = "UPDATE ControllerTable SET analogue = ? WHERE productCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setBoolean(1, Boolean.parseBoolean(isAnalogue));
+                        updateStatement.setString(2, productCode);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO ControllerTable VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, productCode);
+                        insertStatement.setBoolean(2, Boolean.parseBoolean(isAnalogue));
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
+
+    public static void updateTrainSetData(String productCode, String locomotiveCode, String rollingStockCode, String controllerCode, String trackPackCode) {
+        // check if products exist, if yes then update, else insert
+        // update the different link tables
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT * FROM LocomotiveTrainSetLink WHERE trainSetCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, productCode);
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // update
+                    String updateQuery = "UPDATE LocomotiveTrainSetLink SET locomotiveCode = ? WHERE trainSetCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, locomotiveCode);
+                        updateStatement.setString(2, productCode);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO LocomotiveTrainSetLink VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, productCode);
+                        insertStatement.setString(2, locomotiveCode);
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+
+            query = "SELECT * FROM RollingStockTrainSetLink WHERE trainSetCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, productCode);
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // update
+                    String updateQuery = "UPDATE RollingStockTrainSetLink SET rollingStockCode = ? WHERE trainSetCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, rollingStockCode);
+                        updateStatement.setString(2, productCode);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO RollingStockTrainSetLink VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, productCode);
+                        insertStatement.setString(2, rollingStockCode);
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+
+            query = "SELECT * FROM ControllerTrainSetLink WHERE trainSetCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, productCode);
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // update
+                    String updateQuery = "UPDATE ControllerTrainSetLink SET controllerCode = ? WHERE trainSetCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, controllerCode);
+                        updateStatement.setString(2, productCode);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO ControllerTrainSetLink VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, productCode);
+                        insertStatement.setString(2, controllerCode);
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+
+            query = "SELECT * FROM TrackPackTrainSetLink WHERE trainSetCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, productCode);
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // update
+                    String updateQuery = "UPDATE TrackPackTrainSetLink SET trackPackCode = ? WHERE trainSetCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, trackPackCode);
+                        updateStatement.setString(2, productCode);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO TrackPackTrainSetLink VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, productCode);
+                        insertStatement.setString(2, trackPackCode);
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
+
+    public static Product getProductFromID(String code) {
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT * FROM Product WHERE productCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, code);
+                ResultSet results = statement.executeQuery();
+                results.next();
+                return new Product(results.getString("productCode"),
+                        getBrandNameFromID(results.getString("brandID")), results.getString("productName"),
+                        results.getDouble("retailPrice"), Gauge.valueOf(results.getString("gauge")),
+                        results.getString("description"), getProductStock(results.getString("productCode"))); // Stores the user details
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+            return null;
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
 }
+
 
 

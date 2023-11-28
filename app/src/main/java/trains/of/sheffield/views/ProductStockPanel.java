@@ -17,8 +17,6 @@ public class ProductStockPanel extends JFrame {
     private JPanel productStockPanel, buttonPanel;
     private JButton backButton, confirmChangesButton, addNewProductButton;
     public ProductStockPanel(String productType) {
-        // TODO: add a new product
-        // TODO: edit product
         // TODO: delete product
         // TODO: fix back button layout
         super("Trains of Sheffield - Staff Stock");
@@ -93,9 +91,16 @@ public class ProductStockPanel extends JFrame {
                         if (option == JOptionPane.YES_OPTION) {
                             // Perform the deletion action
                             System.out.println("Deleting product " + productCode);
-                            DatabaseOperations.deleteProduct(productCode);
-                            model.removeRow(row);
+                            //DatabaseOperations.deleteProduct(productCode);
+                            //model.removeRow(row);
                         }
+                    }
+
+                    if (column == 3) { // Assuming "Edit Product" is at column index 3
+                        // Perform edit product action here
+                        String productCode = (String) model.getValueAt(row, 0);
+                        Product product = DatabaseOperations.getProductFromID(productCode);
+                        GUILoader.productDetailsPageWindow(product, true, null);
                     }
                 }
             }
@@ -132,8 +137,7 @@ public class ProductStockPanel extends JFrame {
 
         addNewProductButton = new JButton("Add New Product");
         addNewProductButton.addActionListener(e -> {
-            dispose();
-            GUILoader.addNewProductWindow(productType);
+            GUILoader.productDetailsPageWindow(null, true, productType);
         });
         buttonPanel.add(addNewProductButton);
 

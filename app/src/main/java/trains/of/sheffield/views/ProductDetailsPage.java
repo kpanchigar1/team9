@@ -9,11 +9,8 @@ import java.awt.*;
 import java.util.Objects;
 
 public class ProductDetailsPage extends JFrame {
-    // TODO: populate fields with data from database if editing
-    // TODO: add a add to basket button if from customer dashboard
-    // TODO: add a confirm changes button if from staff dashboard
-    // TODO: add a cancel changes button if from staff dashboard
-    // TODO: fix smth for track packs
+    // TODO: add action listeners to buttons
+    // TOOD: display train set Locomotive, RollingStock, Controller data as Name(Code) - e.g. Locomotive(LO001)
 
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
@@ -99,6 +96,8 @@ public class ProductDetailsPage extends JFrame {
             add(rollingStockField);
             add(controllerLabel);
             add(controllerField);
+            add(trackPackLabel);
+            add(trackPackField);
         }
 
         add(new JLabel()); // Empty label as a placeholder
@@ -146,6 +145,40 @@ public class ProductDetailsPage extends JFrame {
             trackPackField.setEditable(true);
         }
 
+        // Add action listeners to buttons
+        addToBasketButton.addActionListener(e -> {
+            // TODO: add to basket
+        });
+
+        String finalProductType = productType;
+        confirmChangesButton.addActionListener(e -> {
+            // add new product to database / update existing product
+           DatabaseOperations.updateProduct(new Product(productCodeField.getText(), nameField.getText(), brandField.getText(), Double.parseDouble(priceField.getText()), Gauge.valueOf(scaleField.getText()), descriptionField.getText(), Integer.parseInt(stockField.getText())));
+           // update other tables based on product type
+            if(Objects.equals(finalProductType, "M") || Objects.equals(finalProductType, "L") || Objects.equals(finalProductType, "S")) {
+                DatabaseOperations.updateProductEra(productCodeField.getText(), eraField.getText());
+            }
+            if(Objects.equals(finalProductType, "C")) {
+                // Controller
+                DatabaseOperations.updateProductAnalogue(productCodeField.getText(), isAnalogueField.getText());
+            }
+            if(Objects.equals(finalProductType, "P")) {
+                // Track pack
+                // DatabaseOperations.updateProductTrackPack(productCodeField.getText(), trackPackField.getText());
+            }
+            if(Objects.equals(finalProductType, "M")) {
+                // Train set
+                // pass in product code between the brackets
+                String locomotiveCode = locomotiveField.getText().substring(locomotiveField.getText().indexOf("(") + 1, locomotiveField.getText().indexOf(")"));
+                String rollingStockCode = rollingStockField.getText().substring(rollingStockField.getText().indexOf("(") + 1, rollingStockField.getText().indexOf(")"));
+                String controllerCode = controllerField.getText().substring(controllerField.getText().indexOf("(") + 1, controllerField.getText().indexOf(")"));
+                String trackPackCode = trackPackField.getText().substring(trackPackField.getText().indexOf("(") + 1, trackPackField.getText().indexOf(")"));
+                DatabaseOperations.updateTrainSetData(productCodeField.getText(), locomotiveCode, rollingStockCode, controllerCode, trackPackCode);
+            }
+            JOptionPane.showMessageDialog(ProductDetailsPage.this, "Changes have been made successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        });
+
         if(product != null) {
             populateFields(product);
         }
@@ -185,7 +218,7 @@ public class ProductDetailsPage extends JFrame {
     }
 
     public static void main(String[] args) {
-        Product product = new Product("M001", "Product Name", "TrainSet1", 49.99, Gauge.OO, "Product desc..", 10);
-        ProductDetailsPage productDetailsPage = new ProductDetailsPage(null, true, "M");
+        Product product = DatabaseOperations.getProductFromID("M001");
+        ProductDetailsPage productDetailsPage = new ProductDetailsPage(product, true, "M");
     }
 }
