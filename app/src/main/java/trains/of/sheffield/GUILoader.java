@@ -120,4 +120,8 @@ public class GUILoader {
 	public static void customerProductPageWindow(String productType) {
 		CustomerProductsPage customerProductsPageGUI = new CustomerProductsPage(productType);
 	}
+
+	public static void managerDashboardWindow() {
+		ManagerView managerDashboardGUI = new ManagerView();
+	}
 }

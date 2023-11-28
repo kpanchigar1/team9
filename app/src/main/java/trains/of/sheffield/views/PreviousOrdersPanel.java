@@ -40,7 +40,7 @@ public class PreviousOrdersPanel extends JFrame {
         String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card", "Order Lines"};
         String[][] orderData = DatabaseOperations.getOrdersFromStatus(Status.FULFILLED, false);
         for (int i = 0; i < orderData.length; i++) {
-            orderData[i][8] = "<html><a>View Order Lines</a></html>";
+            orderData[i][8] = "<html><u>View Order Lines</u></html>";
         }
         DefaultTableModel tableModel = new DefaultTableModel(orderData, columnNames) {
             @Override

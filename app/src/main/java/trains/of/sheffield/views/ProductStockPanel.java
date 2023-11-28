@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ProductStockPanel extends JFrame {
-    private JPanel productStockPanel, buttonPanel;
+    private JPanel productStockPanel, buttonPanel, southPanel;
     private JButton backButton, confirmChangesButton, addNewProductButton;
     public ProductStockPanel(String productType) {
 
@@ -28,8 +28,8 @@ public class ProductStockPanel extends JFrame {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1;
-        gbc.weighty = 1;
+        gbc.weightx = 2;
+        gbc.weighty = 2;
 
 
         List<Product> allProducts = DatabaseOperations.getProductsFromType(productType);
@@ -143,7 +143,7 @@ public class ProductStockPanel extends JFrame {
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 0;
         gbc.gridheight = 1;
         productStockPanel.add(buttonPanel, gbc);
 
@@ -153,12 +153,14 @@ public class ProductStockPanel extends JFrame {
             dispose();
             GUILoader.staffDashboardWindow();
         });
+        southPanel = new JPanel();
+        southPanel.add(backButton);
 
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        productStockPanel.add(backButton, gbc);
+        productStockPanel.add(southPanel, gbc);
 
         setVisible(true);
 

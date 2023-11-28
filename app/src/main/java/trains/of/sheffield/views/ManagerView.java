@@ -18,6 +18,7 @@ public class ManagerView extends JFrame {
     private DefaultListModel<String> listModel; 
 
     public ManagerView() {
+        // TODO: make it look better
         setTitle("Manager Dashboard");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
