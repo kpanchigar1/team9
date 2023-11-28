@@ -41,12 +41,10 @@ public class OrderLinesWindow extends JFrame {
             if (CurrentUser.getCardDetail() != null) {
                 DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.CONFIRMED);
                 dispose();
-                parent.dispose();
                 GUILoader.mainMenuWindow();
                 GUILoader.alertWindow("Order confirmed");
             } else {
                 dispose();
-                parent.dispose();
                 GUILoader.cardDetailsWindow();
                 GUILoader.alertWindow("You must add a card to your account before you can checkout");
             }
@@ -57,7 +55,6 @@ public class OrderLinesWindow extends JFrame {
         buttonPanel1.setLayout(new GridLayout(1, 2));
         buttonPanel1.add(markAsFulfilled);
         buttonPanel1.add(deleteOrder);
-        System.out.println(order.getStatus());
         if(order.getStatus().equals(Status.CONFIRMED) && !fromBasket) {
             contentPane.add(buttonPanel1, BorderLayout.SOUTH);
         }
@@ -65,7 +62,7 @@ public class OrderLinesWindow extends JFrame {
         JPanel buttonPanel2 = new JPanel();
         buttonPanel2.setLayout(new GridLayout(1, 1));
         buttonPanel2.add(deleteOrder);
-        if (order.getStatus().equals(Status.BLOCKED) && !fromBasket) {
+        if (order.getStatus().equals(Status.BLOCKED) && fromBasket) {
             contentPane.add(buttonPanel2, BorderLayout.SOUTH);
         }
 
@@ -73,7 +70,7 @@ public class OrderLinesWindow extends JFrame {
         buttonPanel3.setLayout(new GridLayout(1, 2));
         buttonPanel3.add(deleteOrder);
         buttonPanel3.add(checkout);
-        if (order.getStatus().equals(Status.PENDING) && !fromBasket) {
+        if (order.getStatus().equals(Status.PENDING) && fromBasket) {
             contentPane.add(buttonPanel3, BorderLayout.SOUTH);
         }
 
