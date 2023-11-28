@@ -44,8 +44,6 @@ public class StaffConfirmedOrders extends JFrame {
             firstOrderID = Integer.parseInt(orderData[0][0]);
         }
 
-        // TODO: make the order id of the first order look like a hyperlink
-
         DefaultTableModel tableModel = new DefaultTableModel(orderData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {

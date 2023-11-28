@@ -13,7 +13,7 @@ public class StaffDashboard extends JFrame {
     private JPanel titlePanel, centerButtonPanel, southButtonPanel;
     private Container contentPane;
     private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton,
-            controllerButton, managerButton, pendingOrdersButton, previousOrdersButton;
+            controllerButton, managerButton, pendingOrdersButton, previousOrdersButton, backButton;
     private JLabel titleLabel;
 
     // TODO: make fullscreen
@@ -104,7 +104,7 @@ public class StaffDashboard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                //GUILoader.staffStockWindow();
+                GUILoader.managerDashboardWindow();
             }
         });
 
@@ -135,7 +135,17 @@ public class StaffDashboard extends JFrame {
                 GUILoader.previousOrdersWindow();
             }
         });
+
+        backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                GUILoader.mainMenuWindow();
+            }
+        });
         southButtonPanel.add(previousOrdersButton);
+        southButtonPanel.add(backButton);
 
         if (CurrentUser.getRole() == Role.MANAGER) {
             southButtonPanel.add(managerButton);
