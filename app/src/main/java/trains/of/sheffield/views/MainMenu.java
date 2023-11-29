@@ -103,7 +103,6 @@ public class MainMenu extends JFrame
         ordersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
                 GUILoader.viewBasketWindow();
             }
         });
@@ -112,7 +111,6 @@ public class MainMenu extends JFrame
         basketButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
                 GUILoader.orderLinesWindow(DatabaseOperations.getBasketFromUser(CurrentUser.getId()), null, true);
             }
         });

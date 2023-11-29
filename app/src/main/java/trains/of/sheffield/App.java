@@ -11,10 +11,7 @@ public class App {
     // TODO: Add test users - KRISH
     // TODO: Automatic block checker when fulfilling an order
     // TODO: Change order to BLOCKED if not enough stock - GABES
-    // TODO: Add view basket button to customer dashboard - GABES
-    // TODO: Add view orders to customer dashboard - GABES
     // TODO: Change signout functionality maybe - GABES
-    // TODO: Wrong email alert - GABES
     // TODO: Fix Cascade delete - KRISH
 
     public static void main(String[] args) {

@@ -611,6 +611,23 @@ public class DatabaseOperations {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
+            if(status.equals(Status.CONFIRMED) && !checkOrderCanBeConfirmed(orderID)) {
+                status = Status.BLOCKED;
+                GUILoader.alertWindow("Order has been blocked as there is not enough stock");
+            } else if (status.equals(Status.FULFILLED)) {
+                String notOrderQuery = "SELECT * FROM Orders WHERE orderID != ? AND status = ?";
+                try (PreparedStatement notOrderStatement = connection.prepareStatement(notOrderQuery)) {
+                    notOrderStatement.setInt(1, orderID);
+                    notOrderStatement.setInt(2, Status.FULFILLED.getStatusID());
+                    ResultSet results = notOrderStatement.executeQuery();
+                    while (results.next()) {
+                        if(!checkOrderCanBeConfirmed(results.getInt("orderID"))) {
+                            updateOrderStatus(results.getInt("orderID"), Status.BLOCKED);
+                            GUILoader.alertWindow("Order "+ results.getInt("orderID") +" has been blocked as there is not enough stock");
+                        }
+                    }
+                }
+            }
             String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
             try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
                 ordersStatement.setInt(1, status.getStatusID());
@@ -621,6 +638,35 @@ public class DatabaseOperations {
         } catch (Exception ex) {
             GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
+    }
+
+    public static boolean checkOrderCanBeConfirmed(int orderID) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String orderQuery = "SELECT * FROM OrderLines WHERE orderID = ?";
+            try (PreparedStatement orderStatement = connection.prepareStatement(orderQuery)) {
+                orderStatement.setInt(1, orderID);
+                ResultSet results = orderStatement.executeQuery();
+                while (results.next()) {
+                    String productCode = results.getString("productCode");
+                    int quantity = results.getInt("quantity");
+                    String stockQuery = "SELECT * FROM Stock WHERE productCode = ?";
+                    try (PreparedStatement stockStatement = connection.prepareStatement(stockQuery)) {
+                        stockStatement.setString(1, productCode);
+                        ResultSet stockResults = stockStatement.executeQuery();
+                        stockResults.next();
+                        if (stockResults.getInt("stockCount") < quantity) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
+        return false;
     }
 
     public static void updateOrderLines(int orderID, String productCode, int quantity) {
