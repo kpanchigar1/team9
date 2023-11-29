@@ -16,8 +16,6 @@ public class OrderLinesWindow extends JFrame {
     private StaffConfirmedOrders parent;
     public OrderLinesWindow(Order order, StaffConfirmedOrders parent, boolean fromBasket) {
         this.parent = parent;
-        // TODO: spinner is not storing values properly
-
         Container contentPane = getContentPane();
         String[] columnNames = {"Product ID", "Product Name", "Quantity"};
         String[][] orderData = DatabaseOperations.getOrderLines(order.getOrderID());
@@ -94,6 +92,8 @@ public class OrderLinesWindow extends JFrame {
 
                 // Now you have the product code and the updated quantity value
                 DatabaseOperations.updateOrderLines(order.getOrderID(), productCode, updatedQuantity);
+                dispose();
+                GUILoader.orderLinesWindow(order, parent, fromBasket);
             }
         });
 

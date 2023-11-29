@@ -44,16 +44,24 @@ public class DatabaseOperations {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
-            // TODO: check if address already exists
             // Insert address
-            String addressQuery = "INSERT INTO Address VALUES (?, ?, ?, ?)";
-            try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
-                addressStatement.setString(1, houseNumber);
-                addressStatement.setString(2, streetName);
-                addressStatement.setString(3, city);
-                addressStatement.setString(4, postCode);
-                addressStatement.executeUpdate();
-            } // Missing closing brace for the inner try block
+            String checkAddressQuery = "SELECT * FROM Address WHERE houseNumber = ? AND postCode = ?";
+            try (PreparedStatement checkAddressStatement = connection.prepareStatement(checkAddressQuery)) {
+                checkAddressStatement.setString(1, houseNumber);
+                checkAddressStatement.setString(2, postCode);
+                ResultSet results = checkAddressStatement.executeQuery();
+                if (!results.next()) {
+                    // Address already exists
+                    String addressQuery = "INSERT INTO Address VALUES (?, ?, ?, ?)";
+                    try (PreparedStatement addressStatement = connection.prepareStatement(addressQuery)) {
+                        addressStatement.setString(1, houseNumber);
+                        addressStatement.setString(2, streetName);
+                        addressStatement.setString(3, city);
+                        addressStatement.setString(4, postCode);
+                        addressStatement.executeUpdate();
+                    }
+                }
+            }
 
             // Insert user
             String userQuery = "INSERT INTO User VALUES (?, ?, ?, ?, ?, 2, ?, ?, NULL)";
@@ -79,6 +87,7 @@ public class DatabaseOperations {
 
     public static void updateDetails(String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
         try {
+            // TDOD: check if address already exists in db
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
             // Update address
