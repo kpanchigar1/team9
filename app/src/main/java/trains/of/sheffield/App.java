@@ -9,11 +9,12 @@ public class App {
     // TODO: remove unused main methods
     // TODO: check discussion board to see if locomotive, rolling stock, trackpacks in a trainset need to be separately modelled and how subtracting the stock works
     // TODO: Add test users - KRISH
+    // TODO: Automatic block checker when fulfilling an order
     // TODO: Change order to BLOCKED if not enough stock - GABES
     // TODO: Add view basket button to customer dashboard - GABES
     // TODO: Add view orders to customer dashboard - GABES
     // TODO: Change signout functionality maybe - GABES
-    // TODO: Wrong email alert
+    // TODO: Wrong email alert - GABES
 
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window
