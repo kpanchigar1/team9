@@ -375,6 +375,7 @@ public class DatabaseOperations {
             try (PreparedStatement orderStatement = connection.prepareStatement(orderQuery)) {
                 orderStatement.setString(1, CurrentUser.getCurrentUser().getId());
                 orderStatement.setInt(2, Status.PENDING.getStatusID());
+                System.out.println("Debug 1");
                 ResultSet results = orderStatement.executeQuery();
                 if (results.next()) {
                     // User has a pending order
@@ -392,6 +393,7 @@ public class DatabaseOperations {
                                 updateStatement.setInt(1, orderLineResults.getInt("quantity") + 1);
                                 updateStatement.setInt(2, results.getInt("orderID"));
                                 updateStatement.setString(3, product.getProductCode());
+                                System.out.println("Debug 2");
                                 updateStatement.executeUpdate();
                             }
                         } else {
@@ -402,6 +404,7 @@ public class DatabaseOperations {
                                 insertStatement.setInt(1, results.getInt("orderID"));
                                 insertStatement.setString(2, product.getProductCode());
                                 insertStatement.setInt(3, 1);
+                                System.out.println("Debug 3");
                                 insertStatement.executeUpdate();
                             }
                         }
@@ -416,6 +419,7 @@ public class DatabaseOperations {
                         insertStatement.setInt(2, 0);
                         insertStatement.setString(3, CurrentUser.getCurrentUser().getId());
                         insertStatement.setDouble(4, product.getPrice());
+                        System.out.println("Debug 4");
                         insertStatement.executeUpdate();
                     }
                     // Get orderID
@@ -423,6 +427,7 @@ public class DatabaseOperations {
                     try (PreparedStatement orderIDStatement = connection.prepareStatement(orderIDQuery)) {
                         orderIDStatement.setString(1, CurrentUser.getCurrentUser().getId());
                         orderIDStatement.setInt(2, Status.PENDING.getStatusID());
+                        System.out.println("Debug 5");
                         ResultSet orderIDResults = orderIDStatement.executeQuery();
                         orderIDResults.next();
                         // Add product to order
@@ -431,12 +436,14 @@ public class DatabaseOperations {
                             insertStatement.setInt(1, orderIDResults.getInt("orderID"));
                             insertStatement.setString(2, product.getProductCode());
                             insertStatement.setInt(3, 1);
+                            System.out.println("Debug 6");
                             insertStatement.executeUpdate();
                         }
                     }
                 }
             }
         } catch (Exception ex) {
+            System.out.println("Debug 7");
             GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
     }
