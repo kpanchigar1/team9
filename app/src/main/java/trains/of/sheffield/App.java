@@ -9,9 +9,8 @@ public class App {
     // TODO: remove unused main methods
     // TODO: check discussion board to see if locomotive, rolling stock, trackpacks in a trainset need to be separately modelled and how subtracting the stock works
     // TODO: Add test users - KRISH
-    // TODO: Automatic block checker when fulfilling an order
-    // TODO: Change order to BLOCKED if not enough stock - GABES
-    // TODO: Change signout functionality maybe - GABES
+    // TODO: Check blocker works
+    // TODO: Copy signOut in MainMenu to other calls of MenuBarPanel
     // TODO: Fix Cascade delete - KRISH
 
     public static void main(String[] args) {

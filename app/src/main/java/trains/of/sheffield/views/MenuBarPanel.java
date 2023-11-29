@@ -11,13 +11,12 @@ import java.awt.event.ActionListener;
 public class MenuBarPanel extends JMenuBar {
     // TODO: fix sign out so that it closes the window and opens the login window
     JMenu profile, orders, exitMenu;
-    JMenuItem editProfile, changePassword, editCardDetails, signOut, viewOrders, exit;
+    JMenuItem editProfile, changePassword, editCardDetails, viewOrders, exit;
     public MenuBarPanel() {
         profile = new JMenu("Profile");
         editProfile = new JMenuItem("Edit Profile");
         changePassword = new JMenuItem("Change Password");
         editCardDetails = new JMenuItem("Edit Card Details");
-        signOut = new JMenuItem("Sign Out");
 
         editProfile.addActionListener(new ActionListener() {
             @Override
@@ -43,15 +42,6 @@ public class MenuBarPanel extends JMenuBar {
         });
         profile.add(editCardDetails);
 
-        signOut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CurrentUser.setUser(null);
-                GUILoader.loginWindow();
-            }
-        });
-        profile.add(signOut);
-
         orders = new JMenu("Orders");
         viewOrders = new JMenuItem("View Orders");
         viewOrders.addActionListener(new ActionListener() {
@@ -75,5 +65,9 @@ public class MenuBarPanel extends JMenuBar {
         add(profile);
         add(orders);
         add(exitMenu);
+    }
+
+    public void addSignOut(JMenuItem signOut) {
+        profile.add(signOut);
     }
 }
