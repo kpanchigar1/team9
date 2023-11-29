@@ -8,6 +8,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+/**
+ * This class is used to display the products page for a customer based on the category they selected.
+ */
 public class CustomerProductsPage extends JFrame {
     private JTable productsTable;
     private JButton backButton;
@@ -92,11 +95,5 @@ public class CustomerProductsPage extends JFrame {
             GUILoader.mainMenuWindow();
         });
         add(backButton, BorderLayout.SOUTH);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            CustomerProductsPage customerProductsPage = new CustomerProductsPage("M");
-        });
     }
 }

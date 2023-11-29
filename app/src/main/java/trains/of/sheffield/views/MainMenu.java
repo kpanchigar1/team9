@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * This class is used to create the main menu window
+ */
 public class MainMenu extends JFrame
 {
     private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton, controllerButton, staffButton, basketButton, ordersButton;
@@ -147,11 +150,5 @@ public class MainMenu extends JFrame
         }
 
         contentPane.add(southPanel, BorderLayout.SOUTH);
-    }
-
-
-    public static void main(String[] args)
-    {
-        MainMenu mainMenu = new MainMenu(Role.STAFF);
     }
 }

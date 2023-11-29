@@ -1,4 +1,7 @@
 package trains.of.sheffield;
+/**
+ * Role enum is used to store the role of a user
+ */
 public enum Role {
     CUSTOMER(2), STAFF(1), MANAGER(0);
 

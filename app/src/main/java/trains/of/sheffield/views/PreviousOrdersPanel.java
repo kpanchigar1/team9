@@ -24,6 +24,10 @@ public class PreviousOrdersPanel extends JFrame {
     private JButton backButton;
     private JTable orderTable;
 
+    /**
+     * This class is used to create the previous orders page window which displays all previous orders for the staff users
+     * and allows the user to view the order lines.
+     */
     public PreviousOrdersPanel() {
         // TODO: edit column widths
         contentPane = getContentPane();

@@ -9,6 +9,9 @@ import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.User;
 import trains.of.sheffield.models.DatabaseOperations;
 
+/**
+ * This class is used to create the change details window which allows the user to change their details.
+ */
 public class ChangeDetails extends JFrame{
 	JLabel emailPrompt, intro, firstNamePrompt, secondNamePrompt, housePrompt, streetPrompt, cityPrompt, postCodePrompt, loginIntro, detailsIntro, addressIntro; // Creating variables
 	JTextField emailEnter, firstNameEnter, secondNameEnter, houseEnter, streetEnter, cityEnter, postCodeEnter;
@@ -102,7 +105,10 @@ public class ChangeDetails extends JFrame{
 		add(scroll);
 	}
 
-    private void fillDetails() {
+	/**
+	 * This method fills the details with the user into the text fields.
+	 */
+	private void fillDetails() {
         User user = CurrentUser.getCurrentUser();
         emailEnter.setText(user.getEmail());
         firstNameEnter.setText(user.getForename());

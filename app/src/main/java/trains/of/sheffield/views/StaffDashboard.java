@@ -9,6 +9,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is used to create the staff dashboard window which has buttons to access the stock pages,
+ * pending orders page and previous orders page.
+ */
 public class StaffDashboard extends JFrame {
     private JPanel titlePanel, centerButtonPanel, southButtonPanel;
     private Container contentPane;
@@ -153,9 +157,5 @@ public class StaffDashboard extends JFrame {
 
         contentPane.add(southButtonPanel, BorderLayout.SOUTH);
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new StaffDashboard();
     }
 }

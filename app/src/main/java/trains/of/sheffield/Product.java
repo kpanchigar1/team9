@@ -1,4 +1,8 @@
 package trains.of.sheffield;
+
+/**
+ * Product class is used to store the details of a product
+ */
 public class Product {
     private String productCode;
     private String brandName;

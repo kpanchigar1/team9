@@ -1,4 +1,8 @@
 package trains.of.sheffield;
+
+/**
+ * User class is used to store the details of a user
+ */
 public class User {
     private String id;
     private String forename;

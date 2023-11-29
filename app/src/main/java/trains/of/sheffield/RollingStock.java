@@ -1,4 +1,8 @@
 package trains.of.sheffield;
+
+/**
+ * RollingStock class extends Product class
+ */
 public class RollingStock extends Product {
     private String era;
 

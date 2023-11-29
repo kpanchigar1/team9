@@ -4,6 +4,10 @@
 package trains.of.sheffield;
 
 public class App {
+    /**
+     * This is the main method which makes use of GUILoader.loginWindow() method.
+     * @param args
+     */
     // TODO: add JavaDocs to all classes
     // TODO: make all windows full screenY
     // TODO: remove unused main methods

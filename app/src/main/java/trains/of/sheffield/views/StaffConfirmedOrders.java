@@ -13,6 +13,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
+/**
+ * Class to create the staff confirmed orders window
+ */
+
 public class StaffConfirmedOrders extends JFrame {
     private JPanel titlePanel;
     private Container contentPane;

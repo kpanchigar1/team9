@@ -1,4 +1,7 @@
 package trains.of.sheffield;
+/**
+ * Controller class extends Product class and adds a boolean to indicate if the controller is digital or not
+ */
 public class Controller extends Product{
     private Boolean digital;
 

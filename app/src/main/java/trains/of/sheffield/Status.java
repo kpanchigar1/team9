@@ -1,4 +1,8 @@
 package trains.of.sheffield;
+
+/**
+ * Status enum is used to store the status of an order
+ */
 public enum Status {
     PENDING (0), CONFIRMED (1), FULFILLED (2), BLOCKED (3);
 

@@ -10,6 +10,9 @@ import trains.of.sheffield.User;
 import trains.of.sheffield.models.DatabaseOperations;
 import trains.of.sheffield.util.HashedPasswordGenerator;
 
+/**
+ * This class is used to create the change password window which allows the user to change their password
+ */
 public class ChangePassword extends JFrame{
 	JLabel intro, passwordIntro, originalPasswordPrompt, pwPrompt1, pwPrompt2; // Creating variables
     JPasswordField originalPasswordEnter, pwEnter1, pwEnter2;

@@ -8,6 +8,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.awt.*;
 
+/**
+ * Class to create the previous orders panel
+ */
 public class ViewOrders extends JFrame{
 
     private JPanel titlePanel;

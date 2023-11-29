@@ -2,9 +2,16 @@ package trains.of.sheffield;
 import trains.of.sheffield.views.*;
 
 import javax.swing.*;
-
+/**
+ * This method is used to load the windows of the application
+ */
 public class GUILoader {
-    public static void loginWindow() {
+
+	/**
+	 * This creates a new instance of the Login GUI
+	 */
+	public static void loginWindow() {
+
 		Login loginGUI = new Login(); // Creates a new instance of the GUI
 		loginGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ends the program when the user closes the window
 		loginGUI.pack(); // Packed to fit
@@ -12,7 +19,12 @@ public class GUILoader {
 		loginGUI.setTitle("Trains of Sheffield - Login"); // Title of window
 		loginGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
+
+	/**
+	 * This creates a new instance of the SignUp GUI
+	 */
     public static void signupWindow() {
+
 		SignUp signUpWindowGUI = new SignUp();
 		signUpWindowGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		signUpWindowGUI.pack();
@@ -20,6 +32,11 @@ public class GUILoader {
 		signUpWindowGUI.setTitle("Trains of Sheffield - New Account");
 		signUpWindowGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
+
+	/**
+	 * This creates a new instance of the Alert GUI
+	 * @param message This is the message that will be displayed in the alert window
+	 */
     public static void alertWindow(String message) {
 		Alert alertWindowGUI = new Alert(message);
 		alertWindowGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Doesn't close the program, just closes the window 
@@ -28,6 +45,9 @@ public class GUILoader {
 		alertWindowGUI.setTitle("ALERT");
 	}
 
+	/**
+	 * This creates a new instance of the MainMenu GUI
+	 */
 	public static void mainMenuWindow() {
 		MainMenu mainMenuGUI = new MainMenu(CurrentUser.getRole());
 		mainMenuGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,18 +57,26 @@ public class GUILoader {
 		mainMenuGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
-	// public static void customerDashboardWindow() {
-		//CustomerDashboard customerDashboardGUI = new CustomerDashboard();
-	//}
-
+	/**
+	 * This creates a new instance of the Staff Dashboard GUI
+	 */
 	public static void staffDashboardWindow() {
 		StaffDashboard staffDashboardGUI = new StaffDashboard();
+		staffDashboardGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
+	/**
+	 * This creates a new instance of the ProductStockPanel GUI which is used to display the stock for the staff users.
+	 * @param productType This is the type of product that will be displayed in the window
+	 */
 	public static void productStockPanelWindow(String productType) {
 		ProductStockPanel productStockPanelGUI = new ProductStockPanel(productType);
+		productStockPanelGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
+	/**
+	 * This creates a new instance of the PreviousOrders GUI, which is used to display the previous orders for the staff users.
+	 */
 	public static void previousOrdersWindow() {
 		PreviousOrdersPanel previousOrdersGUI = new PreviousOrdersPanel();
 		previousOrdersGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,6 +86,9 @@ public class GUILoader {
 		previousOrdersGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
+	/**
+	 * This creates a new instance of the ViewOrders GUI, which is used to display the basket for the customer users.
+	 */
 	public static void viewBasketWindow() {
 		ViewOrders viewBasketGUI = new ViewOrders();
 		viewBasketGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -66,7 +97,11 @@ public class GUILoader {
 		viewBasketGUI.setTitle("Trains of Sheffield - View Basket");
 		viewBasketGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
-    public static void cardDetailsWindow() {
+
+	/**
+	 * This creates a new instance of the CardDetails GUI, which is used to edit the card details for users.
+	 */
+	public static void cardDetailsWindow() {
 		CardDetailsPage cardDetailsGUI = new CardDetailsPage();
 		cardDetailsGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		cardDetailsGUI.pack();
@@ -75,6 +110,10 @@ public class GUILoader {
 		cardDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
     }
 
+	/**
+	 * This creates a new instance of the ChangeDetails GUI, which is used to edit the personal details like
+	 * name, email, address for users.
+	 */
 	public static void changeDetailsWindow() {
 		ChangeDetails changeDetailsGUI = new ChangeDetails();
 		changeDetailsGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -84,6 +123,12 @@ public class GUILoader {
 		changeDetailsGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
+	/**
+	 * This creates a new instance of the OrderLines GUI, which is used to display the order lines for the staff users.
+	 * 				@param order This is the order that will be displayed in the window
+	 *              @param staffConfirmedOrders This is the staffConfirmedOrders that will be displayed in the window
+	 *              @param fromBasket This is the fromBasket that will be displayed in the window
+	 */
 	public static void orderLinesWindow(Order order, StaffConfirmedOrders staffConfirmedOrders, boolean fromBasket) {
 		OrderLinesWindow orderLinesGUI = new OrderLinesWindow(order, staffConfirmedOrders, fromBasket);
 		orderLinesGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -92,6 +137,9 @@ public class GUILoader {
 		orderLinesGUI.setTitle("Order Lines");
 	}
 
+	/**
+	 * This creates a new instance of the ChangePassword GUI, which is used to reset the password for users.
+	 */
 	public static void changePasswordWindow() {
 		ChangePassword changePasswordGUI = new ChangePassword();
 		changePasswordGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -101,26 +149,37 @@ public class GUILoader {
 		changePasswordGUI.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximises the window
 	}
 
+	/**
+	 * This creates a new instance of the StaffConfirmedOrders GUI, which is used to display the confirmed orders for
+	 * the staff users, which can be fulfilled.
+	 */
 	public static void pendingOrdersWindow() {
 		StaffConfirmedOrders pendingOrders = new StaffConfirmedOrders();
 	}
 
-	public static void staffConfirmedOrdersWindow() {
-		StaffConfirmedOrders staffConfirmedOrdersGUI = new StaffConfirmedOrders();
-	}
-
-	public static void addNewProductWindow(String productType) {
-		AddNewProduct addNewProductGUI = new AddNewProduct(productType);
-	}
-
+	/**
+	 * This creates a new instance of the ProductDetailsPage GUI, which is used to display the details of a product.
+	 * Depending on the params, it allows the user to edit the product details, or create a new product.
+	 * @param product
+	 * @param isStaffPage
+	 * @param productType
+	 */
 	public static void productDetailsPageWindow(Product product, boolean isStaffPage, String productType) {
 		ProductDetailsPage productDetailsPageGUI = new ProductDetailsPage(product, isStaffPage, productType);
 	}
 
+	/**
+	 * This creates a new instance of the CustomerProductsPage GUI, which is used to display the
+	 * products for the customer users.
+	 * @param productType
+	 */
 	public static void customerProductPageWindow(String productType) {
 		CustomerProductsPage customerProductsPageGUI = new CustomerProductsPage(productType);
 	}
 
+	/**
+	 * This creates a new instance of the ManagerView GUI, which is used to display the manager dashboard.
+	 */
 	public static void managerDashboardWindow() {
 		ManagerView managerDashboardGUI = new ManagerView();
 	}

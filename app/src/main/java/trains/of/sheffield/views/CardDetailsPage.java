@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * This class is used to create the card details page window which allows the user to enter or edit their card details.
+ */
 public class CardDetailsPage extends JFrame{
     private JPanel panel, expiryDatePanel;
     private JLabel cardNameLabel, cardNumberLabel, expiryDateLabel, cvvLabel, slash;
@@ -66,6 +69,9 @@ public class CardDetailsPage extends JFrame{
         fillDetails();
     }
 
+    /**
+     * This method fills the details with the user into the text fields.
+     */
     private void fillDetails() {
         if(card != null) {
             cardNameField.setText(card.getCardName());

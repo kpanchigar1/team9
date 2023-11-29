@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * This class is used to create an alert window for the user to see, in case of any error.
+ */
 public class Alert extends JDialog{
 	JLabel messageLabel;
 	JButton close;

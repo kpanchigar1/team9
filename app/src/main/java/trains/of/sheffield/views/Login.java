@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * This class is used to create a login window for the user to enter their details.
+ */
 public class Login extends JFrame {
     JLabel title, instructions, UN_prompt, PW_prompt; // Creating variables
 	JTextField UN_enter;
@@ -53,6 +56,10 @@ public class Login extends JFrame {
 		buttons.add(login);
 		add(buttons);
     }
+
+	/**
+	 * This compares the entered details with what is in the users table
+	 */
 	public class actionLI implements ActionListener {
 		public void actionPerformed(ActionEvent LI) { // This compares the entered details with what is in the users table
 			boolean loggedIn = DatabaseOperations.tryLogIn(UN_enter.getText(), PW_enter.getPassword());
@@ -62,6 +69,10 @@ public class Login extends JFrame {
 			}
 		}
 	}
+
+	/**
+	 * This takes the user to the signup window to create an account
+	 */
 	public class actionSU implements ActionListener {
 		public void actionPerformed(ActionEvent SU) { // This takes the user to a temporary window to create an account
 			dispose();

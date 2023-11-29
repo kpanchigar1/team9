@@ -4,6 +4,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
+/**
+ * GenericSpinnerRenderer.java
+ * Used to create a spinner renderer for the JTable
+ * This is used for the stock page and the route page to allow the user to view the number of items in their order line
+ */
 public class GenericSpinnerRenderer<T> extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

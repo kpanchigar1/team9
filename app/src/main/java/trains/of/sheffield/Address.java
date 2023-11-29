@@ -1,4 +1,8 @@
 package trains.of.sheffield;
+
+/**
+ * Class to represent an address
+ */
 public class Address {
     private String houseNumber;
     private String streetName;

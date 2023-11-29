@@ -11,6 +11,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * This class is used to create the product stock page window which displays all products of a given type and
+ * allows the user to edit or delete them.
+ */
 public class ProductStockPanel extends JFrame {
     private JPanel productStockPanel, buttonPanel, southPanel;
     private JButton backButton, confirmChangesButton, addNewProductButton;

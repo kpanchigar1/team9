@@ -1,4 +1,8 @@
 package trains.of.sheffield;
+
+/**
+ * Class to represent a card
+ */
 public class Card {
     private String cardName;
     private String cardNumber;

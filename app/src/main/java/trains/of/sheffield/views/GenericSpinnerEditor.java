@@ -8,6 +8,11 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+/**
+ * GenericSpinnerEditor.java
+ * Used to create a spinner editor for the JTable
+ * This is used for the stock page and the route page to allow the user to edit the number of items in their order line
+ */
 public class GenericSpinnerEditor extends AbstractCellEditor implements TableCellEditor {
     private final JSpinner spinner;
 
@@ -17,6 +22,10 @@ public class GenericSpinnerEditor extends AbstractCellEditor implements TableCel
         configureSpinner(isStockPage);
     }
 
+    /**
+     * Configures the spinner to be right aligned and to not allow invalid values
+     * @param isStockPage - whether the spinner is on the stock page or not
+     */
     private void configureSpinner(boolean isStockPage) {
         JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
         editor.getTextField().setHorizontalAlignment(JTextField.RIGHT);

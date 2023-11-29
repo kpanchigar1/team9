@@ -1,4 +1,7 @@
 package trains.of.sheffield;
+/**
+ * Locomotive class extends Product class and adds a String to indicate the era of the locomotive
+ */
 public class Locomotive extends Product {
     private String era;
 

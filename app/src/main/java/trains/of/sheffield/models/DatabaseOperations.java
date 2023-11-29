@@ -713,7 +713,8 @@ public class DatabaseOperations {
 
     public static void deleteProduct(String productCode) {
         // TODO: deleting products may cause errors since they exist in past orders
-        // one option is to remove the relationship between products and order lines
+        // one option is to remove the relationship between products and order line
+        // if product is in an order line, change orderline to "DELETED PRODUCT"
 
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection

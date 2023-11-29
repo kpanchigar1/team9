@@ -12,6 +12,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
+/**
+ * Class to create the order lines window
+ */
 public class OrderLinesWindow extends JFrame {
     private StaffConfirmedOrders parent;
     public OrderLinesWindow(Order order, StaffConfirmedOrders parent, boolean fromBasket) {

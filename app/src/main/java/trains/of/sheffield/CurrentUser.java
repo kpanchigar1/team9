@@ -1,5 +1,8 @@
 package trains.of.sheffield;
 
+/**
+ * CurrentUser class is used to store the current logged-in user's details
+ */
 public class CurrentUser {
     private static User user = null;
     public static User getCurrentUser() {

@@ -9,6 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * This class is used to create the product details page window which displays all details of a given product and allows the staff user to edit them.
+ * This class is also used to create the product details page window which displays all details of a given product and allows the customer user to add it to their basket.
+ */
 public class ProductDetailsPage extends JFrame {
 
     // TODO: product name and brand is swapped somewhere
@@ -193,7 +197,10 @@ public class ProductDetailsPage extends JFrame {
         setVisible(true);
     }
 
-    // Example method to set data from the database if editing
+    /**
+     * This method is used to populate the fields of the product details page with the data from the database.
+     * @param product
+     */
     public void populateFields(Product product) {
         // Replace this with your actual database logic
         productCodeField.setText(product.getProductCode());
@@ -204,18 +211,18 @@ public class ProductDetailsPage extends JFrame {
         descriptionField.setText(product.getDescription());
         stockField.setText(String.valueOf(product.getStock()));
 
-        if(product.getProductCode().charAt(0) == 'M' || product.getProductCode().charAt(0) == 'L' || product.getProductCode().charAt(0) == 'S') {
+        if (product.getProductCode().charAt(0) == 'M' || product.getProductCode().charAt(0) == 'L' || product.getProductCode().charAt(0) == 'S') {
             eraField.setText(DatabaseOperations.getProductEra(product.getProductCode()));
         }
-        if(product.getProductCode().charAt(0) == 'C') {
+        if (product.getProductCode().charAt(0) == 'C') {
             // Controller
             isAnalogueField.setText(DatabaseOperations.getProductAnalogue(product.getProductCode()));
         }
-        if(product.getProductCode().charAt(0) == 'P') {
+        if (product.getProductCode().charAt(0) == 'P') {
             // Track pack
             // trackPackField.setText(String.valueOf(product.getTrackPack()));
         }
-        if(product.getProductCode().charAt(0) == 'M') {
+        if (product.getProductCode().charAt(0) == 'M') {
             // Train set
             String[] trainSetData = DatabaseOperations.getTrainSetData(product.getProductCode());
             locomotiveField.setText(trainSetData[0]);
@@ -223,10 +230,5 @@ public class ProductDetailsPage extends JFrame {
             controllerField.setText(trainSetData[2]);
             trackPackField.setText(trainSetData[3]);
         }
-    }
-
-    public static void main(String[] args) {
-        Product product = DatabaseOperations.getProductFromID("M001");
-        ProductDetailsPage productDetailsPage = new ProductDetailsPage(product, true, "M");
     }
 }

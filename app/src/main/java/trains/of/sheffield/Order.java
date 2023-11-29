@@ -1,6 +1,9 @@
 package trains.of.sheffield;
 import java.util.List;
 
+/**
+ * Order class is used to store the details of an order
+ */
 public class Order {
     private int orderId;
     private String date;

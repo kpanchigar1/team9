@@ -7,6 +7,9 @@ import java.util.Arrays;
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.models.DatabaseOperations;
 
+/**
+ * This class is used to create a sign-up window for the user to enter their details.
+ */
 public class SignUp extends JFrame{
 	JLabel emailPrompt, pwPrompt1, pwPrompt2, intro, firstNamePrompt, secondNamePrompt, housePrompt, roadPrompt, cityPrompt, postCodePrompt, loginIntro, detailsIntro, addressIntro; // Creating variables
 	JTextField emailEnter, firstNameEnter, secondNameEnter, houseEnter, roadEnter, cityEnter, postCodeEnter;
@@ -108,12 +111,18 @@ public class SignUp extends JFrame{
 
 		add(scroll);
 	}
+
+	/**
+	 * This takes the user back to the login window
+	 */
 	public class ActionCancel implements ActionListener {
 		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
 			dispose();
 			GUILoader.loginWindow();
 		}
 	}
+
+
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
 			if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {
