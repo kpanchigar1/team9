@@ -14,6 +14,8 @@ public class App {
     // TODO: Add view basket button to customer dashboard - GABES
     // TODO: Add view orders to customer dashboard - GABES
     // TODO: Change signout functionality maybe - GABES
+    // TODO: Wrong email alert - GABES
+    // TODO: Fix Cascade delete - KRISH
 
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window
