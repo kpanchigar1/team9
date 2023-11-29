@@ -408,11 +408,18 @@ public class DatabaseOperations {
                                 insertStatement.executeUpdate();
                             }
                         }
+                        // Update order total price
+                        String updateQuery = "UPDATE Orders SET totalPrice = ? WHERE orderID = ?"; 
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setDouble(1, results.getDouble("totalPrice") + product.getPrice());
+                            updateStatement.setInt(2, results.getInt("orderID"));
+                            updateStatement.executeUpdate();
+                        }
                     }
                 } else {
                     // User does not have a pending order
                     // Create new order
-                    String insertQuery = "INSERT INTO Orders VALUES (?, ?, ?, ?)";
+                    String insertQuery = "INSERT INTO Orders (date, status, userID, totalPrice) VALUES (?, ?, ?, ?)";
                     Date utilDate = new Date(System.currentTimeMillis());
                     try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                         insertStatement.setDate(1, new java.sql.Date(utilDate.getTime()));
