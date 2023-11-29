@@ -27,8 +27,7 @@ public class OrderLinesWindow extends JFrame {
             public boolean isCellEditable(int row, int column) {
                 if (column == 2 && order.getStatus().equals(Status.PENDING) && fromBasket) {
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
             }
@@ -37,19 +36,17 @@ public class OrderLinesWindow extends JFrame {
         tableModel.setColumnIdentifiers(columnNames);
         JTable orderLinesTable = new JTable(tableModel);
 
+        // Create a GenericSpinnerEditor instance
+        GenericSpinnerEditor spinnerEditor = new GenericSpinnerEditor(0, true);
+
+        // Set the spinner editor for the "Quantity" column
+        orderLinesTable.getColumnModel().getColumn(2).setCellEditor(spinnerEditor);
+
+
         if (order.getStatus().equals(Status.PENDING) && fromBasket) {
             for (int i = 0; i < orderData.length; i++) {
                 int quantity = Integer.parseInt(orderData[i][2]);
-                JSpinner spinner = new JSpinner(new SpinnerNumberModel(quantity, 0, Integer.MAX_VALUE, 1));
                 tableModel.addRow(new Object[]{orderData[i][0], orderData[i][1], quantity});
-
-                TableColumn quantityColumn = orderLinesTable.getColumnModel().getColumn(2);
-                quantityColumn.setCellRenderer(new GenericSpinnerRenderer<>());
-
-                for (int row = 0; row < tableModel.getRowCount(); row++) {
-                    int originalValue = Integer.parseInt(tableModel.getValueAt(row, 2).toString());
-                    quantityColumn.setCellEditor(new GenericSpinnerEditor<>(originalValue, new SpinnerNumberModel(originalValue, 0, Integer.MAX_VALUE, 1), false));
-                }
             }
         }
         else {
@@ -93,17 +90,13 @@ public class OrderLinesWindow extends JFrame {
         confirmChanges.addActionListener(e -> {
             for (int row = 0; row < tableModel.getRowCount(); row++) {
                 String productCode = (String) tableModel.getValueAt(row, 0);
-                // get spinner value
-                int stock = 0;
-                TableCellEditor editor = orderLinesTable.getCellEditor(row, 2);
-                if (editor instanceof GenericSpinnerEditor) {
-                    JSpinner spinner = ((GenericSpinnerEditor<?>) editor).getSpinner();
-                    stock = (int) spinner.getValue();
-                    System.out.println(stock);
-                    // Now you have the product code and the current quantity value
+                int updatedQuantity = (int) tableModel.getValueAt(row, 2);
 
-                DatabaseOperations.updateOrderLines(order.getOrderID(), productCode, stock);
-                }
+                // Now you have the product code and the updated quantity value
+                DatabaseOperations.updateOrderLines(order.getOrderID(), productCode, updatedQuantity);
+            }
+        });
+
 
         JPanel buttonPanel1 = new JPanel();
         buttonPanel1.setLayout(new GridLayout(1, 2));
@@ -134,6 +127,4 @@ public class OrderLinesWindow extends JFrame {
         setVisible(true);
 
         }
-    });
     }
-}

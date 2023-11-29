@@ -120,6 +120,8 @@ public class ProductDetailsPage extends JFrame {
             priceField.setEditable(false);
             descriptionField.setEditable(false);
             stockField.setEditable(false);
+            stockField.setVisible(false);
+            stockLabel.setVisible(false);
             eraField.setEditable(false);
             isAnalogueField.setEditable(false);
             controllerField.setEditable(false);
