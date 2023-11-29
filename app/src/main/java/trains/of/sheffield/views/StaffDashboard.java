@@ -45,7 +45,7 @@ public class StaffDashboard extends JFrame {
         southButtonPanel = new JPanel();
         southButtonPanel.setLayout(new GridLayout(1, 3));
 
-        trainSetButton = new JButton("Train Set Stock");
+        trainSetButton = new JButton("Train Set");
         trainSetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,7 +54,7 @@ public class StaffDashboard extends JFrame {
             }
         });
 
-        trackPackButton = new JButton("Track Pack Stock");
+        trackPackButton = new JButton("Track Pack");
         trackPackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +63,7 @@ public class StaffDashboard extends JFrame {
             }
         });
 
-        locomotiveButton = new JButton("Locomotives Stock");
+        locomotiveButton = new JButton("Locomotives");
         locomotiveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,7 +72,7 @@ public class StaffDashboard extends JFrame {
             }
         });
 
-        rollingStockButton = new JButton("Rolling Stock Stock");
+        rollingStockButton = new JButton("Rolling Stock");
         rollingStockButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +81,7 @@ public class StaffDashboard extends JFrame {
             }
         });
 
-        trackButton = new JButton("Track Stock");
+        trackButton = new JButton("Track");
         trackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,7 +90,7 @@ public class StaffDashboard extends JFrame {
             }
         });
 
-        controllerButton = new JButton("Controllers Stock");
+        controllerButton = new JButton("Controllers");
         controllerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

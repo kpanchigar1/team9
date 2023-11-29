@@ -11,6 +11,9 @@ import java.util.Objects;
 
 public class ProductDetailsPage extends JFrame {
 
+    // TODO: product name and brand is swapped somewhere
+    // TODO: add back button
+
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
     private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;
     private JButton addToBasketButton, confirmChangesButton;
@@ -18,7 +21,7 @@ public class ProductDetailsPage extends JFrame {
     public ProductDetailsPage(Product product, boolean fromStaffDashboard, String productType) {
         setTitle("Product Details Page");
         setSize(400, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(13, 2)); // Adjust the layout based on your needs
 
         // Initialize components
@@ -153,6 +156,8 @@ public class ProductDetailsPage extends JFrame {
         String finalProductType = productType;
         confirmChangesButton.addActionListener(e -> {
             // add new product to database / update existing product
+            // TODO: update stock
+            // TODO: brand and name are swapped somewhere
            DatabaseOperations.updateProduct(new Product(productCodeField.getText(), nameField.getText(), brandField.getText(), Double.parseDouble(priceField.getText()), Gauge.valueOf(scaleField.getText()), descriptionField.getText(), Integer.parseInt(stockField.getText())));
            // update other tables based on product type
             if(Objects.equals(finalProductType, "M") || Objects.equals(finalProductType, "L") || Objects.equals(finalProductType, "S")) {
@@ -209,7 +214,7 @@ public class ProductDetailsPage extends JFrame {
         }
         if(product.getProductCode().charAt(0) == 'M') {
             // Train set
-            String[] trainSetData = DatabaseOperations.getTrainSetData("M001");
+            String[] trainSetData = DatabaseOperations.getTrainSetData(product.getProductCode());
             locomotiveField.setText(trainSetData[0]);
             rollingStockField.setText(trainSetData[1]);
             controllerField.setText(trainSetData[2]);

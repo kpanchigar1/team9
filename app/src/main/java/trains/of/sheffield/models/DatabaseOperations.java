@@ -1122,6 +1122,35 @@ public class DatabaseOperations {
             DatabaseConnectionHandler.closeConnection();
         }
     }
+
+    public static void updateOrderLine(int orderID, String productID, int quantity) {
+        // check if quantity is 0, if yes then delete, else update
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            if (quantity == 0) {
+                String query = "DELETE FROM OrderLines WHERE orderID = ? AND productCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, orderID);
+                    statement.setString(2, productID);
+                    statement.executeUpdate();
+                }
+            } else {
+                String query = "UPDATE OrderLines SET quantity = ? WHERE orderID = ? AND productCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, quantity);
+                    statement.setInt(2, orderID);
+                    statement.setString(3, productID);
+                    statement.executeUpdate();
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
 }
 
 
