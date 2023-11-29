@@ -8,10 +8,13 @@ public class App {
     // TODO: make all windows full screenY
     // TODO: remove unused main methods
     // TODO: check discussion board to see if locomotive, rolling stock, trackpacks in a trainset need to be separately modelled and how subtracting the stock works
-    // TODO: Save changes in basket - GABES
-    // TODO: add product to basket - GABES
+    // TODO: Add test users - KRISH
     // TODO: Change order to BLOCKED if not enough stock - GABES
-    // TODO: Check if address already exists - GABES
+    // TODO: Add view basket button to customer dashboard - GABES
+    // TODO: Add view orders to customer dashboard - GABES
+    // TODO: Change signout functionality maybe - GABES
+    // TODO: Wrong email alert
+
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window
     }

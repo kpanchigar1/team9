@@ -25,6 +25,7 @@ public class MainMenu extends JFrame
         JMenuBar menuBar = new MenuBarPanel();
 
         setJMenuBar(menuBar);
+        
 
         titlePanel = new JPanel();
         titleLabel = new JLabel("Welcome to Trains of Sheffield");
