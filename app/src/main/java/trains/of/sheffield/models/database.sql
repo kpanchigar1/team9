@@ -182,3 +182,60 @@ INSERT INTO OrderLines VALUES (3, 'C001', 2);
 INSERT INTO OrderLines VALUES (3, 'P001', 3);
 INSERT INTO OrderLines VALUES (3, 'R001', 4);
 INSERT INTO EraLink VALUES ('M001', 'Era 1');
+-- Inserting test data for boxed sets
+INSERT INTO Product VALUES ('M002', 1, 'Mallard Record Breaker Set', 249.99, 'OO', 'Iconic steam train set');
+INSERT INTO Product VALUES ('M003', 1, 'Flying Scotsman Set', 219.99, 'OO', 'Classic locomotive train set');
+-- Add corresponding entries to other related tables if needed
+
+-- Inserting test data for track packs
+INSERT INTO Product VALUES ('P002', 1, 'Track Pack B', 39.99, 'OO', 'Advanced track expansion pack');
+INSERT INTO Product VALUES ('P003', 1, '3rd Radius Extension Pack', 49.99, 'OO', 'Extended curved track pack');
+INSERT INTO TrackPacks VALUES ('P002', 0);
+INSERT INTO TrackPacks VALUES ('P003', 1);
+-- Add corresponding entries to other related tables if needed
+
+-- Inserting test data for controllers
+INSERT INTO Product VALUES ('C004', 1, 'DCC Elite Controller', 99.99, 'OO', 'Advanced digital controller');
+INSERT INTO Product VALUES ('C005', 1, 'Standard Controller', 29.99, 'OO', 'Basic analogue controller');
+INSERT INTO ControllerTable VALUES ('C004', 0);
+INSERT INTO ControllerTable VALUES ('C005', 1);
+-- Add corresponding entries to other related tables if needed
+
+-- Inserting test data for additional locomotives
+INSERT INTO Product VALUES ('L005', 1, 'Class 5MT Black Five', 79.99, 'OO', 'Steam locomotive for Era 3-4');
+INSERT INTO Product VALUES ('L006', 1, 'Class 35 Hymek Diesel', 89.99, 'OO', 'Diesel locomotive for Era 5-6');
+INSERT INTO EraLink VALUES ('L005', 'Era 3');
+INSERT INTO EraLink VALUES ('L006', 'Era 4-5');
+-- Add corresponding entries to other related tables if needed
+
+-- Inserting test data for additional carriages
+INSERT INTO Product VALUES ('S006', 1, 'GWR Toad Guards Van', 22.99, 'OO', 'Historic brake carriage');
+INSERT INTO Product VALUES ('S007', 1, 'Mark 1 (maroon) Corridor First', 32.99, 'OO', 'Classic first-class carriage');
+INSERT INTO EraLink VALUES ('S006', 'Era 2');
+INSERT INTO EraLink VALUES ('S007', 'Era 3');
+-- Add corresponding entries to other related tables if needed
+
+-- Inserting test data for additional wagons
+INSERT INTO Product VALUES ('S003', 1, 'Coalfish Open Wagon', 14.99, 'OO', 'Coal transportation wagon');
+INSERT INTO Product VALUES ('S004', 1, '21t Iron Ore Tippler', 19.99, 'OO', 'Ore transportation wagon');
+INSERT INTO EraLink VALUES ('S003', 'Era 3');
+INSERT INTO EraLink VALUES ('S004', 'Era 4');
+-- Add corresponding entries to other related tables if needed
+-- Linking locomotives to train sets
+INSERT INTO LocomotiveTrainSetLink VALUES ('M002', 'L005');
+INSERT INTO LocomotiveTrainSetLink VALUES ('M003', 'L006');
+
+-- Linking rolling stock to train sets
+INSERT INTO RollingStockTrainSetLink VALUES ('M002', 'S004');
+INSERT INTO RollingStockTrainSetLink VALUES ('M002', 'S006');
+INSERT INTO RollingStockTrainSetLink VALUES ('M003', 'S003');
+INSERT INTO RollingStockTrainSetLink VALUES ('M003', 'S007');
+
+-- Linking controllers to train sets
+INSERT INTO ControllerTrainSetLink VALUES ('M002', 'C004');
+INSERT INTO ControllerTrainSetLink VALUES ('M003', 'C005');
+
+-- Linking track packs to train sets
+INSERT INTO TrackPackTrainSetLink VALUES ('M002', 'P002');
+INSERT INTO TrackPackTrainSetLink VALUES ('M003', 'P003');
+
