@@ -889,17 +889,17 @@ public class DatabaseOperations {
         }
     }
 
-    public static List<String> getStaffMembers() {
+    public static List<User> getStaffMembers() {
         try {
             DatabaseConnectionHandler.openConnection();
             Connection connection = DatabaseConnectionHandler.getConnection();
-            String query = "SELECT email FROM User WHERE role = ?";
+            String query = "SELECT userID FROM User WHERE role = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, Role.STAFF.getRoleID()); // Assuming a specific role ID for staff
                 ResultSet results = statement.executeQuery();
-                List<String> staffMembers = new ArrayList<>();
+                List<User> staffMembers = new ArrayList<>();
                 while (results.next()) {
-                    staffMembers.add(results.getString("email"));
+                    staffMembers.add(getUserFromID(results.getString("userID")));
                 }
                 return staffMembers;
             }

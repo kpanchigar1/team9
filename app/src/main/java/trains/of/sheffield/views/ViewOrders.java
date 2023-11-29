@@ -87,9 +87,5 @@ public class ViewOrders extends JFrame{
             return label;
         }
     }
-
-    public static void main(String[] args) {
-        new PreviousOrdersPanel();
-    }
     
 }

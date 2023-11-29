@@ -1,59 +1,64 @@
 package trains.of.sheffield.views;
 
-import javax.swing.*;
-
+import trains.of.sheffield.GUILoader;
+import trains.of.sheffield.User;
 import trains.of.sheffield.models.DatabaseOperations;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List; // Make sure to import List
+import java.util.List;
 
-// TODO: make slightly prettier
-
-/**
- * Class to create the manager view
- */
 public class ManagerView extends JFrame {
     private JTextField staffEmailField;
-    private JButton addButton, removeButton;
-    private JList<String> staffList; 
-    private DefaultListModel<String> listModel; 
+    private JLabel staffEmailLabel;
+    private JButton addButton, removeButton, backButton;
+    private JList<String> staffList;
+    private DefaultListModel<String> listModel;
 
     public ManagerView() {
-        // TODO: make it look better
         setTitle("Manager Dashboard");
-        setSize(600, 400);
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
 
         listModel = new DefaultListModel<>();
         staffList = new JList<>(listModel);
         JScrollPane listScrollPane = new JScrollPane(staffList);
 
-        JPanel inputPanel = new JPanel(new GridLayout(1, 3));
-        staffEmailField = new JTextField();
+        // Title Label
+        JLabel titleLabel = new JLabel("List of Staff Members");
+
+        // Input Panel
+        JPanel inputPanel = new JPanel(new FlowLayout());
+        staffEmailLabel = new JLabel("Staff Email: ");
+        staffEmailField = new JTextField(20);
         addButton = new JButton("Add Staff");
         removeButton = new JButton("Remove Staff");
-        
+        backButton = new JButton("Back");
+
+        inputPanel.add(staffEmailLabel);
         inputPanel.add(staffEmailField);
         inputPanel.add(addButton);
         inputPanel.add(removeButton);
+        inputPanel.add(backButton);
 
-        add(listScrollPane, BorderLayout.CENTER);
-        add(inputPanel, BorderLayout.SOUTH);
+        // Main Panel
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
+        mainPanel.add(listScrollPane, BorderLayout.CENTER);
+        mainPanel.add(inputPanel, BorderLayout.SOUTH);
 
-        updateStaffList(); // Populate the list with current staff
-        
+        add(mainPanel);
 
-        // Add button listener
+        updateStaffList();
+        setVisible(true);
+
+// Add button listener
     addButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String staffEmail = JOptionPane.showInputDialog(ManagerView.this,
-                                                            "Enter Staff Member's Email:",
-                                                            "Add Staff",
-                                                            JOptionPane.PLAIN_MESSAGE);
+            String staffEmail = staffEmailField.getText();
             if (staffEmail != null && !staffEmail.trim().isEmpty()) {
                 if (DatabaseOperations.addStaffMember(staffEmail)) {
                     updateStaffList(); // Refresh the list after successful addition
@@ -71,38 +76,59 @@ public class ManagerView extends JFrame {
         }
     });
 
-// Remove button listener
+
     removeButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             String selectedStaff = staffList.getSelectedValue();
             if (selectedStaff != null) {
-                if (DatabaseOperations.removeStaffMember(selectedStaff)) {
-                    updateStaffList(); // Refresh the list after successful removal
-                    JOptionPane.showMessageDialog(ManagerView.this,
-                                                  "Staff member removed successfully.",
-                                                  "Success",
-                                                  JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(ManagerView.this,
-                                                  "Failed to remove staff member.",
-                                                  "Error",
-                                                  JOptionPane.ERROR_MESSAGE);
+                int choice = JOptionPane.showConfirmDialog(
+                        ManagerView.this,
+                        "Are you sure you want to remove the selected staff member?",
+                        "Confirm Removal",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    if (DatabaseOperations.removeStaffMember(selectedStaff.substring(selectedStaff.indexOf("(") + 1, selectedStaff.indexOf(")")))) {
+                        updateStaffList(); // Refresh the list after successful removal
+                        JOptionPane.showMessageDialog(ManagerView.this,
+                                "Staff member removed successfully.",
+                                "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(ManagerView.this,
+                                "Failed to remove staff member.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(
+                        ManagerView.this,
+                        "Please select a staff member to remove.",
+                        "Selection Required",
+                        JOptionPane.WARNING_MESSAGE);
             }
         }
     });
 
-}
+    backButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+            GUILoader.staffDashboardWindow();
+        }
+    });
 
+}
     /**
      * Updates the staff list with the current staff members
      */
     private void updateStaffList() {
-        List<String> staffMembers = DatabaseOperations.getStaffMembers();
+        List<User> staffMembers = DatabaseOperations.getStaffMembers();
         listModel.clear(); 
-        for (String email : staffMembers) {
-            listModel.addElement(email);
+        for (User staffMember : staffMembers) {
+            listModel.addElement(staffMember.getForename() + " " + staffMember.getSurname() + " (" + staffMember.getEmail() + ")");
         }
     }
 }

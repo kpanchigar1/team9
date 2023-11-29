@@ -106,8 +106,4 @@ public class CardDetailsPage extends JFrame{
             }
         }
     }
-
-    public static void main(String[] args) {
-        CardDetailsPage cardDetailsPage = new CardDetailsPage();
-    }
 }

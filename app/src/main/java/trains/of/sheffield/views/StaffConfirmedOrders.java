@@ -102,11 +102,6 @@ public class StaffConfirmedOrders extends JFrame {
         }
     }
 
-
-    public static void main(String[] args) {
-        new StaffConfirmedOrders();
-    }
-
     public void reload() {
         dispose();
         new StaffConfirmedOrders().setVisible(true);
