@@ -1,7 +1,9 @@
 package trains.of.sheffield.views;
 
+import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.Role;
+import trains.of.sheffield.models.DatabaseOperations;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,9 +11,9 @@ import javax.swing.*;
 
 public class MainMenu extends JFrame
 {
-    private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton, controllerButton, staffButton;
+    private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton, controllerButton, staffButton, basketButton, ordersButton;
     private JLabel titleLabel;
-    private JPanel buttonPanel, titlePanel;
+    private JPanel buttonPanel, titlePanel, southPanel;
     private Container contentPane;
 
     public MainMenu(Role role)
@@ -97,7 +99,30 @@ public class MainMenu extends JFrame
 
         contentPane.add(buttonPanel, BorderLayout.CENTER);
 
+        ordersButton = new JButton("View Orders");
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                GUILoader.viewBasketWindow();
+            }
+        });
+
+        basketButton = new JButton("View Basket");
+        basketButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                GUILoader.orderLinesWindow(DatabaseOperations.getBasketFromUser(CurrentUser.getId()), null, true);
+            }
+        });
+
+        southPanel = new JPanel();
+
         if (role == Role.STAFF || role == Role.MANAGER) {
+            southPanel.setLayout(new GridLayout(1, 3));
+            southPanel.add(ordersButton);
+            southPanel.add(basketButton);
             staffButton = new JButton("Staff Dashboard");
             staffButton.addActionListener(new ActionListener() {
                 @Override
@@ -106,9 +131,14 @@ public class MainMenu extends JFrame
                     GUILoader.staffDashboardWindow();
                 }
             });
-            contentPane.add(staffButton, BorderLayout.SOUTH);
+            southPanel.add(staffButton);
+        } else {
+            southPanel.setLayout(new GridLayout(1, 2));
+            southPanel.add(ordersButton);
+            southPanel.add(basketButton);
         }
-        setVisible(true);
+
+        contentPane.add(southPanel, BorderLayout.SOUTH);
     }
 
 
@@ -116,17 +146,4 @@ public class MainMenu extends JFrame
     {
         MainMenu mainMenu = new MainMenu(Role.STAFF);
     }
-
-    /*trainSetButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProductPage().setVisible(true);
-                dispose(); // Close the MainMenu
-            }
-        });
-    }
-});*/
-
 }

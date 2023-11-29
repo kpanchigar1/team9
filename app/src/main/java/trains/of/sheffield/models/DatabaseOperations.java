@@ -375,6 +375,28 @@ public class DatabaseOperations {
         return new String[0][];
     }
 
+    public static Order getBasketFromUser(String userId) {
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String orderQuery = "SELECT * FROM Orders WHERE userID = ? AND status = ?"; // Fetches the details under the selected username
+            try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                ordersStatement.setString(1, userId);
+                ordersStatement.setInt(2, Status.PENDING.getStatusID());
+                ResultSet results = ordersStatement.executeQuery();
+                results.next();
+                ArrayList orderLines = new ArrayList();
+                for (String[] orderLine : getOrderLines(results.getInt("orderID"))) {
+                    orderLines.add(orderLine);
+                }
+                return new Order(results.getInt("orderID"), results.getString("date"), results.getInt("status"), orderLines);
+            }
+        } catch (Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
+        }
+        return null;
+    }
+
     public static void addProductToOrder(Product product) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
