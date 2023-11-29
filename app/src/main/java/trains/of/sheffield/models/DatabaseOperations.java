@@ -31,7 +31,7 @@ public class DatabaseOperations {
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                GUILoader.alertWindow("Error: Could not execute query " + ex.getMessage());
+                GUILoader.alertWindow("No user found under " + email); // Tells the user the username is incorrect
             }
             connection.close(); // Ending connection
         } catch (Exception ex) {
