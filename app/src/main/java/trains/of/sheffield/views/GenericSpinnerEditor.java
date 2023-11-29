@@ -1,18 +1,18 @@
 package trains.of.sheffield.views;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.DefaultFormatter;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class GenericSpinnerEditor<T> extends AbstractCellEditor implements TableCellEditor {
-    private final int originalValue;
-    private JSpinner spinner;
+public class GenericSpinnerEditor extends AbstractCellEditor implements TableCellEditor {
+    private final JSpinner spinner;
 
-    public GenericSpinnerEditor(int originalValue, SpinnerNumberModel model, boolean isStockPage) {
-        this.originalValue = originalValue;
+    public GenericSpinnerEditor(int originalValue, boolean isStockPage) {
+        SpinnerNumberModel model = new SpinnerNumberModel(originalValue, 0, Integer.MAX_VALUE, 1);
         this.spinner = new JSpinner(model);
         configureSpinner(isStockPage);
     }
@@ -21,13 +21,6 @@ public class GenericSpinnerEditor<T> extends AbstractCellEditor implements Table
         JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
         editor.getTextField().setHorizontalAlignment(JTextField.RIGHT);
         ((DefaultFormatter) editor.getTextField().getFormatter()).setAllowsInvalid(false);
-
-        spinner.addChangeListener(e -> {
-            int currentValue = (int) spinner.getValue();
-            if (currentValue < originalValue && isStockPage) {
-                spinner.setValue(originalValue);
-            }
-        });
 
         spinner.addFocusListener(new FocusAdapter() {
             @Override
@@ -40,8 +33,7 @@ public class GenericSpinnerEditor<T> extends AbstractCellEditor implements Table
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         int currentValue = (int) value;
-        spinner = new JSpinner(new SpinnerNumberModel(currentValue, 0, Integer.MAX_VALUE, 1));
-        configureSpinner(true); // Pass the correct flag based on your use case
+        spinner.setValue(currentValue);
         return spinner;
     }
 
