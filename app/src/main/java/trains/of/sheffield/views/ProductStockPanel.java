@@ -1,5 +1,6 @@
 package trains.of.sheffield.views;
 
+import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.Product;
 import trains.of.sheffield.models.DatabaseOperations;
@@ -7,6 +8,8 @@ import trains.of.sheffield.models.DatabaseOperations;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -27,6 +30,20 @@ public class ProductStockPanel extends JFrame {
         setContentPane(productStockPanel);
         setSize(1200, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JMenuBar menuBar = new MenuBarPanel();
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+        menuBar.getMenu(0).add(signOut);
+
+        setJMenuBar(menuBar);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;

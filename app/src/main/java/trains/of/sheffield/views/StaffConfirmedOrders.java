@@ -1,5 +1,6 @@
 package trains.of.sheffield.views;
 
+import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.Order;
 import trains.of.sheffield.Status;
@@ -9,6 +10,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -32,7 +35,19 @@ public class StaffConfirmedOrders extends JFrame {
         setSize(1600, 400);
 
         JMenuBar menuBar = new MenuBarPanel();
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+        menuBar.getMenu(0).add(signOut);
+
         setJMenuBar(menuBar);
+
 
         titlePanel = new JPanel();
         titleLabel = new JLabel("Trains of Sheffield - Confirmed Orders");

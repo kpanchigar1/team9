@@ -69,6 +69,7 @@ CREATE TABLE ControllerTable (
 CREATE TABLE ControllerTrainSetLink (
 trainSetCode varchar(5) NOT NULL,
 controllerCode varchar(5) NOT NULL,
+quantity int NOT NULL DEFAULT 1,
 PRIMARY KEY (trainSetCode, controllerCode),
 FOREIGN KEY (trainSetCode) REFERENCES Product(productCode) ON DELETE CASCADE,
 FOREIGN KEY (controllerCode) REFERENCES Product(productCode) ON DELETE CASCADE
@@ -89,6 +90,7 @@ CREATE TABLE EraLink (
 CREATE TABLE LocomotiveTrainSetLink (
   trainSetCode varchar(5) NOT NULL,
   locomotiveCode varchar(5) NOT NULL,
+  quantity int NOT NULL DEFAULT 1,
   PRIMARY KEY (trainSetCode, locomotiveCode),
   FOREIGN KEY (trainSetCode) REFERENCES Product(productCode) ON DELETE CASCADE,
   FOREIGN KEY (locomotiveCode) REFERENCES Product(productCode) ON DELETE CASCADE
@@ -115,6 +117,7 @@ CREATE TABLE OrderLines (
 CREATE TABLE RollingStockTrainSetLink (
   trainSetCode varchar(5) NOT NULL,
   rollingStockCode varchar(5) NOT NULL,
+  quantity int NOT NULL DEFAULT 1,
   PRIMARY KEY (trainSetCode, rollingStockCode),
   FOREIGN KEY (trainSetCode) REFERENCES Product(productCode),
   FOREIGN KEY (rollingStockCode) REFERENCES Product(productCode) ON DELETE CASCADE
@@ -135,6 +138,7 @@ CREATE TABLE TrackPacks (
 CREATE TABLE TrackPackTrainSetLink (
   trainSetCode varchar(5) NOT NULL,
   trackPackCode varchar(5) NOT NULL,
+  quantity int NOT NULL DEFAULT 1,
   PRIMARY KEY (trainSetCode, trackPackCode),
   FOREIGN KEY (trainSetCode) REFERENCES Product(productCode) ON DELETE CASCADE,
   FOREIGN KEY (trackPackCode) REFERENCES Product(productCode) ON DELETE CASCADE
@@ -151,11 +155,11 @@ INSERT INTO Product VALUES ('P001', 1, 'TrackPack1', 9.99, 'OO', 'TrackPack1 Des
 INSERT INTO Product VALUES ('R002', 1, 'Track2', 1.99, 'OO', 'Track2 Description');
 INSERT INTO Product VALUES ('L002', 1, 'Locomotive2', 5.99, 'OO', 'Locomotive2 Description');
 INSERT INTO ControllerTable VALUES ('C001', 1);
-INSERT INTO ControllerTrainSetLink VALUES ('M001', 'C001');
+INSERT INTO ControllerTrainSetLink VALUES ('M001', 'C001', 1);
 INSERT INTO DccCode VALUES ('L001', 'DCC');
 INSERT INTO EraLink VALUES ('L001', 'Era 1');
-INSERT INTO LocomotiveTrainSetLink VALUES ('M001', 'L001');
-INSERT INTO RollingStockTrainSetLink VALUES ('M001', 'S001');
+INSERT INTO LocomotiveTrainSetLink VALUES ('M001', 'L001', 1);
+INSERT INTO RollingStockTrainSetLink VALUES ('M001', 'S001', 1);
 INSERT INTO Stock VALUES ('R001', 10);
 INSERT INTO Stock VALUES ('L001', 10);
 INSERT INTO Stock VALUES ('S001', 10);
@@ -165,7 +169,7 @@ INSERT INTO Stock VALUES ('P001', 10);
 INSERT INTO Stock VALUES ('R002', 10);
 INSERT INTO Stock VALUES ('L002', 10);
 INSERT INTO TrackPacks VALUES ('R001', 1);
-INSERT INTO TrackPackTrainSetLink VALUES ('M001', 'R001');
+INSERT INTO TrackPackTrainSetLink VALUES ('M001', 'R001', 1);
 INSERT INTO Address VALUES ('498', 'Glossop Road', 'Sheffield', 'S10 2QA');
 INSERT INTO User VALUES ('d0f89dff-5293-49d6-8342-0cd9fc035b60', 'Gabriel', 'Plume', 'gplume02@gmail.com', '602557fd40b0dbffac5bf6efbd70652a459aa727ffad5788dff9f0e679e93c07', '2', '498', 'S10 2QA', NULL);
 INSERT INTO CardDetail VALUES ('Visa', '1234567891011121', 1234, 123);
@@ -222,20 +226,22 @@ INSERT INTO EraLink VALUES ('S003', 'Era 3');
 INSERT INTO EraLink VALUES ('S004', 'Era 4');
 -- Add corresponding entries to other related tables if needed
 -- Linking locomotives to train sets
-INSERT INTO LocomotiveTrainSetLink VALUES ('M002', 'L005');
-INSERT INTO LocomotiveTrainSetLink VALUES ('M003', 'L006');
+INSERT INTO LocomotiveTrainSetLink VALUES ('M002', 'L005', 1);
+INSERT INTO LocomotiveTrainSetLink VALUES ('M003', 'L006', 1);
 
 -- Linking rolling stock to train sets
-INSERT INTO RollingStockTrainSetLink VALUES ('M002', 'S004');
-INSERT INTO RollingStockTrainSetLink VALUES ('M002', 'S006');
-INSERT INTO RollingStockTrainSetLink VALUES ('M003', 'S003');
-INSERT INTO RollingStockTrainSetLink VALUES ('M003', 'S007');
+INSERT INTO RollingStockTrainSetLink VALUES ('M002', 'S004', 1);
+INSERT INTO RollingStockTrainSetLink VALUES ('M002', 'S006', 1);
+INSERT INTO RollingStockTrainSetLink VALUES ('M003', 'S003', 1);
+INSERT INTO RollingStockTrainSetLink VALUES ('M003', 'S007', 1);
 
 -- Linking controllers to train sets
-INSERT INTO ControllerTrainSetLink VALUES ('M002', 'C004');
-INSERT INTO ControllerTrainSetLink VALUES ('M003', 'C005');
+INSERT INTO ControllerTrainSetLink VALUES ('M002', 'C004', 1);
+INSERT INTO ControllerTrainSetLink VALUES ('M003', 'C005', 1);
 
 -- Linking track packs to train sets
-INSERT INTO TrackPackTrainSetLink VALUES ('M002', 'P002');
-INSERT INTO TrackPackTrainSetLink VALUES ('M003', 'P003');
+INSERT INTO TrackPackTrainSetLink VALUES ('M002', 'P002', 1);
+INSERT INTO TrackPackTrainSetLink VALUES ('M003', 'P003', 1);
 
+-- Deleted Product Placeholder
+INSERT INTO Product VALUES ('D001', 1, 'Deleted Product', 0, 'OO', 'NA');

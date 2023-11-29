@@ -28,13 +28,17 @@ public class StaffDashboard extends JFrame {
         contentPane.setLayout(new BorderLayout());
         setSize(800, 400);
 
-
         JMenuBar menuBar = new MenuBarPanel();
-
-        JMenu staffMenu = new JMenu("Staff");
-        staffMenu.add(new JMenuItem("Orders"));
-        staffMenu.add(new JMenuItem("Stock"));
-        menuBar.add(staffMenu);
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+        menuBar.getMenu(0).add(signOut);
 
         setJMenuBar(menuBar);
 

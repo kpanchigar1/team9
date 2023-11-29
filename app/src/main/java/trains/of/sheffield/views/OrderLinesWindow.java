@@ -8,6 +8,8 @@ import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
@@ -19,6 +21,21 @@ public class OrderLinesWindow extends JFrame {
     private StaffConfirmedOrders parent;
     public OrderLinesWindow(Order order, StaffConfirmedOrders parent, boolean fromBasket) {
         this.parent = parent;
+
+        JMenuBar menuBar = new MenuBarPanel();
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+        menuBar.getMenu(0).add(signOut);
+
+        setJMenuBar(menuBar);
+
         Container contentPane = getContentPane();
         String[] columnNames = {"Product ID", "Product Name", "Quantity"};
         String[][] orderData = DatabaseOperations.getOrderLines(order.getOrderID());

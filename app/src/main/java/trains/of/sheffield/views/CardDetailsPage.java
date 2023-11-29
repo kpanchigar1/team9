@@ -25,6 +25,20 @@ public class CardDetailsPage extends JFrame{
         this.add(panel);
         panel.setLayout(new GridLayout(5, 2));
 
+        JMenuBar menuBar = new MenuBarPanel();
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+        menuBar.getMenu(0).add(signOut);
+
+        setJMenuBar(menuBar);
+
         cardNameLabel = new JLabel("Card Name:");
         cardNameLabel.setHorizontalAlignment(JLabel.CENTER);
         cardNameField = new JTextField(20);

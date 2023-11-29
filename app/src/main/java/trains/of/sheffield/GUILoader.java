@@ -135,6 +135,7 @@ public class GUILoader {
 		orderLinesGUI.pack();
 		orderLinesGUI.setVisible(true);
 		orderLinesGUI.setTitle("Order Lines");
+
 	}
 
 	/**
@@ -155,6 +156,8 @@ public class GUILoader {
 	 */
 	public static void pendingOrdersWindow() {
 		StaffConfirmedOrders pendingOrders = new StaffConfirmedOrders();
+		pendingOrders.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pendingOrders.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	/**
@@ -175,6 +178,7 @@ public class GUILoader {
 	 */
 	public static void customerProductPageWindow(String productType) {
 		CustomerProductsPage customerProductsPageGUI = new CustomerProductsPage(productType);
+		customerProductsPageGUI.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	/**
@@ -182,5 +186,6 @@ public class GUILoader {
 	 */
 	public static void managerDashboardWindow() {
 		ManagerView managerDashboardGUI = new ManagerView();
+		managerDashboardGUI.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 }

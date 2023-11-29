@@ -26,6 +26,20 @@ public class ChangePassword extends JFrame{
 		mainView.setPreferredSize(new Dimension(750, 600)); // Adjust the size as needed
 		scroll = new JScrollPane(mainView);
 
+		JMenuBar menuBar = new MenuBarPanel();
+		JMenuItem signOut = new JMenuItem("Sign Out");
+		signOut.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CurrentUser.setUser(null);
+				dispose();
+				GUILoader.loginWindow();
+			}
+		});
+		menuBar.getMenu(0).add(signOut);
+
+		setJMenuBar(menuBar);
+
 		introPanel = new JPanel(); // A panel to hold the intro message
 		introPanel.setLayout(new GridLayout(1,1));
 		intro = new JLabel("Please fill out this form and click \"Submit\"", SwingConstants.CENTER);

@@ -1,5 +1,6 @@
 package trains.of.sheffield.views;
 
+import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.User;
 import trains.of.sheffield.models.DatabaseOperations;
@@ -21,6 +22,20 @@ public class ManagerView extends JFrame {
         setTitle("Manager Dashboard");
         setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JMenuBar menuBar = new MenuBarPanel();
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+        menuBar.getMenu(0).add(signOut);
+
+        setJMenuBar(menuBar);
 
         listModel = new DefaultListModel<>();
         staffList = new JList<>(listModel);

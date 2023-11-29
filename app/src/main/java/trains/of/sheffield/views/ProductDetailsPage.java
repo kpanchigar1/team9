@@ -1,12 +1,17 @@
 package trains.of.sheffield.views;
 
+import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 import trains.of.sheffield.Gauge;
 import trains.of.sheffield.Product;
 import trains.of.sheffield.models.DatabaseOperations;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -18,16 +23,34 @@ public class ProductDetailsPage extends JFrame {
     // TODO: product name and brand is swapped somewhere
     // TODO: add back button
     // TODO: DCC Code for controller
+    // TODO: add option to add more
+    // TODO: add option to remove
+    // TODO: fix table layout
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
     private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;
     private JButton addToBasketButton, confirmChangesButton;
+    private JTable trainSetTable;
 
     public ProductDetailsPage(Product product, boolean fromStaffDashboard, String productType) {
         setTitle("Product Details Page");
-        setSize(400, 600);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(13, 2)); // Adjust the layout based on your needs
+
+        JMenuBar menuBar = new MenuBarPanel();
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+        menuBar.getMenu(0).add(signOut);
+
+        setJMenuBar(menuBar);
 
         // Initialize components
         productCodeLabel = new JLabel("Product Code:");
@@ -75,9 +98,15 @@ public class ProductDetailsPage extends JFrame {
         add(stockLabel);
         add(stockField);
 
+        trainSetTable = new JTable();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Product Code");
+        model.addColumn("Quantity");
+        model.addColumn("");
+        trainSetTable.setModel(model);
+
         if(product != null){
             productType = product.getProductCode().substring(0, 1);
-
         }
 
         if(Objects.equals(productType, "M") || Objects.equals(productType, "L") || Objects.equals(productType, "S")) {
@@ -96,17 +125,12 @@ public class ProductDetailsPage extends JFrame {
         }
         if(Objects.equals(productType, "M")) {
             // Train set
-            add(locomotiveLabel);
-            add(locomotiveField);
-            add(rollingStockLabel);
-            add(rollingStockField);
-            add(controllerLabel);
-            add(controllerField);
-            add(trackPackLabel);
-            add(trackPackField);
+            // TODO: create a table that shows items in the boxed set and option to add more
+            add(trainSetTable);
         }
 
-        add(new JLabel()); // Empty label as a placeholder
+        add(new JLabel());
+
 
         confirmChangesButton = new JButton("Confirm Changes");
 
@@ -115,9 +139,6 @@ public class ProductDetailsPage extends JFrame {
         // Set fields as uneditable (if not from staff dashboard)
 
         if(!fromStaffDashboard) {
-            add(addToBasketButton);
-            addToBasketButton.setVisible(true);  // Set addToBasketButton visible
-            confirmChangesButton.setVisible(false);
             productCodeField.setEditable(false);
             nameField.setEditable(false);
             brandField.setEditable(false);
@@ -129,13 +150,8 @@ public class ProductDetailsPage extends JFrame {
             stockLabel.setVisible(false);
             eraField.setEditable(false);
             isAnalogueField.setEditable(false);
-            controllerField.setEditable(false);
-            locomotiveField.setEditable(false);
-            rollingStockField.setEditable(false);
-            trackPackField.setEditable(false);
         }
         else {
-            add(confirmChangesButton);
             addToBasketButton.setVisible(false);
             confirmChangesButton.setVisible(true);
             productCodeField.setEditable(true);
@@ -147,10 +163,6 @@ public class ProductDetailsPage extends JFrame {
             stockField.setEditable(true);
             eraField.setEditable(true);
             isAnalogueField.setEditable(true);
-            controllerField.setEditable(true);
-            locomotiveField.setEditable(true);
-            rollingStockField.setEditable(true);
-            trackPackField.setEditable(true);
         }
 
         // Add action listeners to buttons
@@ -162,8 +174,6 @@ public class ProductDetailsPage extends JFrame {
 
         String finalProductType = productType;
         confirmChangesButton.addActionListener(e -> {
-            // add new product to database / update existing product
-            // TODO: update stock
             // TODO: brand and name are swapped somewhere
            DatabaseOperations.updateProduct(new Product(productCodeField.getText(), nameField.getText(), brandField.getText(), Double.parseDouble(priceField.getText()), Gauge.valueOf(scaleField.getText()), descriptionField.getText(), Integer.parseInt(stockField.getText())));
            // update other tables based on product type
@@ -181,11 +191,7 @@ public class ProductDetailsPage extends JFrame {
             if(Objects.equals(finalProductType, "M")) {
                 // Train set
                 // pass in product code between the brackets
-                String locomotiveCode = locomotiveField.getText().substring(locomotiveField.getText().indexOf("(") + 1, locomotiveField.getText().indexOf(")"));
-                String rollingStockCode = rollingStockField.getText().substring(rollingStockField.getText().indexOf("(") + 1, rollingStockField.getText().indexOf(")"));
-                String controllerCode = controllerField.getText().substring(controllerField.getText().indexOf("(") + 1, controllerField.getText().indexOf(")"));
-                String trackPackCode = trackPackField.getText().substring(trackPackField.getText().indexOf("(") + 1, trackPackField.getText().indexOf(")"));
-                DatabaseOperations.updateTrainSetData(productCodeField.getText(), locomotiveCode, rollingStockCode, controllerCode, trackPackCode);
+                // go through each row of the table and update the database
             }
             JOptionPane.showMessageDialog(ProductDetailsPage.this, "Changes have been made successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
@@ -193,6 +199,17 @@ public class ProductDetailsPage extends JFrame {
 
         if(product != null) {
             populateFields(product);
+        }
+        else if(productType.equals("M")) {
+            model.addRow(new String[]{"", "", ""});
+        }
+
+
+        if(!fromStaffDashboard) {
+            add(addToBasketButton);
+        }
+        else {
+            add(confirmChangesButton);
         }
         setVisible(true);
     }
@@ -224,11 +241,16 @@ public class ProductDetailsPage extends JFrame {
         }
         if (product.getProductCode().charAt(0) == 'M') {
             // Train set
-            String[] trainSetData = DatabaseOperations.getTrainSetData(product.getProductCode());
-            locomotiveField.setText(trainSetData[0]);
-            rollingStockField.setText(trainSetData[1]);
-            controllerField.setText(trainSetData[2]);
-            trackPackField.setText(trainSetData[3]);
+            ArrayList<String[]> trainSetData = DatabaseOperations.getTrainSetData(product.getProductCode());
+            DefaultTableModel model = (DefaultTableModel) trainSetTable.getModel();
+            for (String[] row : trainSetData) {
+                row[2] = "<html><u>Remove</u></html>";
+                model.addRow(row);
+            }
         }
+    }
+
+    public static void main(String[] args) {
+        ProductDetailsPage page = new ProductDetailsPage(null, true, "M");
     }
 }

@@ -25,13 +25,25 @@ public class ViewOrders extends JFrame{
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        menuBar = new MenuBarPanel();
+        JMenuBar menuBar = new MenuBarPanel();
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        signOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CurrentUser.setUser(null);
+                dispose();
+                GUILoader.loginWindow();
+            }
+        });
+        menuBar.getMenu(0).add(signOut);
+
         setJMenuBar(menuBar);
 
         titlePanel = new JPanel();
         titleLabel = new JLabel("Trains of Sheffield - Previous Orders");
         titlePanel.add(titleLabel);
         contentPane.add(titlePanel, BorderLayout.NORTH);
+
 
         String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card", "Order Lines"};
         String[][] orderData = DatabaseOperations.getOrdersFromUser(CurrentUser.getId());

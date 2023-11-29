@@ -6,17 +6,20 @@ package trains.of.sheffield;
 public class App {
     /**
      * This is the main method which makes use of GUILoader.loginWindow() method.
-     * @param args
      */
     // TODO: add JavaDocs to all classes
-    // TODO: make all windows full screenY
-    // TODO: remove unused main methods
-    // TODO: check discussion board to see if locomotive, rolling stock, trackpacks in a trainset need to be separately modelled and how subtracting the stock works
-    // TODO: Add test users - KRISH
-    // TODO: Check blocker works
-    // TODO: Copy signOut in MainMenu to other calls of MenuBarPanel
+    // TODO: alert on view basket when there isnt anything in the basket
+    // TODO: alert when checking out a blocked order
     // TODO: Fix Cascade delete - KRISH
-
+    // TODO: delete card details?
+    // TODO: floating point error on total price in view orders
+    // TODO: remove debug lines - GABES
+    // TODO: a trainset can have multiple locomotives, rolling stock and trackpacks
+    // TODO: Sort pending orders based on completion date
+    // TODO: when adding a new product, check if product code is proper
+    // TODO: show total price in order lines
+    // TODO: cancel order from staff/customer
+    // TODO: valid card in view orders
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window
     }

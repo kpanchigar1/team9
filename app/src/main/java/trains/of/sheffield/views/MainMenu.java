@@ -40,7 +40,6 @@ public class MainMenu extends JFrame
         menuBar.getMenu(0).add(signOut);
 
         setJMenuBar(menuBar);
-        
 
         titlePanel = new JPanel();
         titleLabel = new JLabel("Welcome to Trains of Sheffield");

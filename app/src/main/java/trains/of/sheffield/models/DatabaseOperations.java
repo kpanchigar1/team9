@@ -792,49 +792,49 @@ public class DatabaseOperations {
         return null;
     }
 
-    public static String[] getTrainSetData(String productCode) {
-        String trainSetData[] = new String[4];
+    public static ArrayList<String[]> getTrainSetData(String productCode) {
+        ArrayList<String[]> trainSetData = new ArrayList<>();
         try {
             DatabaseConnectionHandler.openConnection();
             Connection connection = DatabaseConnectionHandler.getConnection();
             Statement st = connection.createStatement();
 
-            String locomotiveQuery = "SELECT productName, productCode FROM Product WHERE productCode = (SELECT locomotiveCode FROM LocomotiveTrainSetLink WHERE trainSetCode = ?)";
+            String locomotiveQuery = "SELECT locomotiveCode, quantity FROM LocomotiveTrainSetLink WHERE trainSetCode = ?";
             try (PreparedStatement productStatement = connection.prepareStatement(locomotiveQuery)) {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
-                    if (results.next()) {
-                        trainSetData[0] = results.getString("productName") + " (" + results.getString("productCode") + ")";
+                    while(results.next()) {
+                        trainSetData.add(new String[] {results.getString("locomotiveCode"), String.valueOf(results.getInt("quantity"))});
                     }
                 }
             }
 
-            String rollingStockQuery = "SELECT productName, productCode FROM Product WHERE productCode = (SELECT rollingStockCode FROM RollingStockTrainSetLink WHERE trainSetCode = ?)";
+            String rollingStockQuery = "SELECT rollingStockCode, quantity FROM RollingStockTrainSetLink WHERE trainSetCode = ?";
             try (PreparedStatement productStatement = connection.prepareStatement(rollingStockQuery)) {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
-                    if (results.next()) {
-                        trainSetData[1] = results.getString("productName") + " (" + results.getString("productCode") + ")";
+                    while(results.next()) {
+                        trainSetData.add(new String[] {results.getString("rollingStockCode"), String.valueOf(results.getInt("quantity"))});
                     }
                 }
             }
 
-            String controllerQuery = "SELECT productName, productCode FROM Product WHERE productCode = (SELECT controllerCode FROM ControllerTrainSetLink WHERE trainSetCode = ?)";
+            String controllerQuery = "SELECT controllerCode, quantity FROM ControllerTrainSetLink WHERE trainSetCode = ?";
             try (PreparedStatement productStatement = connection.prepareStatement(controllerQuery)) {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
-                    if (results.next()) {
-                        trainSetData[2] = results.getString("productName") + " (" + results.getString("productCode") + ")";
+                    while(results.next()) {
+                        trainSetData.add(new String[] {results.getString("controllerCode"), String.valueOf(results.getInt("quantity"))});
                     }
                 }
             }
 
-            String trackPackQuery = "SELECT productName, productCode FROM Product WHERE productCode = (SELECT trackPackCode FROM TrackPackTrainSetLink WHERE trainSetCode = ?)";
-            try (PreparedStatement productStatement = connection.prepareStatement(trackPackQuery)) {
+            String trackQuery = "SELECT trackPackCode, quantity FROM TrackPackTrainSetLink WHERE trainSetCode = ?";
+            try (PreparedStatement productStatement = connection.prepareStatement(trackQuery)) {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
-                    if (results.next()) {
-                        trainSetData[3] = results.getString("productName") + " (" + results.getString("productCode") + ")";
+                    while(results.next()) {
+                        trainSetData.add(new String[] {results.getString("trackPackCode"), String.valueOf(results.getInt("quantity"))});
                     }
                 }
             }
