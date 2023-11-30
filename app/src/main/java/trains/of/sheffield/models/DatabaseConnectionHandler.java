@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/*
+/**
  * Class to handle the database connection
  */
 public class DatabaseConnectionHandler {
@@ -15,7 +15,7 @@ public class DatabaseConnectionHandler {
     // Define the connection as a class member to share it across the application.
     private static Connection connection = null;
 
-    /*
+    /**
      * Method to open the database connection
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -36,7 +36,7 @@ public class DatabaseConnectionHandler {
         }
     }
 
-    /*
+    /**
      * Method to close the database connection
      * @throws SQLException
      * @throws ClassNotFoundException
