@@ -10,7 +10,6 @@ public class App {
     // TODO: Sort pending orders based on completion date
     // TODO: valid card in view orders
     // TODO: check for blocked orders everytime an order is fulfilled
-    // TODO: delete product doesnt work
 
     /**
      * This is the main method which makes use of GUILoader.loginWindow() method.

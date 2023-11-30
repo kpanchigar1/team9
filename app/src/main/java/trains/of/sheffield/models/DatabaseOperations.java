@@ -924,7 +924,7 @@ public class DatabaseOperations {
      */
     public static void deleteProduct(String productCode) {
         // check if product exists in order line
-        // if yes, change order line to "DELETED PRODUCT"
+        // if yes, delete product from orderLines
         // if no, delete product
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -933,34 +933,21 @@ public class DatabaseOperations {
             try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
                 orderLineStatement.setString(1, productCode);
                 ResultSet results = orderLineStatement.executeQuery();
-                if (results.next()) {
-                    String updateQuery = "UPDATE OrderLines SET productCode = ? WHERE productCode = ?";
-                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                        updateStatement.setString(1, "D001");
-                        updateStatement.setString(2, productCode);
-                        updateStatement.executeUpdate();
-                    }
-                } else {
-                    String productQuery = "DELETE FROM Product WHERE productCode = ?";
-                    try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
-                        productStatement.setString(1, productCode);
-                        productStatement.executeUpdate();
+                while (results.next()) {
+                    String deleteQuery = "DELETE FROM OrderLines WHERE productCode = ?";
+                    try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                        deleteStatement.setString(1, productCode);
+                        deleteStatement.executeUpdate();
                     }
                 }
             }
-            DatabaseConnectionHandler.closeConnection();
-        } catch(Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
-        }
-        try {
-            DatabaseConnectionHandler.openConnection(); // Opens connection
-            Connection connection = DatabaseConnectionHandler.getConnection();
             String productQuery = "DELETE FROM Product WHERE productCode = ?";
             try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
                 productStatement.setString(1, productCode);
                 productStatement.executeUpdate();
             }
             DatabaseConnectionHandler.closeConnection();
+            GUILoader.alertWindow("Product has been deleted");
         } catch (Exception ex) {
             GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
