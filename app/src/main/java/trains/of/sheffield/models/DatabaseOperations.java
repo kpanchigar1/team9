@@ -993,7 +993,13 @@ public class DatabaseOperations {
         }
     }
 
-    
+    /**
+     * Method to get the era of a product from the database
+     * @param String productCode This is the product code stored in the database
+     * @return String This returns the era of the product
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static String getProductEra(String productCode) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -1012,7 +1018,13 @@ public class DatabaseOperations {
         return null;
     }
 
-
+    /**
+     * Gets whether the product is analogue or digital
+     * @param productCode the product code of the product
+     * @return String This returns whether the product is analogue or digital
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static String getProductAnalogue(String productCode) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -1023,7 +1035,7 @@ public class DatabaseOperations {
                 productStatement.setString(1, productCode);
                 ResultSet results = productStatement.executeQuery();
                 results.next();
-                if (results.getBoolean("analogue")) {
+                if (results.getBoolean("isAnalogue")) {
                     return "Analogue";
                 } else {
                     return "Digital";
@@ -1035,6 +1047,13 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * method to get all the items in a train set box
+     * @param productCode the product code of the train set box
+     * @return ArrayList<String[]> This returns an array list of the items in the train set box
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static ArrayList<String[]> getTrainSetData(String productCode) {
         ArrayList<String[]> trainSetData = new ArrayList<>();
         try {
@@ -1090,7 +1109,13 @@ public class DatabaseOperations {
     }
 
 
-    // Method to add a staff member
+    /**
+     * Method to make a user a staff member in the database
+     * @param String email This is the email of the user
+     * @return boolean This returns true if the user was made a staff member and false if they were not
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static boolean addStaffMember(String email) {
         try {
             DatabaseConnectionHandler.openConnection();
@@ -1111,7 +1136,13 @@ public class DatabaseOperations {
         }
     }
 
-    // Method to remove a staff member
+    /**
+     * Method to remove a user as a staff member in the database
+     * @param String email This is the email of the user
+     * @return boolean This returns true if the user was removed as a staff member and false if they were not
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static boolean removeStaffMember(String email) {
         try {
             DatabaseConnectionHandler.openConnection();
@@ -1132,6 +1163,12 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to get all the staff members from the database
+     * @return List<User> This returns a list of staff members
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<User> getStaffMembers() {
         try {
             DatabaseConnectionHandler.openConnection();
@@ -1155,6 +1192,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to update a product's details in the database
+     * @param product This is the product that is being updated
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateProduct(Product product) {
         // check if product exists, if yes then update, else insert
         try {
@@ -1199,6 +1243,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to get a brandID from the database
+     * @param brandName This is the name of the brand
+     * @return int This returns the brand ID
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private static int getBrandIDFromName(String brandName) {
         // check if brand exists, if yes then return ID, else insert and return ID
         try {
@@ -1231,6 +1282,12 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to get a new brand ID from the database
+     * @return int This returns the new brand ID
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private static int getNewBrandID() {
         try {
             DatabaseConnectionHandler.openConnection();
@@ -1250,7 +1307,14 @@ public class DatabaseOperations {
         }
     }
 
-
+    /**
+     * Method to update a product's era
+     * @param productCode This is the product code of the product
+     * @param era This is the era to be updated
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateProductEra(String productCode, String era) {
         // check if product exists, if yes then update, else insert
         try {
@@ -1286,7 +1350,14 @@ public class DatabaseOperations {
         }
     }
 
-
+    /**
+     * Method to update a product's analogue/digital status
+     * @param productCode This is the product code of the product
+     * @param isAnalogue This is the analogue/digital status to be updated
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateProductAnalogue(String productCode, String isAnalogue) {
         if (isAnalogue.equals("Analogue")) {
             isAnalogue = "true";
@@ -1327,6 +1398,15 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to update the contents of a train set box
+     * @param productCode This is the product code of the train set box
+     * @param otherCode This is the product code of the item to be updated/added
+     * @param quantity This is the quantity of the item to be updated/added
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateTrainSetData(String productCode, String otherCode, int quantity) {
         // check other product code type by checking first letter
         // check if link exist, if yes then update, else insert
@@ -1450,6 +1530,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to get a product object from a product code
+     * @param productCode This is the product code of the product
+     * @return Product This returns the Product
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static Product getProductFromID(String code) {
         try {
             DatabaseConnectionHandler.openConnection();
@@ -1473,6 +1560,15 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to update the lines of an order
+     * @param orderID This is the order ID of the order
+     * @param productID This is the product ID of the product to be changed, added ot deleted
+     * @param quantity This is the quantity of the product
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateOrderLine(int orderID, String productID, int quantity) {
         // check if quantity is 0, if yes then delete, else update
         try {
@@ -1502,6 +1598,14 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to delete the link between a product and a train set box
+     * @param productCode This is the product code of the train set box
+     * @param linkCode This is the product code of the product to be deleted
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void deleteTrainSetLink(String productCode, String linkCode) {
         // check what link it is form first letter of link code
         // delete from that table
@@ -1545,6 +1649,4 @@ public class DatabaseOperations {
         }
     }
 }
-
-
 
