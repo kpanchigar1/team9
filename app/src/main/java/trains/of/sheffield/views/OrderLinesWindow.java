@@ -96,7 +96,6 @@ public class OrderLinesWindow extends JFrame {
             if (CurrentUser.getCardDetail() != null) {
                 DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.CONFIRMED);
                 dispose();
-                GUILoader.alertWindow("Order confirmed");
             } else {
                 dispose();
                 GUILoader.cardDetailsWindow();
@@ -120,24 +119,24 @@ public class OrderLinesWindow extends JFrame {
 
 
         JPanel buttonPanel1 = new JPanel();
-        buttonPanel1.add(deleteOrder);
         buttonPanel1.add(markAsFulfilled);
         if(order.getStatus().equals(Status.CONFIRMED) && !fromBasket) {
+            buttonPanel1.add(deleteOrder);
             contentPane.add(buttonPanel1, BorderLayout.SOUTH);
         }
 
         JPanel buttonPanel2 = new JPanel();
-        buttonPanel2.add(deleteOrder);
         if (order.getStatus().equals(Status.BLOCKED) && fromBasket) {
+            buttonPanel2.add(deleteOrder);
             contentPane.add(buttonPanel2, BorderLayout.SOUTH);
         }
 
         JPanel buttonPanel3 = new JPanel();
         buttonPanel3.setLayout(new GridLayout(1, 3));
-        buttonPanel3.add(deleteOrder);
         buttonPanel3.add(confirmChanges);
         buttonPanel3.add(checkout);
         if (order.getStatus().equals(Status.PENDING) && fromBasket) {
+            buttonPanel3.add(deleteOrder);
             contentPane.add(buttonPanel3, BorderLayout.SOUTH);
         }
 

@@ -9,10 +9,8 @@ public class App {
      */
     // TODO: add JavaDocs to all classes
     // TODO: alert on view basket when there isnt anything in the basket
-    // TODO: alert when checking out a blocked order
     // TODO: delete card details?
     // TODO: floating point error on total price in view orders - cut off everything after the 2 decimal places
-    // TODO: remove debug lines - GABES
     // TODO: a train set can have multiple locomotives, rolling stock and track packs
     // TODO: Sort pending orders based on completion date
     // TODO: valid card in view orders
