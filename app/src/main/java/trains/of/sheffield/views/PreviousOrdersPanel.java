@@ -32,7 +32,6 @@ public class PreviousOrdersPanel extends JFrame {
      * and allows the user to view the order lines.
      */
     public PreviousOrdersPanel() {
-        // TODO: edit column widths
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
@@ -95,18 +94,5 @@ public class PreviousOrdersPanel extends JFrame {
             GUILoader.staffDashboardWindow();
         });
         contentPane.add(backButton, BorderLayout.SOUTH);
-    }
-
-    private static class HyperlinkCellRenderer extends DefaultTableCellRenderer {
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                       boolean hasFocus, int row, int column) {
-            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            label.setText("<html><u>" + value + "</u></html>");
-            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-
-            return label;
-        }
     }
 }

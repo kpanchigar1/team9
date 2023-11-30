@@ -19,8 +19,7 @@ import java.util.Objects;
  * This class is also used to create the product details page window which displays all details of a given product and allows the customer user to add it to their basket.
  */
 public class ProductDetailsPage extends JFrame {
-
-    // TODO: add back button
+    // TODO: do summat for trackpack
     // TODO: DCC Code for controller
     // TODO: add option to add more in table
     // TODO: add option to remove in table
@@ -28,7 +27,7 @@ public class ProductDetailsPage extends JFrame {
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
     private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;
-    private JButton addToBasketButton, confirmChangesButton;
+    private JButton addToBasketButton, confirmChangesButton, backButton;
     private JTable trainSetTable;
 
     public ProductDetailsPage(Product product, boolean fromStaffDashboard, String productType) {
@@ -145,14 +144,10 @@ public class ProductDetailsPage extends JFrame {
             priceField.setEditable(false);
             descriptionField.setEditable(false);
             stockField.setEditable(false);
-            stockField.setVisible(false);
-            stockLabel.setVisible(false);
             eraField.setEditable(false);
             isAnalogueField.setEditable(false);
         }
         else {
-            addToBasketButton.setVisible(false);
-            confirmChangesButton.setVisible(true);
             productCodeField.setEditable(true);
             nameField.setEditable(true);
             brandField.setEditable(true);
@@ -173,7 +168,6 @@ public class ProductDetailsPage extends JFrame {
 
         String finalProductType = productType;
         confirmChangesButton.addActionListener(e -> {
-            // TODO: brand and name are swapped somewhere
            DatabaseOperations.updateProduct(new Product(productCodeField.getText(), brandField.getText(), nameField.getText(), Double.parseDouble(priceField.getText()), Gauge.valueOf(scaleField.getText()), descriptionField.getText(), Integer.parseInt(stockField.getText())));
            // update other tables based on product type
             if(productCodeField.getText().substring(0, 1).equals(finalProductType)) {
@@ -214,6 +208,12 @@ public class ProductDetailsPage extends JFrame {
         else {
             add(confirmChangesButton);
         }
+
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            dispose();
+        });
+        add(backButton);
         setVisible(true);
     }
 

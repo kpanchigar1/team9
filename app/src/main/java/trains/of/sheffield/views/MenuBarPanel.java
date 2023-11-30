@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuBarPanel extends JMenuBar {
-    // TODO: fix sign out so that it closes the window and opens the login window
     JMenu profile, orders, exitMenu;
     JMenuItem editProfile, changePassword, editCardDetails, viewOrders, exit;
     public MenuBarPanel() {

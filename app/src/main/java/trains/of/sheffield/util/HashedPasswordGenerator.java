@@ -6,8 +6,6 @@ import java.security.NoSuchAlgorithmException;
 public class HashedPasswordGenerator {
     private static final String SALT = "OMG I WANT IT";
 
-    //TODO: make salt generation dynamic and store in db for each user.
-
     public static String hashPassword(char[] password) {
         try {
             // Create a MessageDigest instance for SHA-256

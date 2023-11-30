@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseOperations {
-    // TODO: Check for unsafe operations
     public static boolean tryLogIn(String email, char[] pWord) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
