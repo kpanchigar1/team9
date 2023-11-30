@@ -3,7 +3,6 @@ package trains.of.sheffield.views;
 import trains.of.sheffield.*;
 import trains.of.sheffield.models.DatabaseOperations;
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.awt.*;
@@ -18,9 +17,11 @@ public class ViewOrders extends JFrame{
     private JLabel titleLabel;
     private JButton backButton;
     private JTable orderTable;
-    private JMenuBar menuBar;
     private JScrollPane scrollPane;
 
+    /**
+     * Constructor to create the previous orders panel
+     */
     public ViewOrders() {
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -87,5 +88,4 @@ public class ViewOrders extends JFrame{
         });
         contentPane.add(backButton, BorderLayout.SOUTH);
     }
-    
 }

@@ -17,6 +17,10 @@ public class SignUp extends JFrame{
 	JButton cancel, submit;
 	JPanel mainView, introPanel, loginDetails, loginFields, personalDetails, personalFields, address, addressFields, buttons;
 	JScrollPane scroll;
+
+	/**
+	 * This constructor creates the sign-up window.
+	 */
 	public SignUp() {
 		setLayout(new FlowLayout()); // Sets the layout of the window
 		mainView = new JPanel(); // A panel to hold the main view
@@ -122,7 +126,9 @@ public class SignUp extends JFrame{
 		}
 	}
 
-
+	/**
+	 * This submits the new user's details and takes the user back to the login window
+	 */
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
 			if (Arrays.equals(pwEnter1.getPassword(), pwEnter2.getPassword())) {

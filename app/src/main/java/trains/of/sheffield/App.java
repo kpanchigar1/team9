@@ -13,6 +13,10 @@ public class App {
     // TODO: valid card in view orders
     // TODO: check for blocked orders everytime an order is fulfilled
 
+    /**
+     * This is the main method which makes use of GUILoader.loginWindow() method.
+     * @param args Unused.
+     */
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window
     }

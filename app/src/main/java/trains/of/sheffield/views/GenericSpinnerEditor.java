@@ -1,7 +1,6 @@
 package trains.of.sheffield.views;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.DefaultFormatter;
 import java.awt.*;
@@ -39,6 +38,9 @@ public class GenericSpinnerEditor extends AbstractCellEditor implements TableCel
         });
     }
 
+    /**
+     * Sets the value of the spinner to the current value in the table
+     */
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         int currentValue = (int) value;
@@ -46,11 +48,18 @@ public class GenericSpinnerEditor extends AbstractCellEditor implements TableCel
         return spinner;
     }
 
+    /**
+     * Gets the value of the spinner
+     */
     @Override
     public Object getCellEditorValue() {
         return spinner.getValue();
     }
 
+    /**
+     * Gets the spinner
+     * @return the spinner
+     */
     public JSpinner getSpinner() {
         return spinner;
     }

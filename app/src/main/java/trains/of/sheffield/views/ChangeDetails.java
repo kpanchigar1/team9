@@ -2,7 +2,6 @@ package trains.of.sheffield.views;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Arrays;
 
 import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
@@ -133,11 +132,18 @@ public class ChangeDetails extends JFrame{
         postCodeEnter.setText(user.getAddress().getPostCode());
     }
 
+	/**
+	 * This method is used to display the change details window.
+	 */
 	public class ActionCancel implements ActionListener {
 		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
 			dispose();
 		}
 	}
+
+	/**
+	 * This method is used to submit the details to the database.
+	 */
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
             String email = emailEnter.getText();

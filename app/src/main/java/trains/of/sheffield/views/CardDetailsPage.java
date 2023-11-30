@@ -17,6 +17,10 @@ public class CardDetailsPage extends JFrame{
     private JTextField cardNameField, cardNumberField, monthField, yearField, cvvField;
     private JButton submit, back;
     private Card card = CurrentUser.getCardDetail();
+
+    /**
+     * This constructor creates the card details page window.
+     */
     public CardDetailsPage (){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(500, 500);
@@ -96,12 +100,18 @@ public class CardDetailsPage extends JFrame{
         }
     }
 
+    /**
+     * This method is used to display the card details page window.
+     */
     public class ReturnToMenu implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             dispose();
         }
     }
 
+    /**
+     * This method is used to submit the card details to the database.
+     */
     public class SubmitDetails implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String cardName = cardNameField.getText();

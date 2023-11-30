@@ -45,26 +45,50 @@ public class CurrentUser {
         return user.getPasswordHash();
     }
 
+    /**
+     * Method to get the address of the current user
+     * @param addressFromDB The address from the database
+     */
     public static void setAddress(Address addressFromDB) {
         user.setAddress(addressFromDB);
     }
 
+    /**
+     * Method to get the card details of the current user
+     * @param cardFromDB The card details from the database
+     */
     public static void setCardDetail(Card cardFromDB) {
         user.setCardDetail(cardFromDB);
     }
 
+    /**
+     * Method to set the forename of the current user
+     * @param forename The forename
+     */
     public static void setForename(String forename) {
         user.setForename(forename);
     }
 
+    /**
+     * Method to set the surname of the current user
+     * @param surname The surname
+     */
     public static void setSurname(String surname) {
         user.setSurname(surname);
     }
 
+    /**
+     * Method to set the email of the current user
+     * @param email The email
+     */
     public static void setEmail(String email) {
         user.setEmail(email);
     }
 
+    /**
+     * Method to set the password hash of the current user
+     * @param passwordHash The password hash
+     */
     public static void setPasswordHash(String passwordHash) {
         user.setPasswordHash(passwordHash);
     }

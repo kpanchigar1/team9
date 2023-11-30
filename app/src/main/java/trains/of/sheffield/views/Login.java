@@ -5,7 +5,6 @@ import trains.of.sheffield.models.DatabaseOperations;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.sql.*;
 
 /**
  * This class is used to create a login window for the user to enter their details.
@@ -17,6 +16,9 @@ public class Login extends JFrame {
 	JButton login, signUp;
 	JPanel UN, PW, buttons;
     
+	/**
+	 * This constructor creates the login window.
+	 */
     public Login() {
         setLayout(new GridLayout(5,2)); // Setting out the layout
 		

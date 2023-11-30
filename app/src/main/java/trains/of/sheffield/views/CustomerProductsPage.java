@@ -18,6 +18,11 @@ public class CustomerProductsPage extends JFrame {
     private JTable productsTable;
     private JButton backButton;
 
+    /**
+     * This constructor creates the products page window.
+     *
+     * @param category The category of products to display
+     */
     public CustomerProductsPage(String category) {
         setTitle("Customer Products Page");
         setSize(600, 400);
@@ -83,12 +88,6 @@ public class CustomerProductsPage extends JFrame {
                 int col = productsTable.columnAtPoint(evt.getPoint());
                 // Get the product code from the clicked row
                 String productCode = productsTable.getValueAt(row, 0).toString();
-                // Get the product name from the clicked row
-                String productName = productsTable.getValueAt(row, 1).toString();
-                // Get the brand name from the clicked row
-                String brandName = productsTable.getValueAt(row, 2).toString();
-                // Get the retail price from the clicked row
-                String retailPrice = productsTable.getValueAt(row, 3).toString();
                 // Get the text from the clicked cell
                 String text = productsTable.getValueAt(row, col).toString();
 

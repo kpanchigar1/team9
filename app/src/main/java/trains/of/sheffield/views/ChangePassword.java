@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
-import trains.of.sheffield.User;
 import trains.of.sheffield.models.DatabaseOperations;
 import trains.of.sheffield.util.HashedPasswordGenerator;
 
@@ -19,6 +18,10 @@ public class ChangePassword extends JFrame{
 	JButton cancel, submit;
 	JPanel mainView, introPanel, passwordPanel, passwordFields, buttons;
 	JScrollPane scroll;
+
+	/**
+	 * This constructor creates the change password window.
+	 */
 	public ChangePassword() {
 		setLayout(new FlowLayout()); // Sets the layout of the window
 		mainView = new JPanel(); // A panel to hold the main view
@@ -85,11 +88,18 @@ public class ChangePassword extends JFrame{
 		add(scroll);
 	}
 
+	/**
+	 * This method is used to go back to the main menu
+	 */
 	public class ActionCancel implements ActionListener {
 		public void actionPerformed(ActionEvent cancel) { // This takes the user to a temporary window to create an account
 			dispose();
 		}
 	}
+
+	/**
+	 * This method is used to submit the details to the database.
+	 */
 	public class ActionSubmit implements ActionListener {
 		public void actionPerformed(ActionEvent submit) { // This takes the user to a temporary window to create an account
 			System.out.println(CurrentUser.getPasswordHash());

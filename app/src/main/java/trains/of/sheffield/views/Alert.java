@@ -10,6 +10,10 @@ public class Alert extends JDialog{
 	JLabel messageLabel;
 	JButton close;
 	
+	/**
+	 * This constructor creates the alert window.
+	 * @param message The message to be displayed in the alert window.
+	 */
 	public Alert(String message) {
 		Toolkit.getDefaultToolkit().beep();
 		setLayout(new GridLayout(2,1));
@@ -22,6 +26,10 @@ public class Alert extends JDialog{
 		close.addActionListener(e);
 		add(close);
 	}
+
+	/**
+	 * This method is used to display the alert window.
+	 */
 	public class event implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			dispose();

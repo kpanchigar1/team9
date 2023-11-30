@@ -10,6 +10,13 @@ public class Order {
     private Status status;
     private List<OrderLine> orderLines;
 
+    /**
+     * Constructor to create an order
+     * @param orderID The order ID
+     * @param orderDate The order date
+     * @param orderStatus The order status
+     * @param orderLines The order lines
+     */
     public Order(Integer orderID, String orderDate, int orderStatus, List<OrderLine> orderLines) {
         this.orderId = orderID;
         this.date = orderDate;

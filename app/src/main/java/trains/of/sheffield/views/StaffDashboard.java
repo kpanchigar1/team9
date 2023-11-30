@@ -19,6 +19,10 @@ public class StaffDashboard extends JFrame {
     private JButton trainSetButton, trackPackButton, locomotiveButton, rollingStockButton, trackButton,
             controllerButton, managerButton, pendingOrdersButton, previousOrdersButton, backButton;
     private JLabel titleLabel;
+
+    /**
+     * This constructor creates the staff dashboard window.
+     */
     public StaffDashboard() {
         super("Trains of Sheffield - Staff Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
