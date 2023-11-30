@@ -466,7 +466,7 @@ public class DatabaseOperations {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
-            String orderQuery = "SELECT * FROM Orders WHERE status = ?"; // Fetches the details under the selected username
+            String orderQuery = "SELECT * FROM Orders WHERE status = ? ORDER BY date ASC"; // Fetches the details under the selected username
             try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
                 ordersStatement.setInt(1, status.getStatusID());
                 ResultSet results = ordersStatement.executeQuery();
@@ -585,8 +585,9 @@ public class DatabaseOperations {
                     // Create new order
                     String insertQuery = "INSERT INTO Orders (date, status, userID, totalPrice) VALUES (?, ?, ?, ?)";
                     Date utilDate = new Date(System.currentTimeMillis());
+                    Timestamp sqlDate = new Timestamp(utilDate.getTime());
                     try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                        insertStatement.setDate(1, new java.sql.Date(utilDate.getTime()));
+                        insertStatement.setTimestamp(1, sqlDate);
                         insertStatement.setInt(2, 0);
                         insertStatement.setString(3, CurrentUser.getCurrentUser().getId());
                         insertStatement.setDouble(4, product.getPrice());
