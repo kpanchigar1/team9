@@ -521,7 +521,7 @@ public class DatabaseOperations {
                 return new Order(results.getInt("orderID"), results.getString("date"), results.getInt("status"), orderLines);
             }
         } catch (Exception ex) {
-            GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
+            GUILoader.alertWindow("Your basket is empty"); // Outputs error message
         }
         return null;
     }
