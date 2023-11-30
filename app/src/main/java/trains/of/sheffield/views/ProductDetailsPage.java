@@ -21,9 +21,6 @@ import java.util.Objects;
 public class ProductDetailsPage extends JFrame {
     // TODO: do summat for trackpack
     // TODO: DCC Code for controller
-    // TODO: add option to add more in table
-    // TODO: add option to remove in table
-    // TODO: fix table layout
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
     private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;
@@ -201,7 +198,6 @@ public class ProductDetailsPage extends JFrame {
                     DefaultTableModel model1 = (DefaultTableModel) trainSetTable.getModel();
                     for (int i = 0; i < model1.getRowCount(); i++) {
                         String productCode = (String) model1.getValueAt(i, 0);
-                        System.out.println(model1.getValueAt(i, 1));
                         int quantity = Integer.parseInt(model1.getValueAt(i, 1).toString());
                         if (productCode.equals("") || quantity == 0) {
                             continue;
@@ -238,6 +234,22 @@ public class ProductDetailsPage extends JFrame {
         });
         add(backButton);
         setVisible(true);
+        trainSetTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = trainSetTable.rowAtPoint(evt.getPoint());
+                int col = trainSetTable.columnAtPoint(evt.getPoint());
+                if (row >= 0 && col >= 0) {
+                    if (col == 2) {
+                        // Remove row
+                        DefaultTableModel model = (DefaultTableModel) trainSetTable.getModel();
+                        DatabaseOperations.deleteTrainSetLink(productCodeField.getText(), (String) model.getValueAt(row, 0));
+                        model.removeRow(row);
+                    }
+                }
+            }
+        });
+
     }
 
     /**
