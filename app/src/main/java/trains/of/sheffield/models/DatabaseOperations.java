@@ -417,7 +417,7 @@ public class DatabaseOperations {
     /**
      * Method to update the stock of a product in the database
      * @param productCode This is the product code stored in the database
-     * @parameger stock This is the stock of the product
+     * @parameter stock This is the stock of the product
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
