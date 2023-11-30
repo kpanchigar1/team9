@@ -409,7 +409,6 @@ public class DatabaseOperations {
             try (PreparedStatement orderStatement = connection.prepareStatement(orderQuery)) {
                 orderStatement.setString(1, CurrentUser.getCurrentUser().getId());
                 orderStatement.setInt(2, Status.PENDING.getStatusID());
-                System.out.println("Debug 1");
                 ResultSet results = orderStatement.executeQuery();
                 if (results.next()) {
                     // User has a pending order
@@ -427,7 +426,6 @@ public class DatabaseOperations {
                                 updateStatement.setInt(1, orderLineResults.getInt("quantity") + 1);
                                 updateStatement.setInt(2, results.getInt("orderID"));
                                 updateStatement.setString(3, product.getProductCode());
-                                System.out.println("Debug 2");
                                 updateStatement.executeUpdate();
                             }
                         } else {
@@ -438,7 +436,6 @@ public class DatabaseOperations {
                                 insertStatement.setInt(1, results.getInt("orderID"));
                                 insertStatement.setString(2, product.getProductCode());
                                 insertStatement.setInt(3, 1);
-                                System.out.println("Debug 3");
                                 insertStatement.executeUpdate();
                             }
                         }
@@ -460,7 +457,6 @@ public class DatabaseOperations {
                         insertStatement.setInt(2, 0);
                         insertStatement.setString(3, CurrentUser.getCurrentUser().getId());
                         insertStatement.setDouble(4, product.getPrice());
-                        System.out.println("Debug 4");
                         insertStatement.executeUpdate();
                     }
                     // Get orderID
@@ -468,7 +464,6 @@ public class DatabaseOperations {
                     try (PreparedStatement orderIDStatement = connection.prepareStatement(orderIDQuery)) {
                         orderIDStatement.setString(1, CurrentUser.getCurrentUser().getId());
                         orderIDStatement.setInt(2, Status.PENDING.getStatusID());
-                        System.out.println("Debug 5");
                         ResultSet orderIDResults = orderIDStatement.executeQuery();
                         orderIDResults.next();
                         // Add product to order
@@ -477,14 +472,12 @@ public class DatabaseOperations {
                             insertStatement.setInt(1, orderIDResults.getInt("orderID"));
                             insertStatement.setString(2, product.getProductCode());
                             insertStatement.setInt(3, 1);
-                            System.out.println("Debug 6");
                             insertStatement.executeUpdate();
                         }
                     }
                 }
             }
         } catch (Exception ex) {
-            System.out.println("Debug 7");
             GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
         }
     }
@@ -610,9 +603,22 @@ public class DatabaseOperations {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
-            if(status.equals(Status.CONFIRMED) && !checkOrderCanBeConfirmed(orderID)) {
-                status = Status.BLOCKED;
-                GUILoader.alertWindow("Order has been blocked as there is not enough stock");
+            if(status.equals(Status.CONFIRMED)) {
+                // Check if order is blocked
+                String orderLineQuery = "SELECT * FROM Orders WHERE orderID = ?";
+                try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                    orderLineStatement.setInt(1, orderID);
+                    ResultSet results = orderLineStatement.executeQuery();
+                    results.next();
+                    if (results.getInt("status") == Status.BLOCKED.getStatusID()) {
+                        GUILoader.alertWindow("Order has been blocked as there is not enough stock");
+                        return;
+                    }
+                }
+                if (!checkOrderCanBeConfirmed(orderID)){
+                    status = Status.BLOCKED;
+                    GUILoader.alertWindow("Order has been blocked as there is not enough stock");
+                }
             } else if (status.equals(Status.FULFILLED)) {
                 String notOrderQuery = "SELECT * FROM Orders WHERE orderID != ? AND status = ?";
                 try (PreparedStatement notOrderStatement = connection.prepareStatement(notOrderQuery)) {
@@ -686,7 +692,6 @@ public class DatabaseOperations {
                     orderLineStatement.setInt(2, orderID);
                     orderLineStatement.setString(3, productCode);
                     orderLineStatement.executeUpdate();
-                    System.out.println(productCode + " " + quantity);
                 }
             }
             DatabaseConnectionHandler.closeConnection();
