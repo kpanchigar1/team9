@@ -236,5 +236,18 @@ INSERT INTO ControllerTrainSetLink VALUES ('M003', 'C005', 1);
 INSERT INTO TrackPackTrainSetLink VALUES ('M002', 'P002', 1);
 INSERT INTO TrackPackTrainSetLink VALUES ('M003', 'P003', 1);
 
+INSERT INTO Stock VALUES ('M002', 10);
+INSERT INTO Stock VALUES ('M003', 10);
+INSERT INTO Stock VALUES ('P002', 10);
+INSERT INTO Stock VALUES ('P003', 10);
+INSERT INTO Stock VALUES ('C004', 10);
+INSERT INTO Stock VALUES ('C005', 10);
+INSERT INTO Stock VALUES ('L005', 10);
+INSERT INTO Stock VALUES ('L006', 10);
+INSERT INTO Stock VALUES ('S003', 10);
+INSERT INTO Stock VALUES ('S004', 10);
+INSERT INTO Stock VALUES ('S006', 10);
+INSERT INTO Stock VALUES ('S007', 10);
+
 -- Deleted Product Placeholder
-INSERT INTO Product VALUES ('D001', 1, 'Deleted Product', 0, 'OO', 'NA');
+INSERT INTO Product VALUES ('D001', 1, 'Deleted Product', 0, '', 'NA');
