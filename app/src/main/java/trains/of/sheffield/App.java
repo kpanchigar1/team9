@@ -11,7 +11,6 @@ public class App {
     // TODO: alert on view basket when there isnt anything in the basket
     // TODO: delete card details?
     // TODO: floating point error on total price in view orders - cut off everything after the 2 decimal places
-    // TODO: a train set can have multiple locomotives, rolling stock and track packs
     // TODO: Sort pending orders based on completion date
     // TODO: valid card in view orders
     // TODO: check for blocked orders everytime an order is fulfilled

@@ -1139,7 +1139,8 @@ public class DatabaseOperations {
                     ResultSet results = statement.executeQuery();
                     if (results.next()) {
                         // update
-                        String updateQuery = "UPDATE LocomotiveTrainSetLink SET quantity = ? WHERE trainSetCode = ? AND locomotiveCode = ?";
+                        String updateQuery = "UPDATE LocomotiveTrainSetLink SET quantity = ? WHERE trainSetCode = ? " +
+                                "AND locomotiveCode = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                             updateStatement.setInt(1, quantity);
                             updateStatement.setString(2, productCode);
@@ -1165,7 +1166,8 @@ public class DatabaseOperations {
                     ResultSet results = statement.executeQuery();
                     if (results.next()) {
                         // update
-                        String updateQuery = "UPDATE RollingStockTrainSetLink SET quantity = ? WHERE trainSetCode = ? AND rollingStockCode = ?";
+                        String updateQuery = "UPDATE RollingStockTrainSetLink SET quantity = ? WHERE trainSetCode = ? " +
+                                "AND rollingStockCode = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                             updateStatement.setInt(1, quantity);
                             updateStatement.setString(2, productCode);
@@ -1191,7 +1193,8 @@ public class DatabaseOperations {
                     ResultSet results = statement.executeQuery();
                     if (results.next()) {
                         // update
-                        String updateQuery = "UPDATE ControllerTrainSetLink SET quantity = ? WHERE trainSetCode = ? AND controllerCode = ?";
+                        String updateQuery = "UPDATE ControllerTrainSetLink SET quantity = ? WHERE trainSetCode = ? " +
+                                "AND controllerCode = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                             updateStatement.setInt(1, quantity);
                             updateStatement.setString(2, productCode);
@@ -1217,7 +1220,8 @@ public class DatabaseOperations {
                     ResultSet results = statement.executeQuery();
                     if (results.next()) {
                         // update
-                        String updateQuery = "UPDATE TrackPackTrainSetLink SET quantity = ? WHERE trainSetCode = ? AND trackPackCode = ?";
+                        String updateQuery = "UPDATE TrackPackTrainSetLink SET quantity = ? WHERE trainSetCode = ? " +
+                                "AND trackPackCode = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                             updateStatement.setInt(1, quantity);
                             updateStatement.setString(2, productCode);
@@ -1285,6 +1289,49 @@ public class DatabaseOperations {
                     statement.setInt(1, quantity);
                     statement.setInt(2, orderID);
                     statement.setString(3, productID);
+                    statement.executeUpdate();
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
+
+    public static void deleteTrainSetLink(String productCode, String linkCode) {
+        // check what link it is form first letter of link code
+        // delete from that table
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            if (linkCode.charAt(0) == 'L') {
+                String query = "DELETE FROM LocomotiveTrainSetLink WHERE trainSetCode = ? AND locomotiveCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, productCode);
+                    statement.setString(2, linkCode);
+                    statement.executeUpdate();
+                }
+            } else if (linkCode.charAt(0) == 'R') {
+                String query = "DELETE FROM RollingStockTrainSetLink WHERE trainSetCode = ? AND rollingStockCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, productCode);
+                    statement.setString(2, linkCode);
+                    statement.executeUpdate();
+                }
+            } else if (linkCode.charAt(0) == 'C') {
+                String query = "DELETE FROM ControllerTrainSetLink WHERE trainSetCode = ? AND controllerCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, productCode);
+                    statement.setString(2, linkCode);
+                    statement.executeUpdate();
+                }
+            } else if (linkCode.charAt(0) == 'P') {
+                String query = "DELETE FROM TrackPackTrainSetLink WHERE trainSetCode = ? AND trackPackCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, productCode);
+                    statement.setString(2, linkCode);
                     statement.executeUpdate();
                 }
             }
