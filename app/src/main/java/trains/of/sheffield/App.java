@@ -12,7 +12,6 @@ public class App {
     // TODO: Sort pending orders based on completion date
     // TODO: valid card in view orders
     // TODO: check for blocked orders everytime an order is fulfilled
-    // TODO: delete product doesnt work
 
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window

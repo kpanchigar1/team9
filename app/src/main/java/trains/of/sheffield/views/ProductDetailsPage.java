@@ -182,7 +182,6 @@ public class ProductDetailsPage extends JFrame {
                 }
                 if (Objects.equals(finalProductType, "P")) {
                     // Track pack
-                    // TODO: add method in database operations
                     DatabaseOperations.updateProductTrackPack(productCodeField.getText(), isExtensionPackField.getText());
                 }
                 if (Objects.equals(finalProductType, "M")) {
