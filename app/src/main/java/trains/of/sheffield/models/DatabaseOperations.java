@@ -584,10 +584,8 @@ public class DatabaseOperations {
                     // User does not have a pending order
                     // Create new order
                     String insertQuery = "INSERT INTO Orders (date, status, userID, totalPrice) VALUES (?, ?, ?, ?)";
-                    Date utilDate = new Date(System.currentTimeMillis());
-                    Timestamp sqlDate = new Timestamp(utilDate.getTime());
                     try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                        insertStatement.setTimestamp(1, sqlDate);
+                        insertStatement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
                         insertStatement.setInt(2, 0);
                         insertStatement.setString(3, CurrentUser.getCurrentUser().getId());
                         insertStatement.setDouble(4, product.getPrice());
@@ -794,10 +792,11 @@ public class DatabaseOperations {
                     }
                     GUILoader.alertWindow("Order has been blocked as there is not enough stock");
                 } else {
-                    String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
+                    String orderQuery = "UPDATE Orders SET status = ? date = ? WHERE orderID = ?";
                     try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
                         ordersStatement.setInt(1, status.getStatusID());
-                        ordersStatement.setInt(2, orderID);
+                        ordersStatement.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+                        ordersStatement.setInt(3, orderID);
                         ordersStatement.executeUpdate();
                         GUILoader.alertWindow("Order has been confirmed");
                     }
@@ -815,6 +814,13 @@ public class DatabaseOperations {
                             GUILoader.alertWindow("Order "+ results.getInt("orderID") +" has been blocked as there is not enough stock");
                         }
                     }
+                }
+            } else {
+                String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
+                try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                    ordersStatement.setInt(1, status.getStatusID());
+                    ordersStatement.setInt(2, orderID);
+                    ordersStatement.executeUpdate();
                 }
             }
             DatabaseConnectionHandler.closeConnection();
