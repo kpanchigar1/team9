@@ -19,10 +19,9 @@ import java.util.Objects;
  * This class is also used to create the product details page window which displays all details of a given product and allows the customer user to add it to their basket.
  */
 public class ProductDetailsPage extends JFrame {
-    // TODO: do summat for trackpack
 
-    private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
-    private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;
+    private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, isExtensionPackLabel;
+    private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, isExtensionPackField;
     private JButton addToBasketButton, confirmChangesButton, backButton, addItemButton;
     private JTable trainSetTable;
 
@@ -56,10 +55,7 @@ public class ProductDetailsPage extends JFrame {
         stockLabel = new JLabel("Stock:");
         eraLabel = new JLabel("Era:");
         isAnalogueLabel = new JLabel("Analogue:");
-        controllerLabel = new JLabel("Controller:");
-        locomotiveLabel = new JLabel("Locomotive:");
-        rollingStockLabel = new JLabel("Rolling Stock:");
-        trackPackLabel = new JLabel("Track Pack:");
+        isExtensionPackLabel = new JLabel("Extension Pack");
 
         productCodeField = new JTextField();
         nameField = new JTextField();
@@ -70,10 +66,8 @@ public class ProductDetailsPage extends JFrame {
         stockField = new JTextField();
         eraField = new JTextField();
         isAnalogueField = new JTextField();
-        controllerField = new JTextField();
-        locomotiveField = new JTextField();
-        rollingStockField = new JTextField();
-        trackPackField = new JTextField();
+        isExtensionPackField = new JTextField();
+
 
         addItemButton = new JButton("Add Item");
         addToBasketButton = new JButton("Add to Basket");
@@ -125,12 +119,11 @@ public class ProductDetailsPage extends JFrame {
         }
         if(Objects.equals(productType, "P")) {
             // Track pack
-            add(trackPackLabel);
-            add(trackPackField);
+            add(isExtensionPackLabel);
+            add(isExtensionPackField);
         }
         if(Objects.equals(productType, "M")) {
             // Train set
-            // TODO: create a table that shows items in the boxed set and option to add more
             add(scroll);
             add(addItemButton);
         }
@@ -189,7 +182,8 @@ public class ProductDetailsPage extends JFrame {
                 }
                 if (Objects.equals(finalProductType, "P")) {
                     // Track pack
-                    // DatabaseOperations.updateProductTrackPack(productCodeField.getText(), trackPackField.getText());
+                    // TODO: add method in database operations
+                    DatabaseOperations.updateProductTrackPack(productCodeField.getText(), isExtensionPackField.getText());
                 }
                 if (Objects.equals(finalProductType, "M")) {
                     // Train set
@@ -274,7 +268,7 @@ public class ProductDetailsPage extends JFrame {
         }
         if (product.getProductCode().charAt(0) == 'P') {
             // Track pack
-            // trackPackField.setText(String.valueOf(product.getTrackPack()));
+            isExtensionPackField.setText(DatabaseOperations.getTrackPackType(product.getProductCode()));
         }
         if (product.getProductCode().charAt(0) == 'M') {
             // Train set

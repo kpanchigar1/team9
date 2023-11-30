@@ -16,8 +16,8 @@ public class DatabaseOperations {
 
     /**
      * Method to check if the user has entered the correct details
-     * @param String email This is the email entered by the user
-     * @param char[] pWord This is the password entered by the user
+     * @param email This is the email entered by the user
+     * @param pWord This is the password entered by the user
      * @return boolean
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -54,14 +54,14 @@ public class DatabaseOperations {
 
     /**
      * Method to create a new user
-     * @param char[] pWord This is the password entered by the user
-     * @param String fName This is the forename entered by the user
-     * @param String sName This is the surname entered by the user
-     * @param String email This is the email entered by the user
-     * @param String houseNumber This is the house number entered by the user
-     * @param String streetName This is the street name entered by the user
-     * @param String city This is the city entered by the user
-     * @param String postCode This is the post code entered by the user
+     * @param pWord This is the password entered by the user
+     * @param fName This is the forename entered by the user
+     * @param sName This is the surname entered by the user
+     * @param email This is the email entered by the user
+     * @param houseNumber This is the house number entered by the user
+     * @param streetName This is the street name entered by the user
+     * @param city This is the city entered by the user
+     * @param postCode This is the post code entered by the user
      * @return boolean
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -113,13 +113,13 @@ public class DatabaseOperations {
 
     /**
      * Method to update the user's details in the database
-     * @param String fName This is the forename entered by the user
-     * @param String sName This is the surname entered by the user
-     * @param String email This is the email entered by the user
-     * @param String houseNumber This is the house number entered by the user
-     * @param String streetName This is the street name entered by the user
-     * @param String city This is the city entered by the user
-     * @param String postCode This is the post code entered by the user
+     * @param fName This is the forename entered by the user
+     * @param sName This is the surname entered by the user
+     * @param email This is the email entered by the user
+     * @param houseNumber This is the house number entered by the user
+     * @param streetName This is the street name entered by the user
+     * @param city This is the city entered by the user
+     * @param postCode This is the post code entered by the user
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -171,7 +171,7 @@ public class DatabaseOperations {
 
     /**
      * Method to update the user's password in the database
-     * @param char[] pWord This is the password entered by the user
+     * @param pWord This is the password entered by the user
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -198,10 +198,10 @@ public class DatabaseOperations {
 
     /**
      * Method to set the user's card details in the database
-     * @param String cardName This is the card name entered by the user
-     * @param String cardNumber This is the card number entered by the user
-     * @param String expiryDate This is the expiry date entered by the user
-     * @param String cvv This is the cvv entered by the user
+     * @param cardName This is the card name entered by the user
+     * @param cardNumber This is the card number entered by the user
+     * @param expiryDate This is the expiry date entered by the user
+     * @param cvv This is the cvv entered by the user
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -238,11 +238,11 @@ public class DatabaseOperations {
 
     /**
      * Method to update the user's card details in the database
-     * @param String cardName This is the card name entered by the user
-     * @param String cardNumber This is the card number entered by the user
-     * @param String expiryDate This is the expiry date entered by the user
-     * @param String cvv This is the cvv entered by the user
-     * @param String oldCardNumber This is the old card number stored in the CurrentUser object
+     * @param cardName This is the card name entered by the user
+     * @param cardNumber This is the card number entered by the user
+     * @param expiryDate This is the expiry date entered by the user
+     * @param cvv This is the cvv entered by the user
+     * @param oldCardNumber This is the old card number stored in the CurrentUser object
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -280,7 +280,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get the user's card details in the database
-     * @param String cardNumber This is the card number entered by the user
+     * @param cardNumber This is the card number entered by the user
      * @return Card
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -304,8 +304,8 @@ public class DatabaseOperations {
 
     /**
      * Method to get the user's address details in the database
-     * @param String houseNumber This is the house number entered by the user
-     * @param String postCode This is the post code entered by the user
+     * @param houseNumber This is the house number entered by the user
+     * @param postCode This is the post code entered by the user
      * @return Address
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -332,7 +332,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get the name of a brand from the database using its ID
-     * @param String brandID This is the brandID stored in the database
+     * @param brandID This is the brandID stored in the database
      * @return String This returns the name of the brand
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -357,7 +357,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get the stock of a product from the database using its product code
-     * @param String productCode This is the product code stored in the database
+     * @param productCode This is the product code stored in the database
      * @return Integer This returns the stock of the product
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -384,7 +384,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get a list of products from a predetermined type
-     * @param String m This is the type of product that will be displayed in the window determined by the first letter of the product code
+     * @param m This is the type of product that will be displayed in the window determined by the first letter of the product code
      * @return List<Product> This returns a list of products
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -416,8 +416,8 @@ public class DatabaseOperations {
 
     /**
      * Method to update the stock of a product in the database
-     * @param String productCode This is the product code stored in the database
-     * @param Integer stock This is the stock of the product
+     * @param productCode This is the product code stored in the database
+     * @parameger stock This is the stock of the product
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -455,8 +455,8 @@ public class DatabaseOperations {
 
     /**
      * Method to get all the orders from the database with the status code inputted
-     * @param Status status This is the status of order the method is filtering for
-     * @param boolean justCustomer This is a boolean to determine if the method is being called by a customer or staff member
+     * @param status This is the status of order the method is filtering for
+     * @param justCustomer This is a boolean to determine if the method is being called by a customer or staff member
      * @return String[][] This returns a 2D array of orders
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -499,7 +499,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get the pending order for the current user
-     * @param String userId This is the user ID of the current user
+     * @param userId This is the user ID of the current user
      * @return Order This returns the pending order (basket)
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -528,7 +528,7 @@ public class DatabaseOperations {
 
     /**
      * Method to update the user's pending order
-     * @param Product product This is the product that is being added to the order
+     * @param product This is the product that is being added to the order
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -617,7 +617,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get the orders from a user
-     * @param String id This is the user ID of the user
+     * @param id This is the user ID of the user
      * @return String[][] This returns a 2D array of orders
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -671,7 +671,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get the order lines from an order
-     * @param int orderID This is the order ID of the order
+     * @param orderID This is the order ID of the order
      * @return String[][] This returns a 2D array of order lines
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -706,7 +706,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get a product from the database using its product code
-     * @param String productCode This is the product code stored in the database
+     * @param productCode This is the product code stored in the database
      * @return Product This returns the product
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -734,7 +734,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get an order from the database using its order ID
-     * @param int orderID This is the order ID stored in the database
+     * @param orderID This is the order ID stored in the database
      * @return Order This returns the order
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -762,8 +762,8 @@ public class DatabaseOperations {
 
     /**
      * Method to update the status of an order
-     * @param int orderID This is the order ID stored in the database
-     * @param Status status This is the status of the order
+     * @param orderID This is the order ID stored in the database
+     * @param status This is the status of the order
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -824,7 +824,7 @@ public class DatabaseOperations {
 
     /**
      * Method to check if an order can be confirmed
-     * @param int orderID This is the order ID stored in the database
+     * @param orderID This is the order ID stored in the database
      * @return boolean This returns true if the order can be confirmed and false if it cannot
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -860,9 +860,9 @@ public class DatabaseOperations {
 
     /**
      * Method to update the quantity of a product in an order line and deletes a product if the quantity is 0
-     * @param int orderID This is the order ID stored in the database
-     * @param String productCode This is the product code stored in the database
-     * @param int quantity This is the quantity of the product
+     * @param orderID This is the order ID stored in the database
+     * @param productCode This is the product code stored in the database
+     * @param quantity This is the quantity of the product
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -895,7 +895,7 @@ public class DatabaseOperations {
 
     /**
      * Method to delete an order from the database
-     * @param int orderID This is the order ID stored in the database
+     * @param orderID This is the order ID stored in the database
      * @return void
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -995,7 +995,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get the era of a product from the database
-     * @param String productCode This is the product code stored in the database
+     * @param productCode This is the product code stored in the database
      * @return String This returns the era of the product
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -1111,7 +1111,7 @@ public class DatabaseOperations {
 
     /**
      * Method to make a user a staff member in the database
-     * @param String email This is the email of the user
+     * @param email This is the email of the user
      * @return boolean This returns true if the user was made a staff member and false if they were not
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -1138,7 +1138,7 @@ public class DatabaseOperations {
 
     /**
      * Method to remove a user as a staff member in the database
-     * @param String email This is the email of the user
+     * @param email This is the email of the user
      * @return boolean This returns true if the user was removed as a staff member and false if they were not
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -1532,7 +1532,7 @@ public class DatabaseOperations {
 
     /**
      * Method to get a product object from a product code
-     * @param productCode This is the product code of the product
+     * @param code This is the product code of the product
      * @return Product This returns the Product
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -1647,6 +1647,82 @@ public class DatabaseOperations {
         } finally {
             DatabaseConnectionHandler.closeConnection();
         }
+    }
+
+    /**
+     * Method to update the track pack product in the database
+     * @param productCode
+     * @param isExtensionPack
+     * @return void
+     */
+    public static void updateProductTrackPack(String productCode, String isExtensionPack) {
+        if (isExtensionPack.equals("Extension Pack")) {
+            isExtensionPack = "true";
+        } else {
+            isExtensionPack = "false";
+        }
+        // check if product exists, if yes then update, else insert
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT * FROM TrackPacks WHERE productCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, productCode);
+                ResultSet results = statement.executeQuery();
+                if (results.next()) {
+                    // update
+                    String updateQuery = "UPDATE TrackPacks SET isExtensionPack = ? WHERE productCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setBoolean(1, Boolean.parseBoolean(isExtensionPack));
+                        updateStatement.setString(2, productCode);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // insert
+                    String insertQuery = "INSERT INTO TrackPacks VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, productCode);
+                        insertStatement.setBoolean(2, Boolean.parseBoolean(isExtensionPack));
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+    }
+
+    /**
+     * Method to get the type of a track pack
+     * @param productCode This is the product code of the track pack
+     * @return String This returns the type of the track pack
+     */
+    public static String getTrackPackType(String productCode) {
+        try {
+            DatabaseConnectionHandler.openConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String query = "SELECT * FROM TrackPacks WHERE productCode = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, productCode);
+                ResultSet results = statement.executeQuery();
+                results.next();
+                if (results.getBoolean("isExtensionPack")) {
+                    return "Extension Pack";
+                } else {
+                    return "Starter Oval";
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            GUILoader.alertWindow("Error: " + ex.getMessage());
+            return null;
+        } finally {
+            DatabaseConnectionHandler.closeConnection();
+        }
+
     }
 }
 
