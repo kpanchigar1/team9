@@ -618,6 +618,14 @@ public class DatabaseOperations {
                 if (!checkOrderCanBeConfirmed(orderID)){
                     status = Status.BLOCKED;
                     GUILoader.alertWindow("Order has been blocked as there is not enough stock");
+                } else {
+                    String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
+                    try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                        ordersStatement.setInt(1, status.getStatusID());
+                        ordersStatement.setInt(2, orderID);
+                        ordersStatement.executeUpdate();
+                        GUILoader.alertWindow("Order has been confirmed");
+                    }
                 }
             } else if (status.equals(Status.FULFILLED)) {
                 String notOrderQuery = "SELECT * FROM Orders WHERE orderID != ? AND status = ?";
@@ -625,6 +633,7 @@ public class DatabaseOperations {
                     notOrderStatement.setInt(1, orderID);
                     notOrderStatement.setInt(2, Status.FULFILLED.getStatusID());
                     ResultSet results = notOrderStatement.executeQuery();
+                    GUILoader.alertWindow("Order has been fulfilled");
                     while (results.next()) {
                         if(!checkOrderCanBeConfirmed(results.getInt("orderID"))) {
                             updateOrderStatus(results.getInt("orderID"), Status.BLOCKED);
@@ -632,12 +641,14 @@ public class DatabaseOperations {
                         }
                     }
                 }
-            }
-            String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
-            try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
-                ordersStatement.setInt(1, status.getStatusID());
-                ordersStatement.setInt(2, orderID);
-                ordersStatement.executeUpdate();
+            } else {
+                String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
+                try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                    ordersStatement.setInt(1, Status.BLOCKED.getStatusID());
+                    ordersStatement.setInt(2, orderID);
+                    ordersStatement.executeUpdate();
+                    GUILoader.alertWindow("Order has been blocked");
+                }
             }
             DatabaseConnectionHandler.closeConnection();
         } catch (Exception ex) {
