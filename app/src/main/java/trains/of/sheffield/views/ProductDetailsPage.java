@@ -27,7 +27,7 @@ public class ProductDetailsPage extends JFrame {
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
     private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;
-    private JButton addToBasketButton, confirmChangesButton, backButton;
+    private JButton addToBasketButton, confirmChangesButton, backButton, addItemButton;
     private JTable trainSetTable;
 
     public ProductDetailsPage(Product product, boolean fromStaffDashboard, String productType) {
@@ -79,6 +79,7 @@ public class ProductDetailsPage extends JFrame {
         rollingStockField = new JTextField();
         trackPackField = new JTextField();
 
+        addItemButton = new JButton("Add Item");
         addToBasketButton = new JButton("Add to Basket");
 
         add(productCodeLabel);
@@ -97,15 +98,25 @@ public class ProductDetailsPage extends JFrame {
         add(stockField);
 
         trainSetTable = new JTable();
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column) {
+                if (column == 2) {
+                    return false;
+                }
+                return true;
+            }
+        };
         model.addColumn("Product Code");
         model.addColumn("Quantity");
         model.addColumn("");
         trainSetTable.setModel(model);
 
+        JScrollPane scroll = new JScrollPane(trainSetTable);
+
         if(product != null){
             productType = product.getProductCode().substring(0, 1);
         }
+
 
         if(Objects.equals(productType, "M") || Objects.equals(productType, "L") || Objects.equals(productType, "S")) {
             add(eraLabel);
@@ -124,9 +135,11 @@ public class ProductDetailsPage extends JFrame {
         if(Objects.equals(productType, "M")) {
             // Train set
             // TODO: create a table that shows items in the boxed set and option to add more
-            add(trainSetTable);
+            add(scroll);
+            add(addItemButton);
         }
 
+        add(new JLabel());
         add(new JLabel());
 
 
@@ -184,7 +197,17 @@ public class ProductDetailsPage extends JFrame {
                 }
                 if (Objects.equals(finalProductType, "M")) {
                     // Train set
-                    // go through each row of the table and update the database
+                    // Go throug the table and update the database with the new values
+                    DefaultTableModel model1 = (DefaultTableModel) trainSetTable.getModel();
+                    for (int i = 0; i < model1.getRowCount(); i++) {
+                        String productCode = (String) model1.getValueAt(i, 0);
+                        System.out.println(model1.getValueAt(i, 1));
+                        int quantity = Integer.parseInt(model1.getValueAt(i, 1).toString());
+                        if (productCode.equals("") || quantity == 0) {
+                            continue;
+                        }
+                        DatabaseOperations.updateTrainSetData(productCodeField.getText(), productCode, quantity);
+                    }
                 }
                 JOptionPane.showMessageDialog(ProductDetailsPage.this, "Changes have been made successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -247,10 +270,14 @@ public class ProductDetailsPage extends JFrame {
             ArrayList<String[]> trainSetData = DatabaseOperations.getTrainSetData(product.getProductCode());
             DefaultTableModel model = (DefaultTableModel) trainSetTable.getModel();
             for (String[] row : trainSetData) {
-                row[2] = "<html><u>Remove</u></html>";
                 model.addRow(row);
             }
         }
+
+        addItemButton.addActionListener(e -> {
+            DefaultTableModel model = (DefaultTableModel) trainSetTable.getModel();
+            model.addRow(new String[]{"", "", "<html><u>Remove</u></html>"});
+        });
     }
 
     public static void main(String[] args) {

@@ -829,7 +829,7 @@ public class DatabaseOperations {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
                     while(results.next()) {
-                        trainSetData.add(new String[] {results.getString("locomotiveCode"), String.valueOf(results.getInt("quantity"))});
+                        trainSetData.add(new String[] {results.getString("locomotiveCode"), String.valueOf(results.getInt("quantity")), "<html><u>Remove</u></html>"});
                     }
                 }
             }
@@ -839,7 +839,7 @@ public class DatabaseOperations {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
                     while(results.next()) {
-                        trainSetData.add(new String[] {results.getString("rollingStockCode"), String.valueOf(results.getInt("quantity"))});
+                        trainSetData.add(new String[] {results.getString("rollingStockCode"), String.valueOf(results.getInt("quantity")), "<html><u>Remove</u></html>"});
                     }
                 }
             }
@@ -849,7 +849,7 @@ public class DatabaseOperations {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
                     while(results.next()) {
-                        trainSetData.add(new String[] {results.getString("controllerCode"), String.valueOf(results.getInt("quantity"))});
+                        trainSetData.add(new String[] {results.getString("controllerCode"), String.valueOf(results.getInt("quantity")), "<html><u>Remove</u></html>"});
                     }
                 }
             }
@@ -859,7 +859,7 @@ public class DatabaseOperations {
                 productStatement.setString(1, productCode);
                 try (ResultSet results = productStatement.executeQuery()) {
                     while(results.next()) {
-                        trainSetData.add(new String[] {results.getString("trackPackCode"), String.valueOf(results.getInt("quantity"))});
+                        trainSetData.add(new String[] {results.getString("trackPackCode"), String.valueOf(results.getInt("quantity")), "<html><u>Remove</u></html>"});
                     }
                 }
             }
@@ -1109,100 +1109,114 @@ public class DatabaseOperations {
         }
     }
 
-    public static void updateTrainSetData(String productCode, String locomotiveCode, String rollingStockCode, String controllerCode, String trackPackCode) {
-        // check if products exist, if yes then update, else insert
-        // update the different link tables
+    public static void updateTrainSetData(String productCode, String otherCode, int quantity) {
+        // check other product code type by checking first letter
+        // check if link exist, if yes then update, else insert
         try {
             DatabaseConnectionHandler.openConnection();
             Connection connection = DatabaseConnectionHandler.getConnection();
-            String query = "SELECT * FROM LocomotiveTrainSetLink WHERE trainSetCode = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, productCode);
-                ResultSet results = statement.executeQuery();
-                if (results.next()) {
-                    // update
-                    String updateQuery = "UPDATE LocomotiveTrainSetLink SET locomotiveCode = ? WHERE trainSetCode = ?";
-                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                        updateStatement.setString(1, locomotiveCode);
-                        updateStatement.setString(2, productCode);
-                        updateStatement.executeUpdate();
-                    }
-                } else {
-                    // insert
-                    String insertQuery = "INSERT INTO LocomotiveTrainSetLink VALUES (?, ?)";
-                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                        insertStatement.setString(1, productCode);
-                        insertStatement.setString(2, locomotiveCode);
-                        insertStatement.executeUpdate();
-                    }
-                }
-            }
-
-            query = "SELECT * FROM RollingStockTrainSetLink WHERE trainSetCode = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, productCode);
-                ResultSet results = statement.executeQuery();
-                if (results.next()) {
-                    // update
-                    String updateQuery = "UPDATE RollingStockTrainSetLink SET rollingStockCode = ? WHERE trainSetCode = ?";
-                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                        updateStatement.setString(1, rollingStockCode);
-                        updateStatement.setString(2, productCode);
-                        updateStatement.executeUpdate();
-                    }
-                } else {
-                    // insert
-                    String insertQuery = "INSERT INTO RollingStockTrainSetLink VALUES (?, ?)";
-                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                        insertStatement.setString(1, productCode);
-                        insertStatement.setString(2, rollingStockCode);
-                        insertStatement.executeUpdate();
+            if (otherCode.charAt(0) == 'L') {
+                String query = "SELECT * FROM LocomotiveTrainSetLink WHERE trainSetCode = ? AND locomotiveCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, productCode);
+                    statement.setString(2, otherCode);
+                    ResultSet results = statement.executeQuery();
+                    if (results.next()) {
+                        // update
+                        String updateQuery = "UPDATE LocomotiveTrainSetLink SET quantity = ? WHERE trainSetCode = ? AND locomotiveCode = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setInt(1, quantity);
+                            updateStatement.setString(2, productCode);
+                            updateStatement.setString(3, otherCode);
+                            updateStatement.executeUpdate();
+                        }
+                    } else {
+                        // insert
+                        String insertQuery = "INSERT INTO LocomotiveTrainSetLink VALUES (?, ?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                            insertStatement.setString(1, productCode);
+                            insertStatement.setString(2, otherCode);
+                            insertStatement.setInt(3, quantity);
+                            insertStatement.executeUpdate();
+                        }
                     }
                 }
-            }
-
-            query = "SELECT * FROM ControllerTrainSetLink WHERE trainSetCode = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, productCode);
-                ResultSet results = statement.executeQuery();
-                if (results.next()) {
-                    // update
-                    String updateQuery = "UPDATE ControllerTrainSetLink SET controllerCode = ? WHERE trainSetCode = ?";
-                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                        updateStatement.setString(1, controllerCode);
-                        updateStatement.setString(2, productCode);
-                        updateStatement.executeUpdate();
-                    }
-                } else {
-                    // insert
-                    String insertQuery = "INSERT INTO ControllerTrainSetLink VALUES (?, ?)";
-                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                        insertStatement.setString(1, productCode);
-                        insertStatement.setString(2, controllerCode);
-                        insertStatement.executeUpdate();
+            } else if (otherCode.charAt(0) == 'R') {
+                String query = "SELECT * FROM RollingStockTrainSetLink WHERE trainSetCode = ? AND rollingStockCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, productCode);
+                    statement.setString(2, otherCode);
+                    ResultSet results = statement.executeQuery();
+                    if (results.next()) {
+                        // update
+                        String updateQuery = "UPDATE RollingStockTrainSetLink SET quantity = ? WHERE trainSetCode = ? AND rollingStockCode = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setInt(1, quantity);
+                            updateStatement.setString(2, productCode);
+                            updateStatement.setString(3, otherCode);
+                            updateStatement.executeUpdate();
+                        }
+                    } else {
+                        // insert
+                        String insertQuery = "INSERT INTO RollingStockTrainSetLink VALUES (?, ?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                            insertStatement.setString(1, productCode);
+                            insertStatement.setString(2, otherCode);
+                            insertStatement.setInt(3, quantity);
+                            insertStatement.executeUpdate();
+                        }
                     }
                 }
-            }
-
-            query = "SELECT * FROM TrackPackTrainSetLink WHERE trainSetCode = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, productCode);
-                ResultSet results = statement.executeQuery();
-                if (results.next()) {
-                    // update
-                    String updateQuery = "UPDATE TrackPackTrainSetLink SET trackPackCode = ? WHERE trainSetCode = ?";
-                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                        updateStatement.setString(1, trackPackCode);
-                        updateStatement.setString(2, productCode);
-                        updateStatement.executeUpdate();
+            } else if (otherCode.charAt(0) == 'C') {
+                String query = "SELECT * FROM ControllerTrainSetLink WHERE trainSetCode = ? AND controllerCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, productCode);
+                    statement.setString(2, otherCode);
+                    ResultSet results = statement.executeQuery();
+                    if (results.next()) {
+                        // update
+                        String updateQuery = "UPDATE ControllerTrainSetLink SET quantity = ? WHERE trainSetCode = ? AND controllerCode = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setInt(1, quantity);
+                            updateStatement.setString(2, productCode);
+                            updateStatement.setString(3, otherCode);
+                            updateStatement.executeUpdate();
+                        }
+                    } else {
+                        // insert
+                        String insertQuery = "INSERT INTO ControllerTrainSetLink VALUES (?, ?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                            insertStatement.setString(1, productCode);
+                            insertStatement.setString(2, otherCode);
+                            insertStatement.setInt(3, quantity);
+                            insertStatement.executeUpdate();
+                        }
                     }
-                } else {
-                    // insert
-                    String insertQuery = "INSERT INTO TrackPackTrainSetLink VALUES (?, ?)";
-                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                        insertStatement.setString(1, productCode);
-                        insertStatement.setString(2, trackPackCode);
-                        insertStatement.executeUpdate();
+                }
+            } else if (otherCode.charAt(0) == 'P') {
+                String query = "SELECT * FROM TrackPackTrainSetLink WHERE trainSetCode = ? AND trackPackCode = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, productCode);
+                    statement.setString(2, otherCode);
+                    ResultSet results = statement.executeQuery();
+                    if (results.next()) {
+                        // update
+                        String updateQuery = "UPDATE TrackPackTrainSetLink SET quantity = ? WHERE trainSetCode = ? AND trackPackCode = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setInt(1, quantity);
+                            updateStatement.setString(2, productCode);
+                            updateStatement.setString(3, otherCode);
+                            updateStatement.executeUpdate();
+                        }
+                    } else {
+                        // insert
+                        String insertQuery = "INSERT INTO TrackPackTrainSetLink VALUES (?, ?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                            insertStatement.setString(1, productCode);
+                            insertStatement.setString(2, otherCode);
+                            insertStatement.setInt(3, quantity);
+                            insertStatement.executeUpdate();
+                        }
                     }
                 }
             }

@@ -169,6 +169,7 @@ public class GUILoader {
 	 */
 	public static void productDetailsPageWindow(Product product, boolean isStaffPage, String productType) {
 		ProductDetailsPage productDetailsPageGUI = new ProductDetailsPage(product, isStaffPage, productType);
+		productDetailsPageGUI.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	/**
