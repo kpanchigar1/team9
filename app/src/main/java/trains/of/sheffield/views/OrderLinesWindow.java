@@ -82,8 +82,8 @@ public class OrderLinesWindow extends JFrame {
 
         JButton markAsFulfilled = new JButton("Mark as fulfilled");
         markAsFulfilled.addActionListener(e -> {
-            DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.FULFILLED);
             DatabaseOperations.decreaseStockLevels(orderData);
+            DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.FULFILLED);
             dispose();
             parent.reload();
 
