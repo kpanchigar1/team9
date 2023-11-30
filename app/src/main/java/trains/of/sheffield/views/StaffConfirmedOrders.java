@@ -57,7 +57,8 @@ public class StaffConfirmedOrders extends JFrame {
         String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card", "Order Lines"};
         String[][] orderData = DatabaseOperations.getOrdersFromStatus(Status.CONFIRMED, false);
         for(int i = 0; i < orderData.length; i++){
-            orderData[i][8] = "View Order Lines";
+            orderData[i][6] = orderData[i][6].substring(0, orderData[i][6].indexOf(".") + 3);
+            orderData[i][8] = "<html><u>View Order Lines</u></html>";
         }
         if(orderData.length > 0) {
             firstOrderID = Integer.parseInt(orderData[0][0]);

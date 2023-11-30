@@ -9,12 +9,9 @@ public class App {
      */
     // TODO: add JavaDocs to all classes
     // TODO: alert on view basket when there isnt anything in the basket
-    // TODO: delete card details?
-    // TODO: floating point error on total price in view orders - cut off everything after the 2 decimal places
     // TODO: Sort pending orders based on completion date
     // TODO: valid card in view orders
     // TODO: check for blocked orders everytime an order is fulfilled
-    // TODO: not sure if we need DCC code table
 
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window

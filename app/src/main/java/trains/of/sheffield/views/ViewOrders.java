@@ -48,6 +48,7 @@ public class ViewOrders extends JFrame{
         String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total", "Valid Card", "Order Lines"};
         String[][] orderData = DatabaseOperations.getOrdersFromUser(CurrentUser.getId());
         for (int i = 0; i < orderData.length; i++) {
+            orderData[i][6] = orderData[i][6].substring(0, orderData[i][6].indexOf(".") + 3);
             orderData[i][8] = "<html><a>View Order Lines</a></html>";
         }
 
@@ -85,19 +86,6 @@ public class ViewOrders extends JFrame{
             dispose();
         });
         contentPane.add(backButton, BorderLayout.SOUTH);
-    }
-
-    private static class HyperlinkCellRenderer extends DefaultTableCellRenderer {
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                       boolean hasFocus, int row, int column) {
-            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            label.setText("<html><u>" + value + "</u></html>");
-            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-
-            return label;
-        }
     }
     
 }
