@@ -20,11 +20,10 @@ import java.util.Objects;
  */
 public class ProductDetailsPage extends JFrame {
 
-    // TODO: product name and brand is swapped somewhere
     // TODO: add back button
     // TODO: DCC Code for controller
-    // TODO: add option to add more
-    // TODO: add option to remove
+    // TODO: add option to add more in table
+    // TODO: add option to remove in table
     // TODO: fix table layout
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
@@ -175,27 +174,31 @@ public class ProductDetailsPage extends JFrame {
         String finalProductType = productType;
         confirmChangesButton.addActionListener(e -> {
             // TODO: brand and name are swapped somewhere
-           DatabaseOperations.updateProduct(new Product(productCodeField.getText(), nameField.getText(), brandField.getText(), Double.parseDouble(priceField.getText()), Gauge.valueOf(scaleField.getText()), descriptionField.getText(), Integer.parseInt(stockField.getText())));
+           DatabaseOperations.updateProduct(new Product(productCodeField.getText(), brandField.getText(), nameField.getText(), Double.parseDouble(priceField.getText()), Gauge.valueOf(scaleField.getText()), descriptionField.getText(), Integer.parseInt(stockField.getText())));
            // update other tables based on product type
-            if(Objects.equals(finalProductType, "M") || Objects.equals(finalProductType, "L") || Objects.equals(finalProductType, "S")) {
-                DatabaseOperations.updateProductEra(productCodeField.getText(), eraField.getText());
+            if(productCodeField.getText().substring(0, 1).equals(finalProductType)) {
+                if (Objects.equals(finalProductType, "M") || Objects.equals(finalProductType, "L") || Objects.equals(finalProductType, "S")) {
+                    DatabaseOperations.updateProductEra(productCodeField.getText(), eraField.getText());
+                }
+                if (Objects.equals(finalProductType, "C")) {
+                    // Controller
+                    DatabaseOperations.updateProductAnalogue(productCodeField.getText(), isAnalogueField.getText());
+                }
+                if (Objects.equals(finalProductType, "P")) {
+                    // Track pack
+                    // DatabaseOperations.updateProductTrackPack(productCodeField.getText(), trackPackField.getText());
+                }
+                if (Objects.equals(finalProductType, "M")) {
+                    // Train set
+                    // go through each row of the table and update the database
+                }
+                JOptionPane.showMessageDialog(ProductDetailsPage.this, "Changes have been made successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
-            if(Objects.equals(finalProductType, "C")) {
-                // Controller
-                DatabaseOperations.updateProductAnalogue(productCodeField.getText(), isAnalogueField.getText());
+            else {
+                JOptionPane.showMessageDialog(ProductDetailsPage.this, "Product code does not match product type.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if(Objects.equals(finalProductType, "P")) {
-                // Track pack
-                // DatabaseOperations.updateProductTrackPack(productCodeField.getText(), trackPackField.getText());
-            }
-            if(Objects.equals(finalProductType, "M")) {
-                // Train set
-                // pass in product code between the brackets
-                // go through each row of the table and update the database
-            }
-            JOptionPane.showMessageDialog(ProductDetailsPage.this, "Changes have been made successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-
         });
+
 
         if(product != null) {
             populateFields(product);

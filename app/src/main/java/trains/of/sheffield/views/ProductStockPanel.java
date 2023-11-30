@@ -23,8 +23,6 @@ public class ProductStockPanel extends JFrame {
     private JButton backButton, confirmChangesButton, addNewProductButton;
     public ProductStockPanel(String productType) {
 
-        // TODO: delete product
-
         super("Trains of Sheffield - Staff Stock");
         productStockPanel = new JPanel(new GridBagLayout());
         setContentPane(productStockPanel);
@@ -96,8 +94,8 @@ public class ProductStockPanel extends JFrame {
                         if (option == JOptionPane.YES_OPTION) {
                             // Perform the deletion action
                             System.out.println("Deleting product " + productCode);
-                            //DatabaseOperations.deleteProduct(productCode);
-                            //model.removeRow(row);
+                            DatabaseOperations.deleteProduct(productCode);
+                            model.removeRow(row);
                         }
                     }
 

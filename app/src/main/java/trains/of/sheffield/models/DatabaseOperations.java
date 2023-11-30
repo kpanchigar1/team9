@@ -712,9 +712,35 @@ public class DatabaseOperations {
     }
 
     public static void deleteProduct(String productCode) {
-        // TODO: deleting products may cause errors since they exist in past orders
-        // one option is to remove the relationship between products and order line
-        // if product is in an order line, change orderline to "DELETED PRODUCT"
+        // check if product exists in order line
+        // if yes, change order line to "DELETED PRODUCT"
+        // if no, delete product
+        try {
+            DatabaseConnectionHandler.openConnection(); // Opens connection
+            Connection connection = DatabaseConnectionHandler.getConnection();
+            String orderLineQuery = "SELECT * FROM OrderLines WHERE productCode = ?";
+            try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                orderLineStatement.setString(1, productCode);
+                ResultSet results = orderLineStatement.executeQuery();
+                if (results.next()) {
+                    String updateQuery = "UPDATE OrderLines SET productCode = ? WHERE productCode = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, "D001");
+                        updateStatement.setString(2, productCode);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    String productQuery = "DELETE FROM Product WHERE productCode = ?";
+                    try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
+                        productStatement.setString(1, productCode);
+                        productStatement.executeUpdate();
+                    }
+                }
+            }
+            DatabaseConnectionHandler.closeConnection();
+        } catch(Exception ex) {
+            GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
+        }
 
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection

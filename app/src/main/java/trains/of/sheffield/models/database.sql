@@ -110,8 +110,8 @@ CREATE TABLE OrderLines (
   productCode varchar(5) NOT NULL,
   quantity int,
   PRIMARY KEY (orderID, productCode),
-  FOREIGN KEY (orderID) REFERENCES Orders(orderID),
-  FOREIGN KEY (productCode) REFERENCES Product(productCode)
+  FOREIGN KEY (orderID) REFERENCES Orders(orderID) ON DELETE CASCADE,
+  FOREIGN KEY (productCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE RollingStockTrainSetLink (
@@ -119,14 +119,14 @@ CREATE TABLE RollingStockTrainSetLink (
   rollingStockCode varchar(5) NOT NULL,
   quantity int NOT NULL DEFAULT 1,
   PRIMARY KEY (trainSetCode, rollingStockCode),
-  FOREIGN KEY (trainSetCode) REFERENCES Product(productCode),
+  FOREIGN KEY (trainSetCode) REFERENCES Product(productCode) ON DELETE CASCADE,
   FOREIGN KEY (rollingStockCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE Stock (
   productCode varchar(5) NOT NULL PRIMARY KEY,
   stockCount int NOT NULL,
-  FOREIGN KEY (productCode) REFERENCES Product(productCode)
+  FOREIGN KEY (productCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
 CREATE TABLE TrackPacks (

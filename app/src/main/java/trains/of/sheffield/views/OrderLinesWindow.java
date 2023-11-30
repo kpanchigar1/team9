@@ -92,6 +92,7 @@ public class OrderLinesWindow extends JFrame {
         });
         JButton checkout = new JButton("Checkout");
         checkout.addActionListener(e -> {
+            // TODO: update order date to date of checkout
             if (CurrentUser.getCardDetail() != null) {
                 DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.CONFIRMED);
                 dispose();
@@ -119,15 +120,13 @@ public class OrderLinesWindow extends JFrame {
 
 
         JPanel buttonPanel1 = new JPanel();
-        buttonPanel1.setLayout(new GridLayout(1, 2));
-        buttonPanel1.add(markAsFulfilled);
         buttonPanel1.add(deleteOrder);
+        buttonPanel1.add(markAsFulfilled);
         if(order.getStatus().equals(Status.CONFIRMED) && !fromBasket) {
             contentPane.add(buttonPanel1, BorderLayout.SOUTH);
         }
 
         JPanel buttonPanel2 = new JPanel();
-        buttonPanel2.setLayout(new GridLayout(1, 1));
         buttonPanel2.add(deleteOrder);
         if (order.getStatus().equals(Status.BLOCKED) && fromBasket) {
             contentPane.add(buttonPanel2, BorderLayout.SOUTH);
