@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/*
+ * Class to handle the database connection
+ */
 public class DatabaseConnectionHandler {
     private static final String DB_URL = "jdbc:mysql://stusql.dcs.shef.ac.uk:3306/team009";
     private static final String DB_USER = "team009";
@@ -12,6 +15,12 @@ public class DatabaseConnectionHandler {
     // Define the connection as a class member to share it across the application.
     private static Connection connection = null;
 
+    /*
+     * Method to open the database connection
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @return void
+     */
     public static void openConnection() throws SQLException {
         // Load the JDBC driver and open the connection
         try {
@@ -27,6 +36,12 @@ public class DatabaseConnectionHandler {
         }
     }
 
+    /*
+     * Method to close the database connection
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @return void
+     */
     public static void closeConnection() {
         // Close the connection in a separate method to ensure proper resource
         // management.
@@ -39,6 +54,12 @@ public class DatabaseConnectionHandler {
         }
     }
 
+    /**
+     * Method to get the database connection
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @return Connection
+     */
     public static Connection getConnection() {
         return connection;
     }

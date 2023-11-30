@@ -8,7 +8,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to handle the database operations
+ * 
+ */
 public class DatabaseOperations {
+
+    /**
+     * Method to check if the user has entered the correct details
+     * @param String email This is the email entered by the user
+     * @param char[] pWord This is the password entered by the user
+     * @return boolean
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static boolean tryLogIn(String email, char[] pWord) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -39,6 +52,20 @@ public class DatabaseOperations {
         return false;
     }
 
+    /**
+     * Method to create a new user
+     * @param char[] pWord This is the password entered by the user
+     * @param String fName This is the forename entered by the user
+     * @param String sName This is the surname entered by the user
+     * @param String email This is the email entered by the user
+     * @param String houseNumber This is the house number entered by the user
+     * @param String streetName This is the street name entered by the user
+     * @param String city This is the city entered by the user
+     * @param String postCode This is the post code entered by the user
+     * @return boolean
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static boolean trySignUp(char[] pWord, String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -84,6 +111,19 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to update the user's details in the database
+     * @param String fName This is the forename entered by the user
+     * @param String sName This is the surname entered by the user
+     * @param String email This is the email entered by the user
+     * @param String houseNumber This is the house number entered by the user
+     * @param String streetName This is the street name entered by the user
+     * @param String city This is the city entered by the user
+     * @param String postCode This is the post code entered by the user
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateDetails(String fName, String sName, String email, String houseNumber, String streetName, String city, String postCode) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -122,7 +162,6 @@ public class DatabaseOperations {
                 CurrentUser.setSurname(sName);
                 CurrentUser.setEmail(email);
             }
-
             DatabaseConnectionHandler.closeConnection(); // Ending connection
         } catch (SQLException ex) {
             ex.printStackTrace(); // Log the exception for debugging purposes
@@ -130,6 +169,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to update the user's password in the database
+     * @param char[] pWord This is the password entered by the user
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updatePassword(char[] pWord) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -150,6 +196,16 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to set the user's card details in the database
+     * @param String cardName This is the card name entered by the user
+     * @param String cardNumber This is the card number entered by the user
+     * @param String expiryDate This is the expiry date entered by the user
+     * @param String cvv This is the cvv entered by the user
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void tryCardDetails(String cardName, String cardNumber, String expiryDate, String cvv) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -180,6 +236,17 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to update the user's card details in the database
+     * @param String cardName This is the card name entered by the user
+     * @param String cardNumber This is the card number entered by the user
+     * @param String expiryDate This is the expiry date entered by the user
+     * @param String cvv This is the cvv entered by the user
+     * @param String oldCardNumber This is the old card number stored in the CurrentUser object
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateCardDetails(String cardName, String cardNumber, String expiryDate, String cvv, String oldCardNumber) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -211,6 +278,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to get the user's card details in the database
+     * @param String cardNumber This is the card number entered by the user
+     * @return Card
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static Card getCardDetailFromDB(String cardNumber) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -228,6 +302,14 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to get the user's address details in the database
+     * @param String houseNumber This is the house number entered by the user
+     * @param String postCode This is the post code entered by the user
+     * @return Address
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static Address getAddressFromDB(String houseNumber, String postCode) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -248,6 +330,13 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * Method to get the name of a brand from the database using its ID
+     * @param String brandID This is the brandID stored in the database
+     * @return String This returns the name of the brand
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private static String getBrandNameFromID(String brandID) {
         try {
             Connection connection = DatabaseConnectionHandler.getConnection();
@@ -266,6 +355,13 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * Method to get the stock of a product from the database using its product code
+     * @param String productCode This is the product code stored in the database
+     * @return Integer This returns the stock of the product
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private static Integer getProductStock(String productCode) {
         try {
             Connection connection = DatabaseConnectionHandler.getConnection();
@@ -286,6 +382,13 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * Method to get a list of products from a predetermined type
+     * @param String m This is the type of product that will be displayed in the window determined by the first letter of the product code
+     * @return List<Product> This returns a list of products
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Product> getProductsFromType(String m) {
         List<Product> allProducts = new ArrayList<>();
         try {
@@ -311,6 +414,14 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * Method to update the stock of a product in the database
+     * @param String productCode This is the product code stored in the database
+     * @param Integer stock This is the stock of the product
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateStock(String productCode, int stock) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -342,6 +453,14 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to get all the orders from the database with the status code inputted
+     * @param Status status This is the status of order the method is filtering for
+     * @param boolean justCustomer This is a boolean to determine if the method is being called by a customer or staff member
+     * @return String[][] This returns a 2D array of orders
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static String[][] getOrdersFromStatus(Status status, boolean justCustomer) {
         // String[] columnNames = {"Order ID", "Order Date", "Customer Name", "Customer Email", "Postal Address", "Order Status", "Order Total"};
         try {
@@ -378,6 +497,13 @@ public class DatabaseOperations {
         return new String[0][];
     }
 
+    /**
+     * Method to get the pending order for the current user
+     * @param String userId This is the user ID of the current user
+     * @return Order This returns the pending order (basket)
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static Order getBasketFromUser(String userId) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -400,6 +526,13 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * Method to update the user's pending order
+     * @param Product product This is the product that is being added to the order
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void addProductToOrder(Product product) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -482,6 +615,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to get the orders from a user
+     * @param String id This is the user ID of the user
+     * @return String[][] This returns a 2D array of orders
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static String[][] getOrdersFromUser(String id) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -529,6 +669,13 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * Method to get the order lines from an order
+     * @param int orderID This is the order ID of the order
+     * @return String[][] This returns a 2D array of order lines
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static String[][] getOrderLines(int orderID) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -557,6 +704,13 @@ public class DatabaseOperations {
         return new String[0][];
     }
 
+    /**
+     * Method to get a product from the database using its product code
+     * @param String productCode This is the product code stored in the database
+     * @return Product This returns the product
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private static Product getProductFromCode(String productCode) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -578,6 +732,13 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * Method to get an order from the database using its order ID
+     * @param int orderID This is the order ID stored in the database
+     * @return Order This returns the order
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static Order getOrderFromId(int orderID) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -599,6 +760,14 @@ public class DatabaseOperations {
         return null;
     }
 
+    /**
+     * Method to update the status of an order
+     * @param int orderID This is the order ID stored in the database
+     * @param Status status This is the status of the order
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateOrderStatus(int orderID, Status status) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -653,6 +822,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to check if an order can be confirmed
+     * @param int orderID This is the order ID stored in the database
+     * @return boolean This returns true if the order can be confirmed and false if it cannot
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static boolean checkOrderCanBeConfirmed(int orderID) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -682,6 +858,15 @@ public class DatabaseOperations {
         return false;
     }
 
+    /**
+     * Method to update the quantity of a product in an order line and deletes a product if the quantity is 0
+     * @param int orderID This is the order ID stored in the database
+     * @param String productCode This is the product code stored in the database
+     * @param int quantity This is the quantity of the product
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateOrderLines(int orderID, String productCode, int quantity) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -708,6 +893,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to delete an order from the database
+     * @param int orderID This is the order ID stored in the database
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void deleteOrder(int orderID) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -723,6 +915,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to delete a product from the database
+     * @param productCode ID of the product to be deleted
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void deleteProduct(String productCode) {
         // check if product exists in order line
         // if yes, change order line to "DELETED PRODUCT"
@@ -753,7 +952,6 @@ public class DatabaseOperations {
         } catch(Exception ex) {
             GUILoader.alertWindow("Error: Could not connect "+ex); // Outputs error message
         }
-
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
@@ -768,6 +966,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Method to decrease the levels of stock in accordance to an order being fulfilled
+     * @param orderData the order that has been fulfilled
+     * @return void
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void decreaseStockLevels(String[][] orderData) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
@@ -788,7 +993,7 @@ public class DatabaseOperations {
         }
     }
 
-
+    
     public static String getProductEra(String productCode) {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
