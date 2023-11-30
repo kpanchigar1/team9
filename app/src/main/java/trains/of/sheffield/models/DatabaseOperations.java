@@ -616,7 +616,12 @@ public class DatabaseOperations {
                     }
                 }
                 if (!checkOrderCanBeConfirmed(orderID)){
-                    status = Status.BLOCKED;
+                    String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
+                    try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
+                        ordersStatement.setInt(1, Status.BLOCKED.getStatusID());
+                        ordersStatement.setInt(2, orderID);
+                        ordersStatement.executeUpdate();
+                    }
                     GUILoader.alertWindow("Order has been blocked as there is not enough stock");
                 } else {
                     String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
@@ -640,14 +645,6 @@ public class DatabaseOperations {
                             GUILoader.alertWindow("Order "+ results.getInt("orderID") +" has been blocked as there is not enough stock");
                         }
                     }
-                }
-            } else {
-                String orderQuery = "UPDATE Orders SET status = ? WHERE orderID = ?";
-                try (PreparedStatement ordersStatement = connection.prepareStatement(orderQuery)) {
-                    ordersStatement.setInt(1, Status.BLOCKED.getStatusID());
-                    ordersStatement.setInt(2, orderID);
-                    ordersStatement.executeUpdate();
-                    GUILoader.alertWindow("Order has been blocked");
                 }
             }
             DatabaseConnectionHandler.closeConnection();
