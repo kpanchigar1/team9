@@ -1,16 +1,18 @@
 package trains.of.sheffield.views;
 
-import javax.swing.*;
-
-import trains.of.sheffield.CurrentUser;
 import trains.of.sheffield.GUILoader;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class MenuBarPanel extends JMenuBar {
     JMenu profile, orders, exitMenu;
     JMenuItem editProfile, changePassword, editCardDetails, viewOrders, exit;
+
+    /**
+     * This constructor creates the menu bar panel.
+     */
     public MenuBarPanel() {
         profile = new JMenu("Profile");
         editProfile = new JMenuItem("Edit Profile");

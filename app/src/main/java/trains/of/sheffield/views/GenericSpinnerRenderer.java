@@ -10,6 +10,10 @@ import java.awt.*;
  * This is used for the stock page and the route page to allow the user to view the number of items in their order line
  */
 public class GenericSpinnerRenderer<T> extends DefaultTableCellRenderer {
+
+    /**
+     * Creates a spinner renderer
+     */
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if (value instanceof Comparable) {

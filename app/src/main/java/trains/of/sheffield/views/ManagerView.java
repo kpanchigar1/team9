@@ -18,6 +18,9 @@ public class ManagerView extends JFrame {
     private JList<String> staffList;
     private DefaultListModel<String> listModel;
 
+    /**
+     * This constructor creates the manager view window.
+     */
     public ManagerView() {
         setTitle("Manager Dashboard");
         setSize(800, 400);

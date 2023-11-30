@@ -3,9 +3,18 @@ package trains.of.sheffield.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * HashedPasswordGenerator.java
+ * Purpose: Generates a hashed password from a given password.
+ */
 public class HashedPasswordGenerator {
     private static final String SALT = "OMG I WANT IT";
 
+    /**
+     * Generates a hashed password from a given password.
+     * @param password The password to hash.
+     * @return The hashed password.
+     */
     public static String hashPassword(char[] password) {
         try {
             // Create a MessageDigest instance for SHA-256
@@ -33,6 +42,12 @@ public class HashedPasswordGenerator {
         }
     }
 
+    /**
+     * Concatenates two byte arrays.
+     * @param arr1 The first byte array.
+     * @param arr2 The second byte array.
+     * @return The concatenated byte array.
+     */
     public static byte[] concatenateBytes(byte[] arr1, byte[] arr2) {
         byte[] combined = new byte[arr1.length + arr2.length];
         System.arraycopy(arr1, 0, combined, 0, arr1.length);

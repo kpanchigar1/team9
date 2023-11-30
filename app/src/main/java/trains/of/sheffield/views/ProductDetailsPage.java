@@ -193,7 +193,7 @@ public class ProductDetailsPage extends JFrame {
                 }
                 if (Objects.equals(finalProductType, "M")) {
                     // Train set
-                    // Go throug the table and update the database with the new values
+                    // Go through the table and update the database with the new values
                     DefaultTableModel model1 = (DefaultTableModel) trainSetTable.getModel();
                     for (int i = 0; i < model1.getRowCount(); i++) {
                         String productCode = (String) model1.getValueAt(i, 0);
@@ -254,6 +254,7 @@ public class ProductDetailsPage extends JFrame {
     /**
      * This method is used to populate the fields of the product details page with the data from the database.
      * @param product
+     * @return void
      */
     public void populateFields(Product product) {
         // Replace this with your actual database logic
@@ -289,9 +290,5 @@ public class ProductDetailsPage extends JFrame {
             DefaultTableModel model = (DefaultTableModel) trainSetTable.getModel();
             model.addRow(new String[]{"", "", "<html><u>Remove</u></html>"});
         });
-    }
-
-    public static void main(String[] args) {
-        ProductDetailsPage page = new ProductDetailsPage(null, true, "M");
     }
 }
