@@ -75,12 +75,6 @@ FOREIGN KEY (trainSetCode) REFERENCES Product(productCode) ON DELETE CASCADE,
 FOREIGN KEY (controllerCode) REFERENCES Product(productCode) ON DELETE CASCADE
 );
 
-CREATE TABLE DccCode (
-  productCode varchar(5) NOT NULL PRIMARY KEY,
-  dccCode varchar(45) NOT NULL,
-  FOREIGN KEY (productCode) REFERENCES Product(productCode) ON DELETE CASCADE
-);
-
 CREATE TABLE EraLink (
   productCode varchar(5) NOT NULL PRIMARY KEY,
   era varchar(45) NOT NULL,
@@ -156,7 +150,6 @@ INSERT INTO Product VALUES ('R002', 1, 'Track2', 1.99, 'OO', 'Track2 Description
 INSERT INTO Product VALUES ('L002', 1, 'Locomotive2', 5.99, 'OO', 'Locomotive2 Description');
 INSERT INTO ControllerTable VALUES ('C001', 1);
 INSERT INTO ControllerTrainSetLink VALUES ('M001', 'C001', 1);
-INSERT INTO DccCode VALUES ('L001', 'DCC');
 INSERT INTO EraLink VALUES ('L001', 'Era 1');
 INSERT INTO LocomotiveTrainSetLink VALUES ('M001', 'L001', 1);
 INSERT INTO RollingStockTrainSetLink VALUES ('M001', 'S001', 1);

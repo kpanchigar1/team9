@@ -20,7 +20,6 @@ import java.util.Objects;
  */
 public class ProductDetailsPage extends JFrame {
     // TODO: do summat for trackpack
-    // TODO: DCC Code for controller
 
     private JLabel productCodeLabel, nameLabel, brandLabel, scaleLabel, priceLabel, descriptionLabel, stockLabel, eraLabel, isAnalogueLabel, controllerLabel, locomotiveLabel, rollingStockLabel, trackPackLabel;
     private JTextField productCodeField, nameField, brandField, scaleField, priceField, descriptionField, stockField, eraField, isAnalogueField, controllerField, locomotiveField, rollingStockField, trackPackField;

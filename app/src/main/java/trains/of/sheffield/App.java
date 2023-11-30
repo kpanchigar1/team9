@@ -15,7 +15,6 @@ public class App {
     // TODO: valid card in view orders
     // TODO: check for blocked orders everytime an order is fulfilled
     // TODO: not sure if we need DCC code table
-    // TODO: delete order doesn't show on CONFIRMED or BLOCKED orders
 
     public static void main(String[] args) {
         GUILoader.loginWindow(); // Loads the login window
