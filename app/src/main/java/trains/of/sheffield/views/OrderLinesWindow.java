@@ -97,7 +97,6 @@ public class OrderLinesWindow extends JFrame {
         });
         JButton checkout = new JButton("Checkout");
         checkout.addActionListener(e -> {
-            // TODO: update order date to date of checkout
             if (CurrentUser.getCardDetail() != null) {
                 DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.CONFIRMED);
                 dispose();

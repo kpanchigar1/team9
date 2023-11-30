@@ -7,7 +7,7 @@ public class App {
     /**
      * This is the main method which makes use of GUILoader.loginWindow() method.
      */
-    // TODO: valid card in view orders
+
     // TODO: check for blocked orders every time an order is fulfilled
     // TODO: update price of pending/confirmed orders when a product is deleted
 
