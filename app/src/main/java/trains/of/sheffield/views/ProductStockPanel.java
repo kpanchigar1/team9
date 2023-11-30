@@ -20,7 +20,13 @@ import java.util.List;
  */
 public class ProductStockPanel extends JFrame {
     private JPanel productStockPanel, buttonPanel, southPanel;
-    private JButton backButton, confirmChangesButton, addNewProductButton;
+    private JButton backButton, addNewProductButton;
+
+    /**
+     * This constructor creates the product stock page window.
+     *
+     * @param productType the type of product to be displayed
+     */
     public ProductStockPanel(String productType) {
 
         super("Trains of Sheffield - Staff Stock");

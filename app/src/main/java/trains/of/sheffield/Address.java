@@ -9,6 +9,13 @@ public class Address {
     private String city;
     private String postCode;
 
+    /**
+     * Constructor to create an address
+     * @param houseNumber The house number
+     * @param streetName The street name
+     * @param city The city
+     * @param postCode The post code
+     */
     public Address(String houseNumber, String streetName, String city, String postCode) {
         this.houseNumber = houseNumber;
         this.streetName = streetName;
@@ -16,6 +23,10 @@ public class Address {
         this.postCode = postCode;
     }
 
+    /**
+     * Method to return the address as a string
+     * @return The address as a string
+     */
     @Override
     public String toString() {
         return houseNumber + " " + streetName + ", " + city + ", " + postCode;

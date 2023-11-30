@@ -27,6 +27,10 @@ public class StaffConfirmedOrders extends JFrame {
     private JButton backButton;
     private JTable orderTable;
     private static int firstOrderID;
+
+    /**
+     * Constructor to create the staff confirmed orders window
+     */
     public StaffConfirmedOrders(){
         super("Trains of Sheffield - Confirmed Orders");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -104,6 +108,9 @@ public class StaffConfirmedOrders extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Class to create a hyperlink in a JTable
+     */
     static class HyperlinkCellRenderer extends DefaultTableCellRenderer {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                        boolean hasFocus, int row, int column) {
@@ -118,6 +125,9 @@ public class StaffConfirmedOrders extends JFrame {
         }
     }
 
+    /**
+     * Method to reload the window
+     */
     public void reload() {
         dispose();
         new StaffConfirmedOrders().setVisible(true);

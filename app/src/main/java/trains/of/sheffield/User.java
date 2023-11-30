@@ -13,6 +13,17 @@ public class User {
     private Card card;
     private Role role;
 
+    /**
+     * Constructor to create a user
+     * @param id The user ID
+     * @param forename The forename
+     * @param surname The surname
+     * @param email The email
+     * @param passwordHash The password hash
+     * @param address The address
+     * @param cardDetail The card details
+     * @param role The role
+     */
     public User(String id, String forename, String surname, String email, String passwordHash, Address address, Card cardDetail, Role role) {
         this.id = id;
         this.forename = forename;
@@ -56,26 +67,50 @@ public class User {
         return password;
     }
 
+    /**
+     * Method to set the forename
+     * @param forename The forename
+     */
     public void setForename(String forename) {
         this.forename = forename;
     }
 
+    /**
+     * Method to set the surname
+     * @param surname The surname
+     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
+    /**
+     * Method to set the email
+     * @param email The email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Method to set the address
+     * @param address The address
+     */
     public void setAddress(Address address) {
         this.address = address;
     }
 
+    /**
+     * Method to set the card details
+     * @param cardDetail The card details
+     */
     public void setCardDetail(Card cardDetail) {
         this.card = cardDetail;
     }
 
+    /**
+     * Method to set the password hash
+     * @param passwordHash The password hash
+     */
     public void setPasswordHash(String passwordHash) {
         this.password = passwordHash;
     }

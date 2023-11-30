@@ -7,6 +7,10 @@ public enum Role {
 
     private int roleID;
 
+    /**
+     * Constructor to create a role
+     * @param roleID The role ID
+     */
     Role(int roleID) {
         this.roleID = roleID;
     }
@@ -15,6 +19,11 @@ public enum Role {
         return roleID;
     }
 
+    /**
+     * Method to get the role from the role ID
+     * @param roleID The role ID
+     * @return The role
+     */
     public static Role getRole(int roleID) {
         for (Role role : Role.values()) {
             if (role.getRoleID() == roleID) {

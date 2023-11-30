@@ -9,6 +9,13 @@ public class Card {
     private String expiryDate;
     private String cvv;
 
+    /**
+     * Constructor to create a card
+     * @param cardName The card service company
+     * @param cardNumber The card number
+     * @param expiryDate The expiry date
+     * @param cvv The cvv
+     */
     public Card(String cardName, String cardNumber, String expiryDate, String cvv) {
         this.cardName = cardName;
         this.cardNumber = cardNumber;

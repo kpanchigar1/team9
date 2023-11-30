@@ -8,13 +8,22 @@ public enum Status {
 
     private final int statusID;
 
+    /**
+     * Constructor to create a status
+     * @param statusID The status ID
+     */
     Status (int statusID) {
         this.statusID = statusID;
     }
 
-    public static Status getStatus(int roleID) {
+    /**
+     * Method to get the status from the status ID
+     * @param statusID The status ID
+     * @return The status
+     */
+    public static Status getStatus(int statusID) {
         for (Status status : Status.values()) {
-            if (status.getStatusID() == roleID) {
+            if (status.getStatusID() == statusID) {
                 return status;
             }
         }
