@@ -1228,6 +1228,12 @@ public class DatabaseOperations {
                         updateStatement.setString(6, product.getProductCode());
                         updateStatement.executeUpdate();
                     }
+                    String stockQuery = "UPDATE Stock SET stockCount = ? WHERE productCode = ?";
+                    try (PreparedStatement stockStatement = connection.prepareStatement(stockQuery)) {
+                        stockStatement.setInt(1, product.getStock());
+                        stockStatement.setString(2, product.getProductCode());
+                        stockStatement.executeUpdate();
+                    }
                 } else {
                     // insert
                     String insertQuery = "INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -1238,8 +1244,13 @@ public class DatabaseOperations {
                         insertStatement.setDouble(4, product.getPrice());
                         insertStatement.setString(5, product.getGauge().toString());
                         insertStatement.setString(6, product.getDescription());
-                        insertStatement.setInt(7, product.getStock());
                         insertStatement.executeUpdate();
+                    }
+                    String stockQuery = "INSERT INTO Stock VALUES (?, ?)";
+                    try (PreparedStatement stockStatement = connection.prepareStatement(stockQuery)) {
+                        stockStatement.setString(1, product.getProductCode());
+                        stockStatement.setInt(2, product.getStock());
+                        stockStatement.executeUpdate();
                     }
                 }
             }

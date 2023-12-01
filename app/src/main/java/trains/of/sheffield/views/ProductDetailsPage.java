@@ -54,7 +54,7 @@ public class ProductDetailsPage extends JFrame {
         descriptionLabel = new JLabel("Description:");
         stockLabel = new JLabel("Stock:");
         eraLabel = new JLabel("Era:");
-        isAnalogueLabel = new JLabel("Analogue:");
+        isAnalogueLabel = new JLabel("Analogue/Digital:");
         isExtensionPackLabel = new JLabel("Extension Pack");
 
         productCodeField = new JTextField();
@@ -178,6 +178,13 @@ public class ProductDetailsPage extends JFrame {
                 }
                 if (Objects.equals(finalProductType, "C")) {
                     // Controller
+                    Boolean isAnalogue;
+                    if(isAnalogueField.getText().equals("Analogue")) {
+                        isAnalogue = true;
+                    }
+                    else {
+                        isAnalogue = false;
+                    }
                     DatabaseOperations.updateProductAnalogue(productCodeField.getText(), isAnalogueField.getText());
                 }
                 if (Objects.equals(finalProductType, "P")) {
