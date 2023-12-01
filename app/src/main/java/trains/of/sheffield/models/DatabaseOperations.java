@@ -886,9 +886,24 @@ public class DatabaseOperations {
         try {
             DatabaseConnectionHandler.openConnection(); // Opens connection
             Connection connection = DatabaseConnectionHandler.getConnection();
+            String originalQuantityQuery = "SELECT quantity FROM OrderLines WHERE orderID = ? AND productCode = ?";
+            int originalQuantity;
+            try (PreparedStatement quantityStatement = connection.prepareStatement(originalQuantityQuery)) {
+                quantityStatement.setInt(1, orderID);
+                quantityStatement.setString(2, productCode);
+                ResultSet quantityResults = quantityStatement.executeQuery();
+                quantityResults.next();
+                originalQuantity = quantityResults.getInt("quantity");
+            }
             if (quantity == 0) {
                 String orderLineQuery = "DELETE FROM OrderLines WHERE orderID = ? AND productCode = ?";
                 try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
+                    String productQuery = "UPDATE Orders SET totalPrice = totalPrice - ? WHERE orderID = ?";
+                    try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
+                        productStatement.setDouble(1, getProductFromCode(productCode).getPrice() * originalQuantity);
+                        productStatement.setInt(2, orderID);
+                        productStatement.executeUpdate();
+                    }
                     orderLineStatement.setInt(1, orderID);
                     orderLineStatement.setString(2, productCode);
                     orderLineStatement.executeUpdate();
@@ -900,6 +915,13 @@ public class DatabaseOperations {
                     orderLineStatement.setInt(2, orderID);
                     orderLineStatement.setString(3, productCode);
                     orderLineStatement.executeUpdate();
+                    String orderQuery = "UPDATE Orders SET totalPrice = totalPrice + ? WHERE orderID = ?";
+                    try (PreparedStatement orderStatement = connection.prepareStatement(orderQuery)) {
+                        double productPrice = getProductFromCode(productCode).getPrice();
+                        orderStatement.setDouble(1, (productPrice * quantity) - (productPrice * originalQuantity));
+                        orderStatement.setInt(2, orderID);
+                        orderStatement.executeUpdate();
+                    }
                 }
             }
             DatabaseConnectionHandler.closeConnection();

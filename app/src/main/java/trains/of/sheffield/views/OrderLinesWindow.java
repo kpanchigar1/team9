@@ -143,7 +143,8 @@ public class OrderLinesWindow extends JFrame {
 
         contentPane.add(scrollPane, BorderLayout.CENTER);
 
-        double totalPrice = order.getPrice();
+        String totalPrice = DatabaseOperations.getOrderFromId(order.getOrderID()).getPrice().toString();
+        totalPrice = totalPrice.substring(0, totalPrice.toString().indexOf(".") + 3);
         JLabel totalPriceLabel = new JLabel("Total price:  \u00A3" + totalPrice);
         contentPane.add(totalPriceLabel, BorderLayout.NORTH);
 
