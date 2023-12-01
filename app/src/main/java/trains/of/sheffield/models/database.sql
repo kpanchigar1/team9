@@ -141,50 +141,12 @@ CREATE TABLE TrackPackTrainSetLink (
 -- add test data
 INSERT INTO Brand VALUES (1, 'Hornby');
 INSERT INTO Brand VALUES (2, 'Dapol');
-INSERT INTO Product VALUES ('R001', 1, '', 1.99, 'OO', 'Track1 Description');
-INSERT INTO Product VALUES ('L001', 2, 'Locomotive1', 5.99, 'OO', 'Locomotive1 Description');
-INSERT INTO Product VALUES ('S001', 2, 'RollingStock1', 10.99, 'OO', 'RollingStock1 Description');
-INSERT INTO Product VALUES ('C001', 1, 'Controller1', 4.99, 'OO', 'Controller1 Description');
-INSERT INTO Product VALUES ('M001', 2, 'TrainSet1', 19.99, 'OO', 'TrainSet1 Description');
-INSERT INTO Product VALUES ('P001', 1, 'TrackPack1', 9.99, 'OO', 'TrackPack1 Description');
-INSERT INTO Product VALUES ('R002', 2, 'Track2', 1.99, 'OO', 'Track2 Description');
-INSERT INTO Product VALUES ('L002', 1, 'Locomotive2', 5.99, 'OO', 'Locomotive2 Description');
-INSERT INTO ControllerTable VALUES ('C001', 1);
-INSERT INTO ControllerTrainSetLink VALUES ('M001', 'C001', 1);
-INSERT INTO EraLink VALUES ('L001', 'Era 1');
-INSERT INTO LocomotiveTrainSetLink VALUES ('M001', 'L001', 1);
-INSERT INTO RollingStockTrainSetLink VALUES ('M001', 'S001', 1);
-INSERT INTO Stock VALUES ('R001', 10);
-INSERT INTO Stock VALUES ('L001', 10);
-INSERT INTO Stock VALUES ('S001', 10);
-INSERT INTO Stock VALUES ('C001', 10);
-INSERT INTO Stock VALUES ('M001', 10);
-INSERT INTO Stock VALUES ('P001', 10);
-INSERT INTO Stock VALUES ('R002', 10);
-INSERT INTO Stock VALUES ('L002', 10);
-INSERT INTO TrackPacks VALUES ('R001', 1);
-INSERT INTO TrackPackTrainSetLink VALUES ('M001', 'R001', 1);
-INSERT INTO Address VALUES ('498', 'Glossop Road', 'Sheffield', 'S10 2QA');
-INSERT INTO User VALUES ('d0f89dff-5293-49d6-8342-0cd9fc035b60', 'Gabriel', 'Plume', 'gplume02@gmail.com', '2932ee97197e7f618e08cfb106f3f9da7bae0eb9a679c0826af23cdbef520f54', '2', '498', 'S10 2QA', NULL);
-INSERT INTO CardDetail VALUES ('Visa', '1234567891011121', 1234, 123);
-INSERT INTO Address VALUES ('46', 'Harefield Road', 'Sheffield', 'S11 8NU');
-INSERT INTO User VALUES ('46760aad-4326-4e9d-a824-1b8cb59347f9', 'Krish', 'Panchigar', 'krishpanchigar14@gmail.com', '2932ee97197e7f618e08cfb106f3f9da7bae0eb9a679c0826af23cdbef520f54', 0, '46', 'S11 8NU', 1234567891011121);
-INSERT INTO Orders VALUES (1, '2023-01-19 03:14:07', 2, '46760aad-4326-4e9d-a824-1b8cb59347f9', 19.99);
-INSERT INTO OrderLines VALUES (1, 'M001', 1);
-INSERT INTO Orders VALUES (2, '2023-01-19 02:14:07', 1, '46760aad-4326-4e9d-a824-1b8cb59347f9', 23.34);
-INSERT INTO OrderLines VALUES (2, 'M001', 1);
-INSERT INTO OrderLines VALUES (2, 'C001', 1);
-INSERT INTO Orders VALUES (3, '2022-01-19 03:14:07', 0, '46760aad-4326-4e9d-a824-1b8cb59347f9', 23.12);
-INSERT INTO OrderLines VALUES (3, 'M001', 1);
-INSERT INTO OrderLines VALUES (3, 'C001', 2);
-INSERT INTO OrderLines VALUES (3, 'P001', 3);
-INSERT INTO OrderLines VALUES (3, 'R001', 4);
-INSERT INTO EraLink VALUES ('M001', 'Era 1');
 -- Inserting test data for boxed sets
 INSERT INTO Product VALUES ('M002', 1, 'Mallard Record Breaker Set', 249.99, 'OO', 'Iconic steam train set');
-INSERT INTO Product VALUES ('M003', 1, 'Flying Scotsman Set', 219.99, 'OO', 'Classic locomotive train set');
+INSERT INTO Product VALUES ('M003', 2, 'Flying Scotsman Set', 219.99, 'OO', 'Classic locomotive train set');
 -- Add corresponding entries to other related tables if needed
-
+INSERT INTO EraLink VALUES ('M002', 'Era 3');
+INSERT INTO EraLink VALUES ('M003', 'Era 3-4');
 -- Inserting test data for track packs
 INSERT INTO Product VALUES ('P002', 1, 'Track Pack B', 39.99, 'OO', 'Advanced track expansion pack');
 INSERT INTO Product VALUES ('P003', 1, '3rd Radius Extension Pack', 49.99, 'OO', 'Extended curved track pack');
