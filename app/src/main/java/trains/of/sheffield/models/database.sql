@@ -212,4 +212,5 @@ INSERT INTO Stock VALUES ('S004', 10);
 INSERT INTO Stock VALUES ('S006', 10);
 INSERT INTO Stock VALUES ('S007', 10);
 
+INSERT INTO Address VALUES('1', 'Test Street', 'Test City', 'S1 1AA');
 INSERT INTO User Values('29e58b39-22e7-429d-b900-72aefcb28f61', 'Manager', '1', 'manager@example.com', '2932ee97197e7f618e08cfb106f3f9da7bae0eb9a679c0826af23cdbef520f54', 0, '1', 'S1 1AA', NULL);
