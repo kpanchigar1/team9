@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
  * Purpose: Generates a hashed password from a given password.
  */
 public class HashedPasswordGenerator {
-    private static final String SALT = "OMG I WANT IT";
+    private static final String SALT = "Team 9 is the best team";
 
     /**
      * Generates a hashed password from a given password.

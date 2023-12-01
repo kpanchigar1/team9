@@ -164,10 +164,10 @@ INSERT INTO Stock VALUES ('L002', 10);
 INSERT INTO TrackPacks VALUES ('R001', 1);
 INSERT INTO TrackPackTrainSetLink VALUES ('M001', 'R001', 1);
 INSERT INTO Address VALUES ('498', 'Glossop Road', 'Sheffield', 'S10 2QA');
-INSERT INTO User VALUES ('d0f89dff-5293-49d6-8342-0cd9fc035b60', 'Gabriel', 'Plume', 'gplume02@gmail.com', '602557fd40b0dbffac5bf6efbd70652a459aa727ffad5788dff9f0e679e93c07', '2', '498', 'S10 2QA', NULL);
+INSERT INTO User VALUES ('d0f89dff-5293-49d6-8342-0cd9fc035b60', 'Gabriel', 'Plume', 'gplume02@gmail.com', '2932ee97197e7f618e08cfb106f3f9da7bae0eb9a679c0826af23cdbef520f54', '2', '498', 'S10 2QA', NULL);
 INSERT INTO CardDetail VALUES ('Visa', '1234567891011121', 1234, 123);
 INSERT INTO Address VALUES ('46', 'Harefield Road', 'Sheffield', 'S11 8NU');
-INSERT INTO User VALUES ('46760aad-4326-4e9d-a824-1b8cb59347f9', 'Krish', 'Panchigar', 'krishpanchigar14@gmail.com', '1422616620215fe03b1994505eb303c860441455ef36f5fc127d3de90baabd2d', 0, '46', 'S11 8NU', 1234567891011121);
+INSERT INTO User VALUES ('46760aad-4326-4e9d-a824-1b8cb59347f9', 'Krish', 'Panchigar', 'krishpanchigar14@gmail.com', '2932ee97197e7f618e08cfb106f3f9da7bae0eb9a679c0826af23cdbef520f54', 0, '46', 'S11 8NU', 1234567891011121);
 INSERT INTO Orders VALUES (1, '2023-01-19 03:14:07', 2, '46760aad-4326-4e9d-a824-1b8cb59347f9', 19.99);
 INSERT INTO OrderLines VALUES (1, 'M001', 1);
 INSERT INTO Orders VALUES (2, '2023-01-19 02:14:07', 1, '46760aad-4326-4e9d-a824-1b8cb59347f9', 23.34);
@@ -248,6 +248,3 @@ INSERT INTO Stock VALUES ('S003', 10);
 INSERT INTO Stock VALUES ('S004', 10);
 INSERT INTO Stock VALUES ('S006', 10);
 INSERT INTO Stock VALUES ('S007', 10);
-
--- Deleted Product Placeholder
-INSERT INTO Product VALUES ('D001', 1, 'Deleted Product', 0, '', 'NA');
