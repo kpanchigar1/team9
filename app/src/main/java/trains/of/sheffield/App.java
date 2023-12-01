@@ -4,7 +4,6 @@
 package trains.of.sheffield;
 
 public class App {
-    // TODO: update price of pending/confirmed orders when a product is deleted
 
     /**
      * This is the main method which makes use of GUILoader.loginWindow() method.

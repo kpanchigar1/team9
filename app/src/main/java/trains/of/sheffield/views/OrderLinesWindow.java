@@ -86,14 +86,11 @@ public class OrderLinesWindow extends JFrame {
             DatabaseOperations.updateOrderStatus(order.getOrderID(), Status.FULFILLED);
             dispose();
             parent.reload();
-
         });
         JButton deleteOrder = new JButton("Delete order");
         deleteOrder.addActionListener(e -> {
             DatabaseOperations.deleteOrder(order.getOrderID());
             dispose();
-
-
         });
         JButton checkout = new JButton("Checkout");
         checkout.addActionListener(e -> {
@@ -116,9 +113,9 @@ public class OrderLinesWindow extends JFrame {
 
                 // Now you have the product code and the updated quantity value
                 DatabaseOperations.updateOrderLines(order.getOrderID(), productCode, updatedQuantity);
-                dispose();
-                GUILoader.orderLinesWindow(order, parent, fromBasket);
             }
+            dispose();
+            GUILoader.orderLinesWindow(order, parent, fromBasket);
         });
 
 
@@ -145,6 +142,11 @@ public class OrderLinesWindow extends JFrame {
         }
 
         contentPane.add(scrollPane, BorderLayout.CENTER);
+
+        double totalPrice = order.getPrice();
+        JLabel totalPriceLabel = new JLabel("Total price:  \u00A3" + totalPrice);
+        contentPane.add(totalPriceLabel, BorderLayout.NORTH);
+
         setSize(400, 400);
         setVisible(true);
 

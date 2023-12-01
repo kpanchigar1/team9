@@ -6,6 +6,7 @@ import java.util.List;
  */
 public class Order {
     private int orderId;
+    double price;
     private String date;
     private Status status;
     private List<OrderLine> orderLines;
@@ -17,11 +18,12 @@ public class Order {
      * @param orderStatus The order status
      * @param orderLines The order lines
      */
-    public Order(Integer orderID, String orderDate, int orderStatus, List<OrderLine> orderLines) {
+    public Order(Integer orderID, String orderDate, int orderStatus, double price, List<OrderLine> orderLines) {
         this.orderId = orderID;
         this.date = orderDate;
         this.status = Status.values()[orderStatus];
         this.orderLines = orderLines;
+        this.price = price;
     }
 
     public int getOrderID() {
@@ -30,5 +32,9 @@ public class Order {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Double getPrice() {
+        return price;
     }
 }

@@ -518,7 +518,7 @@ public class DatabaseOperations {
                 for (String[] orderLine : getOrderLines(results.getInt("orderID"))) {
                     orderLines.add(orderLine);
                 }
-                return new Order(results.getInt("orderID"), results.getString("date"), results.getInt("status"), orderLines);
+                return new Order(results.getInt("orderID"), results.getString("date"), results.getInt("status"), results.getDouble("totalPrice"), orderLines);
             }
         } catch (Exception ex) {
             GUILoader.alertWindow("Your basket is empty"); // Outputs error message
@@ -751,7 +751,7 @@ public class DatabaseOperations {
                 for (String[] orderLine : getOrderLines(orderID)) {
                     orderLines.add(orderLine);
                 }
-                return new Order(results.getInt("orderID"), results.getString("date"), results.getInt("status"), orderLines);
+                return new Order(results.getInt("orderID"), results.getString("date"), results.getInt("status"), results.getDouble("totalPrice"),orderLines);
             }
         } catch (Exception ex) {
             GUILoader.alertWindow("Error: Could not connect " + ex); // Outputs error message
@@ -948,13 +948,19 @@ public class DatabaseOperations {
             try (PreparedStatement orderLineStatement = connection.prepareStatement(orderLineQuery)) {
                 orderLineStatement.setString(1, productCode);
                 ResultSet results = orderLineStatement.executeQuery();
-                while (results.next()) {
-                    String deleteQuery = "DELETE FROM OrderLines WHERE productCode = ?";
-                    try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
-                        deleteStatement.setString(1, productCode);
-                        deleteStatement.executeUpdate();
+                while(results.next()) {
+                    String quantityUpdateQuery = "UPDATE Orders SET totalPrice = totalPrice - ? WHERE orderID = ?";
+                    try (PreparedStatement quantityUpdateStatement = connection.prepareStatement(quantityUpdateQuery)) {
+                        quantityUpdateStatement.setDouble(1, results.getInt("quantity") * getProductFromCode(productCode).getPrice());
+                        quantityUpdateStatement.setInt(2, results.getInt("orderID"));
+                        quantityUpdateStatement.executeUpdate();
                     }
                 }
+            }
+            String deleteQuery = "DELETE FROM OrderLines WHERE productCode = ?";
+            try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                deleteStatement.setString(1, productCode);
+                deleteStatement.executeUpdate();
             }
             String productQuery = "DELETE FROM Product WHERE productCode = ?";
             try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
