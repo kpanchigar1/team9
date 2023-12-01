@@ -139,14 +139,15 @@ CREATE TABLE TrackPackTrainSetLink (
 );
 
 -- add test data
-INSERT INTO Brand VALUES (1, 'Test Brand');
-INSERT INTO Product VALUES ('R001', 1, 'Track1', 1.99, 'OO', 'Track1 Description');
-INSERT INTO Product VALUES ('L001', 1, 'Locomotive1', 5.99, 'OO', 'Locomotive1 Description');
-INSERT INTO Product VALUES ('S001', 1, 'RollingStock1', 10.99, 'OO', 'RollingStock1 Description');
+INSERT INTO Brand VALUES (1, 'Hornby');
+INSERT INTO Brand VALUES (2, 'Dapol');
+INSERT INTO Product VALUES ('R001', 1, '', 1.99, 'OO', 'Track1 Description');
+INSERT INTO Product VALUES ('L001', 2, 'Locomotive1', 5.99, 'OO', 'Locomotive1 Description');
+INSERT INTO Product VALUES ('S001', 2, 'RollingStock1', 10.99, 'OO', 'RollingStock1 Description');
 INSERT INTO Product VALUES ('C001', 1, 'Controller1', 4.99, 'OO', 'Controller1 Description');
-INSERT INTO Product VALUES ('M001', 1, 'TrainSet1', 19.99, 'OO', 'TrainSet1 Description');
+INSERT INTO Product VALUES ('M001', 2, 'TrainSet1', 19.99, 'OO', 'TrainSet1 Description');
 INSERT INTO Product VALUES ('P001', 1, 'TrackPack1', 9.99, 'OO', 'TrackPack1 Description');
-INSERT INTO Product VALUES ('R002', 1, 'Track2', 1.99, 'OO', 'Track2 Description');
+INSERT INTO Product VALUES ('R002', 2, 'Track2', 1.99, 'OO', 'Track2 Description');
 INSERT INTO Product VALUES ('L002', 1, 'Locomotive2', 5.99, 'OO', 'Locomotive2 Description');
 INSERT INTO ControllerTable VALUES ('C001', 1);
 INSERT INTO ControllerTrainSetLink VALUES ('M001', 'C001', 1);
