@@ -1236,10 +1236,10 @@ public class DatabaseOperations {
                     }
                 } else {
                     // insert
-                    String insertQuery = "INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    String insertQuery = "INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?)";
                     try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                         insertStatement.setString(1, product.getProductCode());
-                        insertStatement.setString(2, product.getBrandName());
+                        insertStatement.setInt(2, getBrandIDFromName(product.getBrandName()));
                         insertStatement.setString(3, product.getProductName());
                         insertStatement.setDouble(4, product.getPrice());
                         insertStatement.setString(5, product.getGauge().toString());
@@ -1675,7 +1675,7 @@ public class DatabaseOperations {
      * @return void
      */
     public static void updateProductTrackPack(String productCode, String isExtensionPack) {
-        if (isExtensionPack.equals("Extension Pack")) {
+        if (isExtensionPack.equals("Y")) {
             isExtensionPack = "true";
         } else {
             isExtensionPack = "false";

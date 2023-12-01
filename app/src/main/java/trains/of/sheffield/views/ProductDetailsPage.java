@@ -55,7 +55,7 @@ public class ProductDetailsPage extends JFrame {
         stockLabel = new JLabel("Stock:");
         eraLabel = new JLabel("Era:");
         isAnalogueLabel = new JLabel("Analogue/Digital:");
-        isExtensionPackLabel = new JLabel("Extension Pack");
+        isExtensionPackLabel = new JLabel("Extension Pack (Y/N):");
 
         productCodeField = new JTextField();
         nameField = new JTextField();
@@ -173,7 +173,7 @@ public class ProductDetailsPage extends JFrame {
            DatabaseOperations.updateProduct(new Product(productCodeField.getText(), brandField.getText(), nameField.getText(), Double.parseDouble(priceField.getText()), Gauge.valueOf(scaleField.getText()), descriptionField.getText(), Integer.parseInt(stockField.getText())));
            // update other tables based on product type
             if(productCodeField.getText().substring(0, 1).equals(finalProductType)) {
-                if (Objects.equals(finalProductType, "M") || Objects.equals(finalProductType, "L") || Objects.equals(finalProductType, "S")) {
+                if (Objects.equals(finalProductType, "M") || Objects.equals(finalProductType, "L") || Objects.equals(finalProductType, "S") || Objects.equals(finalProductType, "R")) {
                     DatabaseOperations.updateProductEra(productCodeField.getText(), eraField.getText());
                 }
                 if (Objects.equals(finalProductType, "C")) {
